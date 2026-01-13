@@ -28,7 +28,7 @@
 <span id="nomenclature-doc"></span>
 
 ### 1.1 Noms de Fichiers
-<span id="nomenclature-doc"></span>
+<span id="noms-fichiers"></span>
 
 **Règles générales :**
 
@@ -51,7 +51,7 @@
 - 🗙 copie-ecran-17.png (nom non explicite)
 
 ### 1.2 Noms de Dossiers
-<span id="noms-fichiers"></span>
+<span id="noms-dossiers"></span>
 
 **Règles générales :**
 
@@ -74,7 +74,7 @@
 - 🗙 AD/ (acronyme non explicite)
 
 ### 1.3 Noms de Services/Composants
-<span id="nomenclature-doc"></span>
+<span id="noms-services-composants"></span>
 
 Pour les services dans le dossier components/, utiliser le format :
 
@@ -86,10 +86,10 @@ Pour les services dans le dossier components/, utiliser le format :
 
 ---
 ## 2. Règles de Formatage Markdown
-<span id="nomenclature-doc"></span>
+<span id="regles-markdown"></span>
 
 ### 2.1 Titres
-<span id="nomenclature-doc"></span>
+<span id="titres"></span>
 
 markdown
 
@@ -100,7 +100,7 @@ markdown
 ```
 
 ### 2.2 Liens Internes
-<span id="nomenclature-doc"></span>
+<span id="liens-internes"></span>
 
 Pour référencer d'autres documents du projet :
 
@@ -112,7 +112,7 @@ Consulter le [guide d'installation AD](../components/active-directory/installati
 ```
 
 ### 2.3 Images et Ressources
-<span id="nomenclature-doc"></span>
+<span id="images-ressources"></span>
 
 Stocker dans le dossier ressources/ et référencer ainsi :
 
@@ -131,7 +131,7 @@ markdown
     - capture_config_dhcp.png
 
 ### 2.4 Tableaux
-<span id="nomenclature-doc"></span>
+<span id="tableaux"></span>
 
 markdown
 
@@ -142,7 +142,7 @@ markdown
 ```
 
 ### 2.5 Code et Commandes
-<span id="nomenclature-doc"></span>
+<span id="code-commandes"></span>
 
 Pour les commandes ou extraits de configuration :
 
@@ -162,17 +162,17 @@ Get-ADUser -Filter *
 
 ---
 ## 3. Nomenclature Réseau
-<span id="nomenclature-doc"></span>
+<span id="nomenclature-reseau"></span>
 
 ### 3.1 Structure OU (Unités d’Organisation)
-<span id="nomenclature-doc"></span>
+<span id="ou"></span>
 
 - **Critères hiérarchiques** : Société > Site > Département > Service
 - **Exemple de hiérarchie** :  
 - **Nommage** : Sans accent, sans espace (exemple : **EcoTechSolutions_Bordeaux_Developpement**)
   
 ### 3.2 Groupes de sécurités
-<span id="nomenclature-doc"></span>
+<span id="groupes-securites"></span>
 
 - **Convention** :
   - **GRP_[Type]_[Fonction]_[Localisation]_[Portée]**
@@ -183,7 +183,7 @@ Get-ADUser -Filter *
   - **GRP_PC_Portables_Finance_L**
   
 ### 3.3 Utilisateurs
-<span id="nomenclature-doc"></span>
+<span id="utilisateurs"></span>
 
 - **Convention** : **prénom.nom** en minuscules, sans accent
 - **Gestion des homonymes** : Ajout d’un chiffre (exemple : **adil.abbassi1, adil.abbassi2**)
@@ -191,7 +191,7 @@ Get-ADUser -Filter *
 - **Exemple** : adil.abbassi → OU : **EcoTechSolutions_Bordeaux_DRH_Formation**
 
 ### 3.4 Ordinateurs
-<span id="nomenclature-doc"></span>
+<span id="ordinateurs"></span>
 
 - **Convention** :
   - **[Type]-[Marque]-[Numéro]-[Site]**
@@ -202,7 +202,7 @@ Get-ADUser -Filter *
   - **LAP-DELL-PA90183-BOR**
 
 ### 3.5 Politique de Groupe (GPO)
-<span id="nomenclature-doc"></span>
+<span id="gpo"></span>
 
 - **Convention** :
   - **GPO_[Cible]_[Portée]_[Fonction]_[Version]**
@@ -214,7 +214,7 @@ Get-ADUser -Filter *
   - **GPO_PC_OU_Developpement_Config_V2**
 
 ### 3.6 Serveurs
-<span id="nomenclature-doc"></span>
+<span id="serveurs"></span>
 
 - **Nommage unique** : **SRV-[Rôle]-[Numéro]-[Site]**
 - **Exemples** :
@@ -225,7 +225,7 @@ Get-ADUser -Filter *
 ---
 
 ### 4. Récapitulatif :
-<span id="nomenclature-doc"></span>
+<span id="recapitulatif"></span>
 
 - **Société** : **EcoTechSolutions, UBIHard**
 - **Site** : **Bordeaux, Paris, Nantes**
