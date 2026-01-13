@@ -4,7 +4,7 @@
 
 **Règles générales :**
 
-- ✔ Utiliser la **casse snake_case** : `ip_configuration.md`
+- ✓ Utiliser la **casse snake_case** : `ip_configuration.md`
 - ✔ Noms en **anglais** pour les fichiers techniques
 - ✔ Extensions en minuscules : `.md`, `.png`, `.pdf`
 - 🗙 Éviter les caractères spéciaux : `é`, `à`, `ç`, etc.
