@@ -4,10 +4,10 @@
 
 **Règles générales :**
 
-- ✅ Utiliser la **casse snake_case** : `ip_configuration.md`
-- ✅ Noms en **anglais** pour les fichiers techniques
-- ✅ Extensions en minuscules : `.md`, `.png`, `.pdf`
-- ❌ Éviter les caractères spéciaux : `é`, `à`, `ç`, etc.
+- ✔ Utiliser la **casse snake_case** : `ip_configuration.md`
+- ✔ Noms en **anglais** pour les fichiers techniques
+- ✔ Extensions en minuscules : `.md`, `.png`, `.pdf`
+- 🗙 Éviter les caractères spéciaux : `é`, `à`, `ç`, etc.
 
 **Exemples corrects :**
 
@@ -18,18 +18,18 @@
 
 **Exemples incorrects :**
 
-- ❌ `Vue d'ensemble.md` (espaces, accent)
-- ❌ `Image1.png` (nom non descriptif)
-- ❌ `copie-ecran-17.png` (nom non explicite)
+- 🗙 `Vue d'ensemble.md` (espaces, accent)
+- 🗙 `Image1.png` (nom non descriptif)
+- 🗙 `copie-ecran-17.png` (nom non explicite)
 
 ### 1.2 Noms de Dossiers
 
 **Règles générales :**
 
-- ✅ Noms en **minuscules**
-- ✅ Utiliser des **tirets** `-` pour séparer les mots
-- ✅ Noms descriptifs et concis
-- ✅ Un dossier `ressources/` dans chaque section principale
+- ✔ Noms en **minuscules**
+- ✔ Utiliser des **tirets** `-` pour séparer les mots
+- ✔ Noms descriptifs et concis
+- ✔ Un dossier `ressources/` dans chaque section principale
 
 **Exemples corrects :**
 
@@ -40,9 +40,9 @@
 
 **Exemples incorrects :**
 
-- ❌ `Architecture/` (majuscule)
-- ❌ `Active Directory/` (espace)
-- ❌ `AD/` (acronyme non explicite)
+- 🗙 `Architecture/` (majuscule)
+- 🗙 `Active Directory/` (espace)
+- 🗙 `AD/` (acronyme non explicite)
 
 ### 1.3 Noms de Services/Composants
 
