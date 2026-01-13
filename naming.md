@@ -1,3 +1,5 @@
+<span id="haut-de-page"><span/>
+
 ## Ce fichier sert à la nomenclature du projet
 
 ## Sommaire
@@ -234,3 +236,5 @@ Get-ADUser -Filter *
 - **Types de postes** : **PC, LAP, SRV, VM**
 
 Cette nomenclature respecte les règles de nommage et s’adapte aux données du fichier **s01_EcoTechSolutions.xlsx**.
+
+[⬆️ Retour au début de la page ⬆️](#haut-de-page)
