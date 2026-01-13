@@ -1,6 +1,34 @@
+## Ce fichier sert à la nomenclature du projet
+
+## Sommaire
+
+- [1. Nomeclature Documentation](#nomenclature-doc)
+    - [1.1 Noms de Fichiers](#noms-fichiers) 
+    - [1.2 Noms de Dossiers](#noms-dossiers)
+    - [1.3 Noms de Services/Composants](#noms-services-composants)
+ 
+- [2 Règles de Formatage Markdown](#regles-markdown)
+    - [2.1 Titres](#titres)
+    - [2.2 Liens Internes](#liens-internes)
+    - [2.3 Images et Ressources](#images-ressources)
+    - [2.4 Tableaux](#tableaux)
+    - [2.5 Code et Commandes](#code-commandes)
+
+- [3 Nomenclature Réseau](#nomenclature-reseau)
+    - [3.1 Structure OU (Unités d’Organisation)](#ou)
+    - [3.2 Groupes de sécurités](#groupes-securites)
+    - [3.3 Utilisateurs](#utilisateurs)
+    - [3.4 Ordinateurs](#ordinateurs)
+    - [3.5 Politique de Groupe (GPO)](#gpo)
+    - [3.6 Serveurs](#serveurs)
+- [4. Récapitulatif](#recapitulatif)
+
+
 ## 1. Nomenclature Documentation
+<span id="nomenclature-doc"></span>
 
 ### 1.1 Noms de Fichiers
+<span id="nomenclature-doc"></span>
 
 **Règles générales :**
 
@@ -23,6 +51,7 @@
 - 🗙 copie-ecran-17.png (nom non explicite)
 
 ### 1.2 Noms de Dossiers
+<span id="noms-fichiers"></span>
 
 **Règles générales :**
 
@@ -45,6 +74,7 @@
 - 🗙 AD/ (acronyme non explicite)
 
 ### 1.3 Noms de Services/Composants
+<span id="nomenclature-doc"></span>
 
 Pour les services dans le dossier components/, utiliser le format :
 
@@ -56,8 +86,10 @@ Pour les services dans le dossier components/, utiliser le format :
 
 ---
 ## 2. Règles de Formatage Markdown
+<span id="nomenclature-doc"></span>
 
 ### 2.1 Titres
+<span id="nomenclature-doc"></span>
 
 markdown
 
@@ -68,6 +100,7 @@ markdown
 ```
 
 ### 2.2 Liens Internes
+<span id="nomenclature-doc"></span>
 
 Pour référencer d'autres documents du projet :
 
@@ -79,6 +112,7 @@ Consulter le [guide d'installation AD](../components/active-directory/installati
 ```
 
 ### 2.3 Images et Ressources
+<span id="nomenclature-doc"></span>
 
 Stocker dans le dossier ressources/ et référencer ainsi :
 
@@ -97,6 +131,7 @@ markdown
     - capture_config_dhcp.png
 
 ### 2.4 Tableaux
+<span id="nomenclature-doc"></span>
 
 markdown
 
@@ -107,6 +142,7 @@ markdown
 ```
 
 ### 2.5 Code et Commandes
+<span id="nomenclature-doc"></span>
 
 Pour les commandes ou extraits de configuration :
 
@@ -126,13 +162,18 @@ Get-ADUser -Filter *
 
 ---
 ## 3. Nomenclature Réseau
+<span id="nomenclature-doc"></span>
 
 ### 3.1 Structure OU (Unités d’Organisation)
+<span id="nomenclature-doc"></span>
+
 - **Critères hiérarchiques** : Société > Site > Département > Service
 - **Exemple de hiérarchie** :  
 - **Nommage** : Sans accent, sans espace (exemple : **EcoTechSolutions_Bordeaux_Developpement**)
   
 ### 3.2 Groupes de sécurités
+<span id="nomenclature-doc"></span>
+
 - **Convention** :
   - **GRP_[Type]_[Fonction]_[Localisation]_[Portée]**
   - Types : Usr (Utilisateur), PC (Ordinateur), SRV (Serveur), FCT (Fonction)
@@ -142,12 +183,16 @@ Get-ADUser -Filter *
   - **GRP_PC_Portables_Finance_L**
   
 ### 3.3 Utilisateurs
+<span id="nomenclature-doc"></span>
+
 - **Convention** : **prénom.nom** en minuscules, sans accent
 - **Gestion des homonymes** : Ajout d’un chiffre (exemple : **adil.abbassi1, adil.abbassi2**)
 - **Emplacement** : Selon l’OU du département/service
 - **Exemple** : adil.abbassi → OU : **EcoTechSolutions_Bordeaux_DRH_Formation**
 
 ### 3.4 Ordinateurs
+<span id="nomenclature-doc"></span>
+
 - **Convention** :
   - **[Type]-[Marque]-[Numéro]-[Site]**
   - Types : PC (Poste client), SRV (Serveur), LAP (Portable), VM (Machine virtuelle)
@@ -157,6 +202,8 @@ Get-ADUser -Filter *
   - **LAP-DELL-PA90183-BOR**
 
 ### 3.5 Politique de Groupe (GPO)
+<span id="nomenclature-doc"></span>
+
 - **Convention** :
   - **GPO_[Cible]_[Portée]_[Fonction]_[Version]**
   - Cible : **USR, PC, SRV**
@@ -167,6 +214,8 @@ Get-ADUser -Filter *
   - **GPO_PC_OU_Developpement_Config_V2**
 
 ### 3.6 Serveurs
+<span id="nomenclature-doc"></span>
+
 - **Nommage unique** : **SRV-[Rôle]-[Numéro]-[Site]**
 - **Exemples** :
   - **SRV-DC-01-BOR**
@@ -175,7 +224,9 @@ Get-ADUser -Filter *
 
 ---
 
-**Récapitulatif :**
+### 4. Récapitulatif :
+<span id="nomenclature-doc"></span>
+
 - **Société** : **EcoTechSolutions, UBIHard**
 - **Site** : **Bordeaux, Paris, Nantes**
 - **Département/Service** : (ex : **Developpement, Finance_Comptabilite)**
