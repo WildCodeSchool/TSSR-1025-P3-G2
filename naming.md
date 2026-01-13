@@ -5,8 +5,8 @@
 **Règles générales :**
 
 - ✓ Utiliser la **casse snake_case** : `ip_configuration.md`
-- ✔ Noms en **anglais** pour les fichiers techniques
-- ✔ Extensions en minuscules : `.md`, `.png`, `.pdf`
+- ✓ Noms en **anglais** pour les fichiers techniques
+- ✓ Extensions en minuscules : `.md`, `.png`, `.pdf`
 - 🗙 Éviter les caractères spéciaux : `é`, `à`, `ç`, etc.
 
 **Exemples corrects :**
@@ -26,10 +26,10 @@
 
 **Règles générales :**
 
-- ✔ Noms en **minuscules**
-- ✔ Utiliser des **tirets** `-` pour séparer les mots
-- ✔ Noms descriptifs et concis
-- ✔ Un dossier `ressources/` dans chaque section principale
+- ✓ Noms en **minuscules**
+- ✓ Utiliser des **tirets** `-` pour séparer les mots
+- ✓ Noms descriptifs et concis
+- ✓ Un dossier `ressources/` dans chaque section principale
 
 **Exemples corrects :**
 
