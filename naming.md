@@ -4,7 +4,7 @@
 
 ## Sommaire
 
-- [1. Nomeclature Documentation](#nomenclature-doc)
+- [1. Nomenclature Documentation](#nomenclature-doc)
     - [1.1 Noms de Fichiers](#noms-fichiers) 
     - [1.2 Noms de Dossiers](#noms-dossiers)
     - [1.3 Noms de Services/Composants](#noms-services-composants)
@@ -23,6 +23,7 @@
     - [3.4 Ordinateurs](#ordinateurs)
     - [3.5 Politique de Groupe (GPO)](#gpo)
     - [3.6 Serveurs](#serveurs)
+ 
 - [4. Récapitulatif](#recapitulatif)
 
 
