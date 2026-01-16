@@ -138,17 +138,20 @@ Seules les VLANs **serveurs et DMZ** sont configurées en **IP fixe** pour garan
 ## 5. Schéma
 <span id="schema"><span/>
 
+### 5.1. Zones Internes
+
+Dans la zone interne, les deux schémas ci-dessous sont sur le même "Switch L3".
+Il est représenter deux fois pour montrer que toutes les VLANs y sont reliés.
+Le schéma du VLAN_100 (Serveurs) est séparé des autres VLANs car il fallait préciser sont contenu.
+
+#### Schéma VLANs Métiers :
+
+![VLANs_metiers](ressources/VLANs_metiers_5_OK.png)
+
+#### Schéma VLAN_100 (Serveurs) :
+
+![VLAN_100_serveurs](ressources/VLAN_100_serveurs_4_OK.png)
+
 <p align="right">
   <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
 </p>
-
-
-
-
-
-
-
-
-
-
-
