@@ -122,7 +122,7 @@ Ce projet vise à concevoir, déployer et documenter une infrastructure réseau 
 
 📁 TSSR-1025-P3-G2/  
 ├── 📄 **README.md** ← VOUS ÊTES ICI (DAT)  
-├── 📄 **naming.md** ← Nomenclature du projet 
+├── 📄 **naming.md** ← Nomenclature du projet  
 ├── 📁 **architecture/** ← Documentation HLD  
 │ ├── 📄 **overview.md** ← Vue d'ensemble  
 │ ├── 📄 **context.md** ← Contexte et besoins  
