@@ -21,8 +21,8 @@
   - [4.4. Sécurité Périmétrique](#perimetrique)
 
 - [5. Schéma](#schema)
-  - [5.1. Zones Internes](internes)
-  - [5.2. Zones Périmètrique](perimetrique)
+  - [5.1. Zones Internes](#internes)
+  - [5.2. Zones Périmètrique](#perimetrique)
 
 
 ## 1. Découpage en zones :
@@ -165,5 +165,6 @@ Le schéma du VLAN_100 (Serveurs) est séparé des autres VLANs car il fallait p
 <p align="right">
   <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
 </p>
+
 
 
