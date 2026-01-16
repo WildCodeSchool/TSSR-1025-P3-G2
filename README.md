@@ -184,11 +184,11 @@ Ce projet vise à concevoir, déployer et documenter une infrastructure réseau 
 |    Sprint     | Product Owner (PO)| Scrum Master (SM) |           Techniciens           |
 |---------------|-------------------|-------------------|---------------------------------|
 | **Sprint 01** |   Anis BOUTALEB   | Frédérick FLAVIL  | Romain GENOUD, Nicolas JOUVEAUX |
-| **Sprint 02** |   Romain GENOUD   | Nicolas JOUVEAUX  | Frédérick FLAVIL, Anis BOUTALEB |
+| **Sprint 02** | Nicolas JOUVEAUX  |   Romain GENOUD   | Frédérick FLAVIL, Anis BOUTALEB |
 | **Sprint 03** |  Frédérick FLAVIL |   Anis BOUTALEB   | Romain GENOUD, Nicolas JOUVEAUX |
-| **Sprint 04** |  Nicolas JOUVEAUX |   Romain GENOUD   | Frédérick FLAVIL, Anis BOUTALEB |
+| **Sprint 04** |   Romain GENOUD   | Nicolas JOUVEAUX  | Frédérick FLAVIL, Anis BOUTALEB |
 | **Sprint 05** |   Anis BOUTALEB   | Frédérick FLAVIL  | Romain GENOUD, Nicolas JOUVEAUX |
-| **Sprint 06** |   Romain GENOUD   | Nicolas JOUVEAUX  | Frédérick FLAVIL, Anis BOUTALEB |
+| **Sprint 06** | Nicolas JOUVEAUX  |   Romain GENOUD   | Frédérick FLAVIL, Anis BOUTALEB |
 
 **Note importante :** Le formateur a comme seul interlocuteur du projet le **PO en cours** de chaque sprint.
 
