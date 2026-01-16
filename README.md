@@ -141,7 +141,7 @@ Ce projet vise à concevoir, déployer et documenter une infrastructure réseau 
 ├── 📁 sprints/ ← Suivi projet  
 │ ├── 📄 **planning.md** ← Planning chronologique  
 │ └── 📁 sprint-xx/ ← Dossiers par sprint  
-└── 📁 resources/ ← Ressources annexes  
+└── 📁 ressources/ ← Ressources annexes  
 
 ### 5.2. Accès aux documents
 | Type | Chemin | Description |
