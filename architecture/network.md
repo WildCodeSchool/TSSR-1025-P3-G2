@@ -21,6 +21,8 @@
   - [4.4. Sécurité Périmétrique](#perimetrique)
 
 - [5. Schéma](#schema)
+  - [5.1. Zones Internes](internes)
+  - [5.2. Zones Périmètrique](perimetrique)
 
 
 ## 1. Découpage en zones :
@@ -139,6 +141,7 @@ Seules les VLANs **serveurs et DMZ** sont configurées en **IP fixe** pour garan
 <span id="schema"><span/>
 
 ### 5.1. Zones Internes
+<span id="internes"><span/>
 
 Dans la zone interne, les deux schémas ci-dessous sont sur le même "Switch L3".  
 Il est représenter deux fois pour montrer que toutes les VLANs y sont reliés.  
@@ -152,7 +155,15 @@ Le schéma du VLAN_100 (Serveurs) est séparé des autres VLANs car il fallait p
 
 ![VLAN_100_serveurs](ressources/VLAN_100_serveurs_4_OK.png)
 
+### 5.2. Zone Périmètrique
+<span id="perimetre"><span/>
+
+#### Schéma WAN et DMZ :
+
+![WAN_DMZ_OK](ressources/WAN_DMZ_OK.png)
+
 <p align="right">
   <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
 </p>
+
 
