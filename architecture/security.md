@@ -1,350 +1,218 @@
-<h2 id="haut-de-page">Table des matières</h2>
+## 1. Principes de sécurité retenus
 
-- [1. Principes de sécurité retenus](#1-principes-de-sécurité-retenus)
-- [2. Segmentation réseau et zones de sécurité](#2-segmentation-réseau-et-zones-de-sécurité)
-- [3. Politiques d'accès](#3-politiques-daccès)
-- [4. Gestion des identités et authentification](#4-gestion-des-identités-et-authentification)
-- [5. Sécurité des équipements et systèmes](#5-sécurité-des-équipements-et-systèmes)
-- [6. Journalisation et monitoring](#6-journalisation-et-monitoring)
-- [7. Sauvegardes et continuité d'activité](#7-sauvegardes-et-continuité-dactivité)
-- [8. Conformité et audit](#8-conformité-et-audit)
-- [9. Procédures d'urgence](#9-procédures-durgence)
-- [10. Formation et sensibilisation](#10-formation-et-sensibilisation)
-  
-## <span id="1-principes-de-sécurité-retenus">**1. Principes de sécurité retenus**</span>
+La stratégie de cybersécurité d'EcoTech Solutions repose sur des piliers reconnus par l'ANSSI, adaptés à une infrastructure virtualisée.
 
-### **1.1. Défense en profondeur (Defense in Depth)**
-- Implémentation de multiples couches de sécurité
-- Protection à chaque niveau : réseau, système, application, données
-- Aucune confiance implicite (Zero Trust approche)
+### 1.1. Défense en profondeur
 
-### **1.2. Principe du moindre privilège**
-- Accès limité au strict nécessaire pour chaque rôle
-- Révision régulière des permissions
-- Séparation des droits entre environnements
+Nous n'accordons pas de confiance exclusive à une seule barrière. La sécurité est multicouche :
 
-### **1.3. Segmentation stricte**
-- Isolation des zones par fonctionnalité et criticité
-- Contrôle des flux inter-VLANs
-- DMZ dédiée pour les services exposés
+- **Périmètre :** Filtrage étatique (Stateful) et IDS/IPS sur le pfSense.
+- **Réseau :** Segmentation stricte par VLANs et ACLs sur le routeur VyOS.
+- **Système :** Durcissement des OS (Hardening) et déploiement de **Windows Server Core** pour réduire la surface d'attaque.
+- **Données :** Chiffrement et isolation physique du stockage de sauvegarde.
 
-### **1.4. Journalisation complète**
-- Traçabilité de toutes les actions significatives
-- Centralisation des logs
-- Conservation conforme aux exigences légales
-  
-## <span id="2-segmentation-réseau-et-zones-de-sécurité">**2. Segmentation réseau et zones de sécurité**</span>
+### 1.2. Le principe du moindre privilège
 
-### **2.1. Zones de sécurité définies**
-  
-| Zone | VLAN | Description | Niveau de sécurité | Accès depuis/vers |
-|------|------|-------------|-------------------|-------------------|
-| **IoT** | 10 | Capteurs et dispositifs IoT | Basse-Moyenne | IoT → Supervision |
-| **VoIP** | 20 | Téléphonie IP | Moyenne | VoIP ↔ Serveurs téléphonie |
-| **Développement** | 30 | Équipe R&D | Moyenne | Dev ↔ Labo + Git |
-| **Commercial** | 40 | Équipe commerciale | Moyenne | Commercial ↔ CRM + Internet |
-| **Communication** | 50 | Marketing/Communication | Moyenne | Communication ↔ Serveurs Web |
-| **DRH** | 60 | Ressources humaines | Moyenne-Haute | DRH ↔ AD + Fichiers RH |
-| **Finance/Comptabilité** | 70 | Données financières | Haute | Finance ↔ Serveurs spécifiques |
-| **Administration/DSI** | 80 | Équipes IT / Département SI | Haute | Admin/DSI ↔ Toutes zones (contrôlé) |
-| **Direction** | 90 | Direction générale | Moyenne-Haute | Direction ↔ Serveurs + Internet |
-| **Serveurs** | 100 | Infrastructure critique | Haute | Admin ↔ Serveurs |
-| **DMZ** | 110 | Services exposés (Web, VPN, Mail) | Moyenne-Haute | Périmètre ↔ DMZ ↔ Interne (contrôlé) |
-| **Invités** | 120 | Visiteurs et partenaires | Basse | Invités → Internet uniquement |
-| **Zone Périmètre** | - | Interface Internet/Firewall | Haute | Internet ↔ DMZ |
-  
-### **2.2. Règles de filtrage principales par flux**
+Chaque utilisateur ou service ne dispose que des accès strictement nécessaires à sa fonction :
 
-#### **Flux entrant (depuis Internet)**
-```
-Internet → [Firewall] → DMZ
-   ↓
-Accès autorisé uniquement sur les ports spécifiques nécessaires
-   ↓
-Chaque service exposé (Web, VPN, Mail) n'accepte que les protocoles requis
-```
+- **Utilisateurs :** Droits "Utilisateurs standards" sans privilèges d'installation.
+- **Services :** Les comptes de service (ex: pour Bareos ou les relais DHCP) ont des droits restreints aux protocoles et dossiers cibles.
+- **Administrateurs :** Utilisation de comptes nominatifs distincts des comptes personnels pour éviter l'exposition des identifiants "Domain Admin" sur les postes de travail.
 
-#### **Flux DMZ → Réseau interne**
-```
-DMZ → Réseau interne
-   ↓
-Accès minimal et strictement contrôlé
-   ↓
-Exemple : Serveur Web DMZ → Base de données interne
-         (uniquement sur le port SQL, avec authentification forte)
-```
+### 1.3. Modèle d'Administration en Tiers (Tier Model)
 
-#### **Flux sortant (vers Internet)**
-```
-Zones internes → Internet
-   ↓
-Filtrage par politique de sécurité
-   ↓
-- Postes utilisateurs : Web (HTTP/HTTPS), Mail (SMTP/IMAP)
-- Serveurs : Mises à jour uniquement depuis sources autorisées
-- Supervision : Accès aux services de monitoring cloud
-```
+Pour contrer les attaques de type "mouvement latéral" ou "Pass-the-Hash", nous appliquons le modèle de segmentation administrative :
 
-#### **Flux Zone Administration**
-```
-VLAN Admin (80) → Toutes zones
-   ↓
-Accès autorisé mais strictement contrôlé
-   ↓
-- Journalisation complète de toutes les sessions
-- Authentification à deux facteurs obligatoire
-- Limitation aux seules tâches administratives nécessaires
-```
+- **Tier 0 (Cœur d'Identité) :** Contrôleurs de domaine (**AD-01** et **AD-02 Core**). Seuls les administrateurs du Tier 0 peuvent s'y connecter.
+- **Tier 1 (Serveurs) :** Serveurs de fichiers, de base de données et de sauvegarde.
+- **Tier 2 (Postes de travail) :** Postes des 251 collaborateurs et terminaux VoIP.  
+_Note : Un administrateur ne peut jamais se connecter à un Tier supérieur depuis un Tier inférieur._
 
-#### **Flux entre zones non-privilégiées et zones critiques**
-```
-Zones non-privilégiées → Zones critiques
-   ↓
-Accès généralement interdit par défaut
-   ↓
-Exceptions uniquement :
-- Sur justification métier documentée
-- Via règles de pare-feu spécifiques
-- Avec monitoring renforcé
-- Pour une durée limitée
-```
-  
-### **2.3. Contrôle des flux inter-VLANs**
-- ACLs sur les commutateurs
-- Pare-feu interne entre zones critiques
-- Monitoring des tentatives d'accès non autorisées
+### 1.4. Réduction de la Surface d'Attaque
 
-## <span id="3-politiques-daccès">**3. Politiques d'accès**</span>
+Le principe est de supprimer tout service ou interface inutile :
 
-### **3.1. Accès physique**
-- **Centre de données** : Accès badge
-- **Salles techniques** : Accès badge + journalisation
-- **Baies serveurs** : Fermetures à clé avec traçabilité
-- **Postes de travail** : Verrouillage automatique après 5 minutes d'inactivité
+- **Windows Server Core :** Le choix de ce mode pour **AD-02** élimine l'interface graphique, réduisant ainsi les vulnérabilités exploitables et la fréquence des redémarrages pour mises à jour.
+- **Isolation du Stockage :** Le **VLAN 250** est configuré en mode **non-routé**. Il est donc techniquement impossible d'y accéder par rebond réseau, protégeant ainsi les sauvegardes contre les ransomwares.
 
-### **3.2. Accès réseau**
-- **Wi-Fi Entreprise** : 802.1X avec certificats/EAP-TLS
-- **Wi-Fi Invités** : Portail captif avec limitation de bande passante
-- **VPN** : SSL-VPN avec 2FA pour accès distant
-- **Accès administrateur** : Via VLAN Admin (80) uniquement
+### 1.5. Approche Zero Trust
 
-### **3.3. Contrôle d'accès aux ressources**
-- **Fichiers** : Permissions NTFS basées sur groupes AD
-- **Applications** : Authentification unique (SSO) où possible
-- **Bases de données** : Accès par compte de service dédié
-- **API/Services** : Authentification par token
-  
-## <span id="4-gestion-des-identités-et-authentification">**4. Gestion des identités et authentification**</span>
+Bien que le réseau soit segmenté, nous appliquons une logique de vérification systématique :
 
-### **4.1. Active Directory Structure**
-```
-ecotech.local (Forêt racine)
-├── Administrators (OU)
-├── Service Accounts (OU)
-├── Users (OU)
-│   ├── Direction
-│   ├── DSI
-│   ├── Finance
-│   ├── Commercial
-│   ├── Communication
-│   ├── Développement
-│   └── DRH
-└── Computers (OU)
-    ├── Servers
-    ├── Workstations
-    ├── Laptops
-    └── IoT_Devices
-```
+- L'appartenance à un VLAN ne donne pas droit automatiquement à une ressource.
+- Tout flux inter-VLAN doit faire l'objet d'une règle d'autorisation explicite ("Deny All" par défaut).
+- Authentification forte via **RADIUS (802.1X)** pour tous les accès Wi-Fi et filaires.
 
-### **4.2. Politiques de mot de passe**
-- **Longueur minimale** : 12 caractères
-- **Complexité** : Majuscules, minuscules, chiffres, caractères spéciaux
-- **Historique** : 24 mots de passe mémorisés
-- **Expiration** : 90 jours
-- **Verrouillage compte** : 4 tentatives échouées, déverrouillage auto après 30 min
-- **Mots de passe admin** : 15 caractères minimum, changement tous les 180 jours
+## 2. Zones sensibles et Segmentation
 
-### **4.3. Authentification multi-facteur (MFA)**
-- **Obligatoire pour** : 
-  - Tous les comptes administrateurs
-  - Accès VPN
-  - Accès aux applications critiques
-  - Accès à distance aux serveurs
-- **Méthodes supportées** : Application mobile (Microsoft Authenticator), SMS, Token matériel
+L'architecture réseau est découpée en zones étanches afin de limiter les mouvements latéraux en cas de compromission d'un poste de travail. Nous utilisons le modèle d'administration par **Tiers** pour isoler les ressources selon leur niveau de criticité.
 
-### **4.4. Gestion des comptes de service**
-- Comptes dédiés par application/service
-- Mots de passe longs (25+ caractères)
-- Rotation automatique des mots de passe
-- Monitoring des activités
- 
-## <span id="5-sécurité-des-équipements-et-systèmes">**5. Sécurité des équipements et systèmes**</span>
+### 2.1. Classification des Zones de Confiance (Tiering)
 
-### **5.1. Durcissement des systèmes**
-- **Windows Server** : Baseline de sécurité Microsoft, désactivation services inutiles
-- **Linux** : CIS Benchmarks, SELinux/AppArmor activé
-- **Équipements réseau** : Accès SSH uniquement (pas de Telnet), authentification RADIUS/TACACS+
-- **Configuration standard** : Images durcies déployées via PXE
+|Tier|Nom de la Zone|VLANs associés|Niveau de Risque|Description|
+|---|---|---|---|---|
+|**Tier 0**|**Cœur d'Identité**|200, 210, 220|**Critique**|Contrôleurs de domaine (AD-01/02) et Management. La compromission de cette zone signifie la perte de contrôle totale de l'entreprise.|
+|**Tier 1**|**Données & Services**|230, 240, 500|**Élevé**|Serveur de fichiers, Sauvegardes et DMZ. Contient le patrimoine informationnel d'EcoTech.|
+|**Tier 2**|**Accès Utilisateurs**|600 à 800|**Moyen**|Postes de travail (RH, Dev, Com) et Téléphonie. Zone la plus exposée aux menaces (phishing, web).|
 
-### **5.2. Gestion des correctifs**
-- **Cycle de patch** : 
-  - Critique : Déploiement sous 72h
-  - Important : Déploiement sous 7 jours
-  - Modéré : Déploiement sous 30 jours
-- **Fenêtres de maintenance** : Vendredi soir 20h-00h
-- **Testing** : Environnement de pré-production obligatoire
+### 2.2. Focus sur les Actifs Stratégiques
 
-### **5.3. Protection des terminaux**
-- **Antivirus/EDR** : Solution nouvelle génération avec protection cloud
-- **Chiffrement** : BitLocker pour Windows, LUKS pour Linux
-- **Application whitelisting** : Liste des applications autorisées
-- **USB Control** : Blocage des périphériques non autorisés
+Certains segments bénéficient d'un durcissement (hardening) renforcé en raison de leur fonction :
 
-### **5.4. Sécurité des applications**
-- **Développement** : Secure coding guidelines, analyse de code statique
-- **Déploiement** : Scans de vulnérabilités pré-déploiement
-- **WAF** : Web Application Firewall pour applications web
-- **Conteneurs** : Images signées, runtime protection
-  
-## <span id="6-journalisation-et-monitoring">**6. Journalisation et monitoring**</span>
+#### A. Le Sanctuaire de l'Identité (VLAN 220)
 
-### **6.1. Sources de logs collectées**
-- Équipements réseau (firewalls, switches, routeurs)
-- Serveurs (système, application, sécurité)
-- Postes clients (événements significatifs)
-- Active Directory (authentification, modifications)
-- Applications métier
+- **Actifs :** AD-01 (GUI) et **AD-02 (Core)**.
+- **Protection :** Aucun accès direct à Internet. Seul le flux DNS est autorisé vers le pfSense. L'utilisation de **Windows Server Core** pour le second contrôleur réduit la surface d'attaque de 60% en éliminant les composants inutiles (Internet Explorer, Explorateur de fichiers, etc.).
 
-### **6.2. SIEM (Security Information and Event Management)**
-- **Solution** : Elastic Stack (ELK) ou équivalent
-- **Rétention** : 
-  - Logs de sécurité : 1 an minimum
-  - Logs système : 6 mois
-  - Logs réseau : 3 mois
-- **Alertes configurées** :
-  - Tentatives de connexion échouées multiples
-  - Accès hors heures normales
-  - Modifications de privilèges
-  - Accès à des données sensibles
+#### B. La Zone de Sauvegarde Isolée (VLAN 250)
 
-### **6.3. Monitoring de sécurité**
-- **Vulnérabilités** : Scans hebdomadaires, rapports de priorités
-- **Comportements anormaux** : Machine learning pour détection d'anomalies
-- **Intégrité des fichiers** : Monitoring des fichiers système critiques
-- **Trafic réseau** : Analyse des flux pour détection de menaces
-  
-## <span id="7-sauvegardes-et-continuité-dactivité">**7. Sauvegardes et continuité d'activité**</span>
+- **Actif :** Stockage Bareos.
+- **Protection :** Ce segment est **non-routé**. Il n'existe aucune passerelle (Gateway) vers ce VLAN. La communication est purement de Niveau 2 (L2) entre le serveur Bareos et sa baie de stockage, rendant le vol de données ou le chiffrement par ransomware techniquement impossible depuis le réseau utilisateur.
 
-### **7.1. Stratégie de sauvegarde 3-2-1**
-- **3 copies** des données
-- **2 supports** différents (disque + bande/cloud)
-- **1 copie hors site**
+#### C. La DMZ et les Services de Bordure (VLAN 500)
 
-### **7.2. Plan de sauvegarde**
+- **Actif :** Proxy filtrant et Serveur Web.
+- **Protection :** Zone tampon isolée par le pfSense. Tout serveur en DMZ est considéré comme potentiellement compromis ; ils n'ont donc aucun droit d'initier des connexions vers les réseaux internes (**Zones P, S, U**).
 
-| Données | Fréquence | Rétention | Support | Localisation |
-|---------|-----------|-----------|---------|--------------|
-| **AD/DNS/DHCP** | Quotidienne (incrémentielle) + Hebdomadaire (complète) | 30 jours | Disque + Cloud | Site principal + Cloud |
-| **Fichiers utilisateurs** | Quotidienne (incrémentielle) | 90 jours | Disque + Bande | Site principal + Coffre |
-| **Bases de données** | Toutes les 4 heures (transaction logs) | 30 jours | Disque + Cloud | Site principal + Cloud |
-| **Configuration systèmes** | Hebdomadaire | 1 an | Disque + Git | Multiple sites |
-| **Logs de sécurité** | Quotidienne | 1 an | Disque + WORM | Site principal + Archivage |
+### 2.3. Sécurité de la Téléphonie IP (VLAN 640)
 
-### **7.3. Tests de restauration**
-- **Mensuel** : Fichiers individuels
-- **Trimestriel** : Système complet
-- **Semestriel** : Scénario de reprise après sinistre
-- **Documentation** : Procédures de restauration à jour
+Suite à l'analyse de l'inventaire (**243 terminaux**), la VoIP est isolée dans son propre segment en **/23**.
 
-### **7.4. Plan de Continuité d'Activité (PCA)**
-- **RTO (Recovery Time Objective)** : 
-  - Services critiques : < 4 heures
-  - Services standards : < 24 heures
-- **RPO (Recovery Point Objective)** :
-  - Données critiques : < 1 heure
-  - Données standards : < 24 heures
-  
-## <span id="8-conformité-et-audit">**8. Conformité et audit**</span>
+- **Isolation :** Les flux SIP (Signalisation) et RTP (Voix) sont confinés au VLAN 640.
+- **Filtrage :** Seul le serveur FreePBX est autorisé à communiquer avec l'extérieur (SIP Trunk) via des règles strictes sur le pare-feu pfSense.
 
-### **8.1. Cadres réglementaires appliqués**
-- **RGPD** : Protection des données personnelles
-- **Loi de sécurité numérique** : Obligations de sécurité
-- **Normes sectorielles** : Bonnes pratiques énergétiques
+## 3. Politiques d’accès (Administrateurs / Utilisateurs)
 
-### **8.2. Audits programmés**
-- **Interne** : Trimestriel (vérification configurations)
-- **Externe** : Annuel (audit complet)
-- **Pénétration testing** : Semestriel (tests d'intrusion)
+La gestion des accès chez EcoTech Solutions repose sur la séparation stricte des privilèges et l'isolation des flux d'administration.
 
-### **8.3. Documentation obligatoire**
-- Politiques de sécurité
-- Procédures opérationnelles
-- Rapports d'incidents
-- Preuves de conformité
-  
-## <span id="9-procédures-durgence">**9. Procédures d'urgence**</span>
+### 3.1. Accès des Administrateurs (Tier 0 & 1)
 
-### **9.1. Gestion des incidents de sécurité**
-- **Niveau 1 (Critique)** : Réponse immédiate, équipe dédiée 24/7
-- **Niveau 2 (Majeur)** : Résolution sous 4 heures
-- **Niveau 3 (Mineur)** : Résolution sous 48 heures
+L'administration du SI ne s'effectue jamais avec un compte utilisateur standard ni depuis un poste de travail classique.
 
-### **9.2. Contacts d'urgence**
-- **Responsable sécurité** : [Nom] - [Téléphone]
-- **Administrateurs** : Liste dédiée avec disponibilités
-- **Prestataires** : Contacts supports critiques
-- **Autorités** : ANSSI, CNIL si nécessaire
+- **Comptes Dédiés :** Les administrateurs possèdent au moins deux comptes :
+    - Un compte standard (ex: **jedupont**) pour les tâches quotidiennes (mails, bureautique).
+    - Un compte "Admin" (ex: **GX-P-jedupont**) utilisé exclusivement pour la gestion des serveurs.
+- **Postes d'Administration (PAW - Privileged Access Workstation) :** Toutes les tâches d'administration (AD, VyOS, Proxmox) doivent être initiées depuis le **VLAN 210**.
+    - L'accès RDP ou SSH vers les serveurs du **Tier 0 (VLAN 220)** est interdit depuis n'importe quel autre VLAN.
+- **Gestion du serveur Core :** L'administration de l'AD-02 s'effectue exclusivement à distance via les outils RSAT (Remote Server Administration Tools) ou PowerShell depuis le VLAN 210, évitant ainsi toute ouverture de session locale ou RDP sur ce contrôleur de domaine.
+- **Zéro Navigation Web :** La navigation sur Internet est strictement interdite sur les comptes et serveurs d'administration pour éviter le téléchargement de malwares ou le vol de jetons de session.
 
-### **9.3. Communication de crise**
-- Template de communication pré-préparé
-- Canaux dédiés (hors infrastructure compromise)
-- Échelle de communication selon gravité
-  
-## <span id="10-formation-et-sensibilisation">**10. Formation et sensibilisation**</span>
+### 3.2. Accès des Utilisateurs (Tier 2)
 
-### **10.1. Programmes de formation**
-- **Nouveaux employés** : Module sécurité obligatoire
-- **Administrateurs** : Formation avancée trimestrielle
-- **Utilisateurs** : Rappels mensuels, phishing tests
+Les 251 collaborateurs accèdent aux ressources selon leur appartenance de service ( segmentation par VLAN).
 
-### **10.2. Campagnes de sensibilisation**
-- **Phishing** : Tests mensuels avec feedback
-- **Mots de passe** : Conseils réguliers
-- **Bons réflexes** : Affiches, newsletters, intranet
+- **Privilèges Locaux :** Aucun utilisateur ne possède de droits "Administrateur" sur son poste de travail. Les installations de logiciels sont gérées de manière centralisée (via GPO ou déploiement).
+- **Accès aux Partages (SMB) :** * L'accès au serveur de fichiers (**VLAN 230**) est filtré par des groupes de sécurité AD.
+    - Les utilisateurs du Wi-Fi (**VLAN 800**) n'ont pas accès aux partages de fichiers (lecture seule ou blocage complet selon le profil) pour limiter les risques en cas de perte de terminal mobile.
+- **Isolation Inter-Services :** Par défaut, un utilisateur du Pôle Développement (**VLAN 610**) ne peut pas accéder aux ressources du VLAN Direction/RH (**VLAN 600**).
 
-### **10.3. Charte d'utilisation acceptable**
-- Signée par tous les employés
-- Révision annuelle
-- Sanctions claires en cas de violation
-  
-## <span id="11-annexes">**11. Annexes**</span>
+### 3.3. Accès Distants (VPN et Partenaires)
 
-### **11.1. Matrice des risques principaux**
+Pour les sites de Nantes, Paris et les collaborateurs nomades, l'accès est sécurisé via le **VLAN 510**.
 
-| Risque | Impact | Probabilité | Mesures de mitigation |
-|--------|--------|-------------|----------------------|
-| **Attaque ransomware** | Élevé | Moyenne | Sauvegardes isolées, EDR, segmentation |
-| **Fuites de données** | Élevé | Moyenne | DLP, chiffrement, monitoring accès |
-| **Compromission compte admin** | Très élevé | Faible | MFA, comptes dédiés, journalisation renforcée |
-| **Déni de service** | Moyen | Faible | Protection DDoS, redondance |
+- **Tunnel Chiffré :** Utilisation d'un VPN SSL/TLS terminé sur le pare-feu **pfSense**.
+- **Authentification Forte :** L'accès VPN requiert une double validation : Identifiant AD + certificat ou MFA (Multi-Factor Authentication).
+- **Filtrage à l'entrée :** Une fois connecté, l'utilisateur VPN est restreint aux seuls services nécessaires (ex: accès au serveur de fichiers 230 via port 445), sans visibilité sur le reste de l'infrastructure.
 
-### **11.2. Références réglementaires**
-- RGPD (Règlement Général sur la Protection des Données)
-- Loi n° 2018-133 du 26 février 2018
-- Norme ISO 27001 (référentiel)
-- Guides ANSSI
+### 3.4. Politique de Mots de Passe et Authentification
 
-### **11.3. Glossaire**
-- **IDS/IPS** : Système de détection/prévention d'intrusion
-- **SIEM** : Plateforme de gestion des événements de sécurité
-- **EDR** : Détection et réponse sur les terminaux
-- **DLP** : Prévention des pertes de données
-- **WAF** : Pare-feu d'application web
-  
-*Cette politique de sécurité est un document vivant qui sera révisé au minimum annuellement ou après tout incident significatif.*
+Appliquée via GPO (Group Policy Objects) sur le domaine `ecotech.local` :
 
-<p align="right">
-  <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
-</p>
+|Paramètre|Valeur (Standard)|Valeur (Admin - Tier 0)|
+|---|---|---|
+|**Longueur minimale**|12 caractères|15 caractères|
+|**Complexité**|Requise (Maj/Min/Chiffre/Spécial)|Requise (Élevée)|
+|**Historique**|10 derniers interdits|24 derniers interdits|
+|**Verrouillage**|5 tentatives infructueuses|3 tentatives infructueuses|
+|**MFA**|Recommandé (VPN/Web)|**Obligatoire**|
 
+## 4. Journalisation et Monitoring
 
+La visibilité sur l'état du système est assurée par une collecte centralisée des logs, permettant une corrélation des événements entre les différentes couches de l'infrastructure (Réseau, Système, Application).
+
+### 4.1. Centralisation des Événements (Syslog & SIEM)
+
+Pour éviter la perte de traces en cas de compromission d'un serveur, les logs sont déportés en temps réel vers un serveur de gestion de logs centralisé situé dans le **VLAN 210** (Management).
+
+La résolution DNS inverse est configurée sur l'ensemble des segments pour garantir que chaque adresse IP apparaissant dans les journaux soit automatiquement associée à un nom d'hôte unique, facilitant ainsi l'identification immédiate des machines lors d'un incident.
+
+- **Serveurs Windows (AD-01 / AD-02 Core) :** Utilisation du service _Windows Event Forwarding_ (WEF) ou d'un agent léger pour exporter les journaux d'événements vers la sonde de supervision.
+- **Équipements Réseau (pfSense / VyOS) :** Configuration du protocole **Syslog** pour l'envoi des logs de pare-feu et de routage.
+- **Hyperviseur (Proxmox) :** Journalisation des accès à l'interface de gestion et des mouvements de machines virtuelles.
+
+### 4.2. Événements Audités Prioritaires
+
+Nous appliquons une politique d'audit sélective pour ne pas saturer le stockage tout en conservant les traces critiques :
+
+|Source|Événements surveillés|Criticité|Justification|
+|---|---|---|---|
+|**Active Directory**|Échecs de connexion, création de comptes, modifications de groupes (Admin).|**Critique**|Détection de brute-force ou d'élévation de privilèges.|
+|**pfSense**|Blocages sur le WAN, connexions VPN (réussies/échouées).|**Haute**|Surveillance des tentatives d'intrusion externe.|
+|**Serveur de Fichiers**|Accès refusés sur des dossiers sensibles (RH/Direction).|**Moyenne**|Détection de tentatives de fuite de données internes.|
+|**VyOS**|Modifications de la table de routage et des ACLs.|**Haute**|Intégrité de la segmentation réseau.|
+|**FreePBX**|Tentatives de connexion au Trunk SIP (Appels externes).|**Haute**|Prévention de la fraude téléphonique (Phreaking).|
+
+### 4.3. Rétention et Intégrité des Données
+
+Conformément aux recommandations de la CNIL et du RGPD :
+
+- **Durée de conservation :** Les logs de connexion sont conservés **6 mois à 1 an** pour répondre aux réquisitions judiciaires.
+- **Intégrité :** Les archives de logs sont stockées sur une partition en lecture seule ou exportées vers le **VLAN 250** (Stockage Isolé) pour éviter toute modification par un attaquant cherchant à effacer ses traces.
+- **Horodatage (NTP) :** La cohérence temporelle est assurée par une cascade NTP. Le pare-feu pfSense sert de source de temps de référence pour le cœur de réseau (VyOS et AD-01). Le contrôleur de domaine AD-01 redistribue ensuite cette heure précise à l'ensemble des 251 terminaux et serveurs via les services de domaine, garantissant une chronologie exacte des logs en cas d'analyse post-incident.
+
+### 4.4. Supervision et Alerting (Zabbix / SNMP)
+
+En complément des logs, une sonde de supervision (type Zabbix) monitore la santé des actifs en temps réel.
+
+- **Alertes Critiques :** Envoi immédiat d'une notification (Email/Dashboard) en cas de :
+    - Arrêt d'un contrôleur de domaine (**AD-01** ou **AD-02**).
+    - Saturation d'un pool DHCP (notamment le **VLAN 640** et ses 243 téléphones).
+    - Échec d'une sauvegarde Bareos (**VLAN 240**).
+- **Seuils de performance :** Surveillance CPU/RAM sur Proxmox pour anticiper le besoin de ressources lié à la croissance d'EcoTech.
+
+## 5. Sauvegardes et Continuité d'Activité
+
+La stratégie de sauvegarde d'EcoTech repose sur le principe de **l'immuabilité et de l'isolation**, garantissant que même en cas de compromission totale du réseau utilisateur, les données vitales restent récupérables.
+
+### 5.1. La Règle d'Or : Stratégie 3-2-1
+
+EcoTech applique la règle de référence du secteur pour maximiser les chances de survie des données :
+
+- **3 copies des données** : L'originale (production) + deux copies de sauvegarde.
+- **2 supports différents** : Stockage sur disque (baie dédiée) et externalisation (Cloud ou bande théorique).
+- **1 copie hors-site** : Externalisation des données vers le site de secours via le tunnel VPN.
+
+### 5.2. Architecture Technique (Bareos)
+
+Le service est orchestré par le serveur **Bareos (10.20.40.5)** situé dans le **VLAN 240**.
+
+- **Agents de sauvegarde** : Chaque serveur critique (AD-01, AD-02, Serveur de fichiers) possède un agent Bareos-File-Daemon qui communique avec le serveur de sauvegarde via le port **TCP 9102**.
+- **Centralisation** : Les flux de sauvegarde sont initiés par le serveur de sauvegarde ("Pull") et non par les clients, empêchant un client infecté de "pousser" des fichiers corrompus ou de supprimer ses propres sauvegardes.
+
+### 5.3. Isolation Critique : Le VLAN 250 (Air-Gap Logiciel)
+
+C'est la mesure de sécurité la plus forte de l'infrastructure :
+
+- **Segment non-routé** : Le stockage des sauvegardes est situé dans le **VLAN 250**. Ce VLAN n'a **aucune passerelle par défaut**.
+- **Impossibilité de rebond** : Un attaquant ayant pris le contrôle d'un poste dans le VLAN Dev (610) ou même du contrôleur de domaine ne peut techniquement pas "voir" ou atteindre la baie de stockage. La communication ne se fait qu'au niveau de la couche 2 entre le serveur Bareos et son stockage.
+- **Impossibilité de rebond :** Le serveur Bareos dispose de deux interfaces réseau (NICs) distinctes. L'une pour communiquer avec les agents de sauvegarde (VLAN 240), l'autre, sans passerelle, dédiée au stockage (VLAN 250). Cette séparation physique virtuelle empêche tout attaquant de remonter jusqu'au stockage même en cas de compromission du serveur de sauvegarde.
+
+### 5.4. Politique de Sauvegarde et Rétention
+
+Pour équilibrer performance et sécurité, les sauvegardes suivent un cycle régulier :
+
+|Type de Donnée|Fréquence|Rétention|Justification|
+|---|---|---|---|
+|**Active Directory**|Quotidienne (Full)|30 jours|Restauration rapide des objets AD.|
+|**Serveur Fichiers**|Incrémentale (J) / Full (Sem)|90 jours|Protection du patrimoine métier.|
+|**Configs VyOS/pfSense**|À chaque modification|1 an|Reconstruction rapide du réseau.|
+|**Base VoIP (FreePBX)**|Hebdomadaire|30 jours|Historique des appels et annuaires.|
+
+### 5.5. Test de Restauration et Plan de Reprise (PRA)
+
+Une sauvegarde n'a de valeur que si elle est restaurable.
+
+- **Vérification** : Un test de restauration complet est effectué chaque mois dans le **VLAN 630 (Lab/Tests)** pour valider l'intégrité des fichiers.
+- **Objectifs (RTO/RPO)** :
+    - **RPO (Perte de données maximale)** : 24 heures.
+    - **RTO (Temps de remise en service)** : 4 heures pour les services critiques (Identité/Réseau).
