@@ -61,18 +61,19 @@ Cette section détaille l'adressage statique des interfaces pour chaque équipem
 
 ### 2.1. Équipements de Sécurité et de Routage
 
-| Équipement    | Interface / Rôle           | VLAN    | Adresse IP        | Masque (CIDR) |
-| ------------- | -------------------------- | ------- | ----------------- | ------------- |
-| **pfSense**   | WAN (Internet)             | -       | _DHCP / Fixe FAI_ | -             |
-| (Edge)        | LAN (Interco VyOS)         | **400** | 10.40.0.1         | /30           |
-|               | DMZ (Interface Virtuelle)  | **500** | 10.50.0.1         | /28           |
-|               | VPN (Tunnel virtuel)       | **510** | 10.50.10.1        | /26           |
-| **VyOS**      | eth0 (Interco pfSense)     | **400** | 10.40.0.2         | /30           |
-| (Backbone)    | eth1 (Interco Cœur)        | **410** | 10.40.10.1        | /30           |
-|               | eth2 (Management SSH)      | **210** | 10.20.10.254      | /28           |
-| **Switch L3** | SVI (Interco VyOS)         | **410** | 10.40.10.2        | /30           |
-| (Cœur)        | SVI (Management)           | **200** | 10.20.0.254       | /28           |
-|               | **Gateways (SVI) Métiers** | _Multi_ | 10.60.x.1         | /24           |
+| **Équipement**        | **Interface / Rôle**           | **VLAN** | **Adresse IP**    | **Masque (CIDR)** |
+| --------------------- | ------------------------------ | -------- | ----------------- | ----------------- |
+| **pfSense**           | WAN (Internet)                 | -        | _DHCP / Fixe FAI_ | -                 |
+| (Edge)                | LAN (Interco VyOS Backbone)    | **400**  | 10.40.0.1         | **/28**           |
+|                       | DMZ (Interface Virtuelle)      | **500**  | 10.50.0.1         | **/28**           |
+|                       | VPN (Tunnel virtuel)           | **510**  | 10.50.10.1        | **/26**           |
+| **VyOS**              | eth0 (Interco pfSense)         | **400**  | 10.40.0.2         | **/28**           |
+| ( Backbone)           | eth1 (Interco Cœur)            | **410**  | 10.40.10.1        | **/28**           |
+|                       | **vif 200 (Management SSH)**   | **200**  | **10.20.0.13**    | **/28**           |
+| **VyOS**              | vif 410 (Interco Backbone)     | **410**  | 10.40.10.2        | **/28**           |
+| (Cœur)                | **vif 200 (Management SVI)**   | **200**  | **10.20.0.14**    | **/28**           |
+|                       | **vif 210 (Gateway PC Admin)** | **210**  | **10.20.10.1**    | **/28**           |
+|                       | **Gateways (SVI) Métiers**     | _Multi_  | 10.60.x.1         | **Variable***     |
 
 ### 2.2. Infrastructure et Serveurs Critiques (Tableau d'affectation des hôtes)
 
@@ -127,5 +128,6 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 640 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.10**.
+
 
 
