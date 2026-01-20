@@ -77,18 +77,18 @@ Cette section détaille l'adressage statique des interfaces pour chaque équipem
 
 ### 2.2. Infrastructure et Serveurs Critiques (Tableau d'affectation des hôtes)
 
-Pour maintenir une cohérence d'administration, les serveurs utilisent systématiquement l'IP **.10** (ou une plage commençant à .10) dans leur VLAN respectif.
+Pour maintenir une cohérence d'administration, les serveurs utilisent systématiquement l'IP **.5** (ou une plage commençant à .5) dans leur VLAN respectif.
 
 |**Nom (VM/CT)**|**Serveur / Service**|**VLAN**|**Adresse IP**|**Passerelle (GW)**|**Rôle / Justification**|
 |---|---|---|---|---|---|
-|**ECO-BDX-GX01**|**PC d'administration**|**210**|10.20.10.10|10.20.10.1|Poste de pilotage (Management Tier 1)|
-|**ECO-BDX-EX01**|**Windows AD-01**|**220**|10.20.20.5|10.20.20.1|DC Principal (GUI) / DNS / DHCP|
-|**ECO-BDX-EX02**|**Windows AD-02 / NPS**|**220**|10.20.20.6|10.20.20.1|DC Sec (Core) & RADIUS|
-|**ECO-BDX-EX03**|**Serveur de Fichiers**|**230**|10.20.30.5|10.20.30.1|Serveur de données Métiers|
-|**ECO-BDX-FX01**|**Bareos (Backup)**|**240**|10.20.40.5|10.20.40.1|Orchestrateur de sauvegarde|
-|**ECO-BDX-EX04**|**Stockage Isolé**|**250**|10.20.50.5|_Aucune_|Interface de stockage (L2)|
-|**ECO-BDX-EX05**|**FreePBX (VoIP)**|**640**|10.60.40.5|10.60.40.1|IP-PBX Téléphonie|
-|**ECO-BDX-EX06**|**Proxy / Web (DMZ)**|**500**|10.50.0.5|10.50.0.1|Sortie Web & Site EcoTech|
+|**ECO-BDX-GX01**  |  **PC d'administration**  |**210**  | 10.20.10.10 | 10.20.10.1 | Poste de pilotage (Management Tier 1)|
+|**ECO-BDX-EX01**  |  **Windows AD-01**        | **220** | 10.20.20.5  | 10.20.20.1 | DC Principal (GUI) / DNS / DHCP      |
+|**ECO-BDX-EX02**  |  **Windows AD-02 / NPS**  | **220** | 10.20.20.6  | 10.20.20.1 | DC Sec (Core) & RADIUS               |
+|**ECO-BDX-EX03**  |  **Serveur de Fichiers**  | **230** | 10.20.30.5  | 10.20.30.1 | Serveur de données Métiers           |
+|**ECO-BDX-FX01**  |  **Bareos (Backup)**      | **240** | 10.20.40.5  | 10.20.40.1 | Orchestrateur de sauvegarde          |
+|**ECO-BDX-EX04**  |  **Stockage Isolé**       | **250** | 10.20.50.5  |  _Aucune_  | Interface de stockage (L2)           |
+|**ECO-BDX-EX05**  |  **FreePBX (VoIP)**       | **640** | 10.60.40.5  | 10.60.40.1 | IP-PBX Téléphonie                    |
+|**ECO-BDX-EX06**  |  **Proxy / Web (DMZ)**    | **500** | 10.50.0.5   | 10.50.0.1  | Sortie Web & Site EcoTech            |
 
 ### 2.3. Récapitulatif de la hiérarchie des hôtes (Convention .x)
 
@@ -128,6 +128,7 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 640 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.10**.
+
 
 
 
