@@ -81,7 +81,7 @@ Pour maintenir une cohérence d'administration, les serveurs utilisent systémat
 
 |**Nom (VM/CT)**|**Serveur / Service**|**VLAN**|**Adresse IP**|**Passerelle (GW)**|**Rôle / Justification**|
 |---|---|---|---|---|---|
-|**ECO-BDX-GX01**  |  **PC d'administration**  |**210**  | 10.20.10.10 | 10.20.10.1 | Poste de pilotage (Management Tier 1)|
+|**ECO-BDX-GX01**  |  **PC d'administration**  |**210**  | 10.20.10.5  | 10.20.10.1 | Poste de pilotage (Management Tier 1)|
 |**ECO-BDX-EX01**  |  **Windows AD-01**        | **220** | 10.20.20.5  | 10.20.20.1 | DC Principal (GUI) / DNS / DHCP      |
 |**ECO-BDX-EX02**  |  **Windows AD-02 / NPS**  | **220** | 10.20.20.6  | 10.20.20.1 | DC Sec (Core) & RADIUS               |
 |**ECO-BDX-EX03**  |  **Serveur de Fichiers**  | **230** | 10.20.30.5  | 10.20.30.1 | Serveur de données Métiers           |
@@ -128,6 +128,7 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 640 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.10**.
+
 
 
 
