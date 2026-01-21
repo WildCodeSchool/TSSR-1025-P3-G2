@@ -1,6 +1,5 @@
 # Table des matieres :
-
-- [Déploiement du Contrôleur de Domaine Principal](#déploiement-du-contrôleur-de-domaine-principal)
+## [Déploiement du Contrôleur de Domaine Principal Version Core](#déploiement-du-contrôleur-de-domaine-principal)
   - [1. Configuration de l'Hôte](#1-configuration-de-lhôte)
     - [1.1. Nom d'hôte :](#11-nom-dhôte-)
     - [1.2. Adressage IPv4 statique :](#12-adressage-ipv4-statique-)
@@ -9,6 +8,14 @@
     - [2.1. Préparation du rôle](#21-préparation-du-rôle)
     - [2.2. Promotion de la Forêt](#22-promotion-de-la-forêt)
   - [3. Conclusion du déploiement](#3-conclusion-du-déploiement)
+
+##  [Déploiement du Contrôleur de Domaine Secondaire Version GUI](#déploiement-du-contrôleur-de-domaine-principal)
+  - [4. Configuration de l'Hôte](#4-configuration-de-lhôte)
+    - [4.1. Nom d'hôte](#41-nom-dhôte-)
+    - [4.2. Adressage IPv4 statique DNS](#42-adressage-ipv4-statique-et-dns)
+  - [5. Installation Active Directory Domain Service Avec Ajout à un Domain](#5-installation-active-directory-domain-service-avec-ajout-a-un-domaine)
+    - [5.1. Ajout à la Forêt](#51-ajout-a-la-foret)
+  - [6. Conclusion du déploiement](#6-conclusion-du-déploiement)
 
 # Déploiement du Contrôleur de Domaine Principal
 <span id="deploiment-controleur"><span/>
@@ -120,3 +127,85 @@ Changements post-redémarrage :
 * Authentification : La connexion se fait désormais via le compte domaine ECOTECH\Administrator.  
 * DNS : Le serveur devient l'autorité DNS primaire pour la zone ecotech.local.
 * Gestion : Le module PowerShell ActiveDirectory est désormais opérationnel pour la création des unités d'organisation (OU) conformément au plan de Tiering.  
+
+
+
+# Déploiement du Contrôleur de Domaine Secondaire
+<span id="deploiement-controleur"><span/>
+
+Ce document retrace les étapes techniques du déploiement du serveur ECO-BDX-EX02, second contrôleur de domaine de l'infrastructure EcoTech Solutions.  
+Les captures d'écran présentes dans le document permettent d'améliorer la compréhension de l'installation du serveur.
+
+---
+
+## 4. Configuration de l'Hôte
+<span id="configuration"><span/>
+
+Avant la promotion AD, les paramètres suivants ont été validés pour garantir la conformité au document **[naming.md](/naming.md)**
+
+---
+
+### 4.1. Nom d'hôte : 
+<span id="nom"><span/>
+
+* `ECO-BDX-EX02` (Conforme au standard ECO-CodeSite-CodeTypeNum).  
+Une fois la commande pour accéder au changement de nom rentrée, il suffit d'écrire le nouveau nom et de valider.  
+La machine va redémarrer et le nouveau nom va s'appliquer.
+
+[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/4_NAME_ECO_BDX_EX02_1.png)
+
+### 4.2. Adressage IPv4 statique et DNS : 
+<span id="adressage-ipv4-statique-et-dns"><span/>
+
+* `10.20.20.6` (Masque /27), Passerelle par défaut `10.20.20.1`.
+
+Mise en place de l'IP statique dans les paramètres de connexion
+
+[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/4_IP_ECO_BDX_EX02_1.png)
+
+[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/4_IP_ECO_BDX_EX02_2.png)
+
+---
+
+## 5. Installation Active Directory Domain Service Avec Ajout à un Domaine
+<span id="installation"><span/>
+
+Etape d'installation de ADDS suivi de l'ajout au domaine ecotech.local
+
+[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADDS_ECO_BDX_EX02_1.png)
+
+Ensuite "Next" jusqu'à la sélection du server
+
+[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADDS_ECO_BDX_EX02_2.png)
+
+Selectionner le rôle souhaité, ici ADDS
+
+[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADDS_ECO_BDX_EX02_3.png)
+
+Et enfin, lancer l'installation et fermer la fenêtre, l'installation se fera en arrière plan.
+
+
+### 5.1. Ajout à la Forêt
+<span id="ajout-a-la-forêt"><span/>
+
+Le paramétrage suivant a été appliqué pour ajouter ECO_BDX_EX02 à la forêt racine ecotech.local :
+
+Pour commencer cliquer sur le drapeau avec le triangle jaune qui s'affiche une fois l'installation de ADDS terminé.
+
+[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADD_DOMAIN_ECO_BDX_EX02_1.png
+
+Ensuite entrer le nom du domaine et entrer les informations demandées après avoir cliqué sur "change"
+
+[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADD_DOMAIN_ECO_BDX_EX02_2.png)
+
+Pour finir suivre les instructions jusqu'à l'ajout au domaine.
+
+## 6. Conclusion du déploiement
+<span id="conclusion"><span/>
+
+A la fin de ces procédures ECO_BDX_EX02 a bien été ajouté au domaine ecotech.local
+
+Changements post-redémarrage :
+* Authentification : La connexion se fait désormais via le compte domaine ECOTECH\Administrator.  
+* DNS : Le serveur devient l'autorité DNS primaire pour la zone ecotech.local.
+* Gestion : Le module PowerShell ActiveDirectory est désormais opérationnel pour la création des unités d'organisation (OU) conformément au plan de Tiering.
