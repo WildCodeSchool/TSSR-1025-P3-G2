@@ -117,9 +117,6 @@ Quelques explications :
 Suite à la validation de ces paramètres, le serveur est promu en Contrôleur de Domaine (AD-DC). Le serveur redémarre automatiquement pour finaliser l'installation des services d'annuaire et appliquer les nouvelles politiques de sécurité.  
 
 Changements post-redémarrage :
-
-Authentification : La connexion se fait désormais via le compte domaine ECOTECH\Administrator.  
-
-DNS : Le serveur devient l'autorité DNS primaire pour la zone ecotech.local.  
-
-Gestion : Le module PowerShell ActiveDirectory est désormais opérationnel pour la création des unités d'organisation (OU) conformément au plan de Tiering.  
+* Authentification : La connexion se fait désormais via le compte domaine ECOTECH\Administrator.  
+* DNS : Le serveur devient l'autorité DNS primaire pour la zone ecotech.local.
+* Gestion : Le module PowerShell ActiveDirectory est désormais opérationnel pour la création des unités d'organisation (OU) conformément au plan de Tiering.  
