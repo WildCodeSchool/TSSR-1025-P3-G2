@@ -191,11 +191,11 @@ Le paramétrage suivant a été appliqué pour ajouter ECO_BDX_EX02 à la forêt
 
 Pour commencer cliquer sur le drapeau avec le triangle jaune qui s'affiche une fois l'installation de ADDS terminé.
 
-![ADDS](5_ADD_DOMAIN_ECO_BDX_EX02_1.png)
+![ADD_DOMAIN](5_ADD_DOMAIN_ECO_BDX_EX02_1.png)
 
 Ensuite entrer le nom du domaine et entrer les informations demandées après avoir cliqué sur "change"
 
-![ADDS](5_ADD_DOMAIN_ECO_BDX_EX02_2.png)
+![ADD_DOMAIN](5_ADD_DOMAIN_ECO_BDX_EX02_2.png)
 
 Pour finir suivre les instructions jusqu'à l'ajout au domaine.
 
