@@ -103,24 +103,24 @@ Install-ADDSForest @ForestConfiguration
 
 ```
 
-Quelques explications :
-    * `'DomainMode' et 'ForestMode' = 'WinThreshold'` : 
-      * Ce paramètre définit le niveau fonctionnel, ici Windows Server 2016
-      * Il active les dernières fonctionnalités de sécurité et assure la compatibilité avec d'éventuels DC secondaires sous Windows 2016/2019
-    * `'InstallDNS' = $true` :
-      * L'Active Directory ne peut pas fonctionner sans DNS. En couplant l'installation, on crée une zone DNS intégrée à l'AD.
-    * `'CreateDnsDelegation' = $false` :
-      * On met ce paramètre à `false` car `ecotech.local` est une nouvelle forêt racine.
+Quelques explications :  
+* `'DomainMode' et 'ForestMode' = 'WinThreshold'` :  
+  * Ce paramètre définit le niveau fonctionnel, ici Windows Server 2016  
+  * Il active les dernières fonctionnalités de sécurité et assure la compatibilité avec d'éventuels DC secondaires sous Windows 2016/2019  
+* `'InstallDNS' = $true` :  
+  * L'Active Directory ne peut pas fonctionner sans DNS. En couplant l'installation, on crée une zone DNS intégrée à l'AD.  
+  * `'CreateDnsDelegation' = $false` :  
+* On met ce paramètre à `false` car `ecotech.local` est une nouvelle forêt racine.  
 
 ## 3. Conclusion du déploiement
 <span id="conclusion"><span/>
 
-Suite à la validation de ces paramètres, le serveur est promu en Contrôleur de Domaine (AD-DC). Le serveur redémarre automatiquement pour finaliser l'installation des services d'annuaire et appliquer les nouvelles politiques de sécurité.
+Suite à la validation de ces paramètres, le serveur est promu en Contrôleur de Domaine (AD-DC). Le serveur redémarre automatiquement pour finaliser l'installation des services d'annuaire et appliquer les nouvelles politiques de sécurité.  
 
 Changements post-redémarrage :
 
-Authentification : La connexion se fait désormais via le compte domaine ECOTECH\Administrator.
+Authentification : La connexion se fait désormais via le compte domaine ECOTECH\Administrator.  
 
-DNS : Le serveur devient l'autorité DNS primaire pour la zone ecotech.local.
+DNS : Le serveur devient l'autorité DNS primaire pour la zone ecotech.local.  
 
-Gestion : Le module PowerShell ActiveDirectory est désormais opérationnel pour la création des unités d'organisation (OU) conformément au plan de Tiering.
+Gestion : Le module PowerShell ActiveDirectory est désormais opérationnel pour la création des unités d'organisation (OU) conformément au plan de Tiering.  
