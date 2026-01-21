@@ -107,7 +107,9 @@ Quelques explications :
 * `'InstallDNS' = $true` :  
   * L'Active Directory ne peut pas fonctionner sans DNS. En couplant l'installation, on crée une zone DNS intégrée à l'AD.  
   * `'CreateDnsDelegation' = $false` :  
-* On met ce paramètre à `false` car `ecotech.local` est une nouvelle forêt racine.  
+* On met ce paramètre à `false` car `ecotech.local` est une nouvelle forêt racine.
+
+---
 
 ## 3. Conclusion du déploiement
 <span id="conclusion"><span/>
