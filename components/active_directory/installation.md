@@ -152,7 +152,7 @@ Avant la promotion AD, les paramètres suivants ont été validés pour garantir
 Une fois la commande pour accéder au changement de nom rentrée, il suffit d'écrire le nouveau nom et de valider.  
 La machine va redémarrer et le nouveau nom va s'appliquer.
 
-[!Name_SERVER](/ressources/4_NAME_ECO_BDX_EX02_1.png)
+components/active_directory/ressources/4_NAME_ECO_BDX_EX02_1.png
 
 ### 4.2. Adressage IPv4 statique et DNS : 
 <span id="adressage-ipv4-statique-et-dns"><span/>
