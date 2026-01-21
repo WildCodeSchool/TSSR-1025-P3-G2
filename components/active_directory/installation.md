@@ -161,9 +161,9 @@ La machine va redémarrer et le nouveau nom va s'appliquer.
 
 Mise en place de l'IP statique dans les paramètres de connexion
 
-![Name_server](ressources/4_IP_ECO_BDX_EX02_1.png)
+![IP_server](ressources/4_IP_ECO_BDX_EX02_1.png)
 
-![Name_server](ressources/4_IP_ECO_BDX_EX02_2.png)
+![IP_server](ressources/4_IP_ECO_BDX_EX02_2.png)
 
 ---
 
@@ -172,15 +172,14 @@ Mise en place de l'IP statique dans les paramètres de connexion
 
 Etape d'installation de ADDS suivi de l'ajout au domaine ecotech.local
 
-[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADDS_ECO_BDX_EX02_1.png)
+![ADDS](ressources/5_ADDS_ECO_BDX_EX02_1.png)
 
 Ensuite "Next" jusqu'à la sélection du server
 
-[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADDS_ECO_BDX_EX02_2.png)
-
+![ADDS](ressources/5_ADDS_ECO_BDX_EX02_2.png)
 Selectionner le rôle souhaité, ici ADDS
 
-[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADDS_ECO_BDX_EX02_3.png)
+![ADDS](ressources/5_ADDS_ECO_BDX_EX02_3.png)
 
 Et enfin, lancer l'installation et fermer la fenêtre, l'installation se fera en arrière plan.
 
@@ -192,11 +191,11 @@ Le paramétrage suivant a été appliqué pour ajouter ECO_BDX_EX02 à la forêt
 
 Pour commencer cliquer sur le drapeau avec le triangle jaune qui s'affiche une fois l'installation de ADDS terminé.
 
-[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADD_DOMAIN_ECO_BDX_EX02_1.png
+![ADDS](5_ADD_DOMAIN_ECO_BDX_EX02_1.png)
 
 Ensuite entrer le nom du domaine et entrer les informations demandées après avoir cliqué sur "change"
 
-[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/5_ADD_DOMAIN_ECO_BDX_EX02_2.png)
+![ADDS](5_ADD_DOMAIN_ECO_BDX_EX02_2.png)
 
 Pour finir suivre les instructions jusqu'à l'ajout au domaine.
 
