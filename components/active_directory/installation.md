@@ -1,5 +1,3 @@
-<span id="retour-haut><span/>
-
 # Table des matieres :
 
 - [Table des matieres :](#table-des-matieres-)
