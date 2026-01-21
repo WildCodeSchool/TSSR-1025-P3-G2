@@ -177,6 +177,7 @@ Etape d'installation de ADDS suivi de l'ajout au domaine ecotech.local
 Ensuite "Next" jusqu'à la sélection du server
 
 ![ADDS](ressources/5_ADDS_ECO_BDX_EX02_2.png)
+
 Selectionner le rôle souhaité, ici ADDS
 
 ![ADDS](ressources/5_ADDS_ECO_BDX_EX02_3.png)
@@ -191,11 +192,11 @@ Le paramétrage suivant a été appliqué pour ajouter ECO_BDX_EX02 à la forêt
 
 Pour commencer cliquer sur le drapeau avec le triangle jaune qui s'affiche une fois l'installation de ADDS terminé.
 
-![ADD_DOMAIN](5_ADD_DOMAIN_ECO_BDX_EX02_1.png)
+![DOMAIN](5_ADD_DOMAIN_ECO_BDX_EX02_1.png)
 
 Ensuite entrer le nom du domaine et entrer les informations demandées après avoir cliqué sur "change"
 
-![ADD_DOMAIN](5_ADD_DOMAIN_ECO_BDX_EX02_2.png)
+![DOMAIN](5_ADD_DOMAIN_ECO_BDX_EX02_2.png)
 
 Pour finir suivre les instructions jusqu'à l'ajout au domaine.
 
