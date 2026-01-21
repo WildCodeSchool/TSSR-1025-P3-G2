@@ -161,9 +161,9 @@ La machine va redémarrer et le nouveau nom va s'appliquer.
 
 Mise en place de l'IP statique dans les paramètres de connexion
 
-[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/4_IP_ECO_BDX_EX02_1.png)
+![Name_server](ressources/4_IP_ECO_BDX_EX02_1.png)
 
-[(./ressources](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/main/components/active_directory/ressources/4_IP_ECO_BDX_EX02_2.png)
+![Name_server](ressources/4_IP_ECO_BDX_EX02_2.png)
 
 ---
 
