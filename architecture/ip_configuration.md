@@ -37,15 +37,19 @@ Le masque de sous-réseau (CIDR) est adapté au besoin réel de chaque segment p
 |              | **230** | **VLAN_230** | 10.20.30.0 | **/28** | 14    | **S** (Fichiers)             |
 |              | **240** | **VLAN_240** | 10.20.40.0 | **/29** | 6     | **S** (Bareos)               |
 |              | **250** | **VLAN_250** | 10.20.50.0 | **/29** | 6     | **P** (Stockage L2)          |
-| **TRANSIT**  | **400** | **VLAN_400** | 10.40.0.0  | **/30** | 2     | **A** (Transit SEC)          |
-| _(+10)_      | **410** | **VLAN_410** | 10.40.10.0 | **/30** | 2     | **A** (Transit CORE)         |
+| **TRANSIT**  | **400** | **400**      | 10.40.0.0  | **/28** | 2     | **A** (Edge - Backbone)      |
+| _(+10)_      | **410** | **410**      | 10.40.10.0 | **/28** | 2     | **A** (Backbone - Core)      |
+|              | **420** | **420**      | 10.40.20.0 | **/28** | 2     | **A** (Core - LAN)           |
 | **BORDURE**  | **500** | **VLAN_500** | 10.50.0.0  | **/28** | 14    | **E** (DMZ)                  |
 | _(+10)_      | **510** | **VLAN_510** | 10.50.10.0 | **/26** | 62    | **E** (VPN Partenaires)      |
-| **METIERS**  | **600** | **VLAN_600** | 10.60.0.0  | **/26** | 62    | **U** (Direction/RH/Finance) |
-| _(+10)_      | **610** | **VLAN_610** | 10.60.10.0 | **/24** | 254   | **U** (Pôle Dev)             |
-|              | **620** | **VLAN_620** | 10.60.20.0 | **/25** | 126   | **U** (Commercial/Com/DSI)   |
-|              | **630** | **VLAN_630** | 10.60.30.0 | **/28** | 14    | **U** (Lab / Tests)          |
-|              | **640** | **VLAN_640** | 10.60.40.0 | **/23** | 510   | **R** (VoIP)                 |
+| **METIERS**  | **600** | **VLAN_600** | 10.60.0.0  | **/27** | 30    | **U** (Direction)            |
+| _(+10)_      | **610** | **VLAN_610** | 10.60.10.0 | **/27** | 30    | **U** (DSI)                  |
+|              | **620** | **VLAN_620** | 10.60.20.0 | **/26** | 62    | **U** (DRH)                  |
+|              | **630** | **VLAN_630** | 10.60.30.0 | **/25** | 126   | **U** (Commercial)           |
+|              | **640** | **VLAN_640** | 10.60.40.0 | **/26** | 62    | **U** (Finance/Compta)       |
+|              | **650** | **VLAN_650** | 10.60.50.0 | **/26** | 62    | **U** (Communication)        |
+|              | **660** | **VLAN_660** | 10.60.60.0 | **/24** | 254   | **U** (Développement)        |
+|              | **670** | **VLAN_670** | 10.60.70.0 | **/23** | 510   | **R** (VoIP)                 |
 | **MOBILITE** | **800** | **VLAN_800** | 10.80.0.0  | **/24** | 254   | **W** (WiFi RADIUS)          |
 | **SECURITE** | **999** | **VLAN_999** | 10.99.99.0 | **/24** | 254   | **S** (Quarantaine)          |
 
@@ -61,19 +65,21 @@ Cette section détaille l'adressage statique des interfaces pour chaque équipem
 
 ### 2.1. Équipements de Sécurité et de Routage
 
-| **Équipement**        | **Interface / Rôle**           | **VLAN** | **Adresse IP**    | **Masque (CIDR)** |
-| --------------------- | ------------------------------ | -------- | ----------------- | ----------------- |
-| **pfSense**           | WAN (Internet)                 | -        | _DHCP / Fixe FAI_ | -                 |
-| (Edge)                | LAN (Interco VyOS Backbone)    | **400**  | 10.40.0.1         | **/28**           |
-|                       | DMZ (Interface Virtuelle)      | **500**  | 10.50.0.1         | **/28**           |
-|                       | VPN (Tunnel virtuel)           | **510**  | 10.50.10.1        | **/26**           |
-| **VyOS**              | eth0 (Interco pfSense)         | **400**  | 10.40.0.2         | **/28**           |
-| ( Backbone)           | eth1 (Interco Cœur)            | **410**  | 10.40.10.1        | **/28**           |
-|                       | **vif 200 (Management SSH)**   | **200**  | **10.20.0.13**    | **/28**           |
-| **VyOS**              | vif 410 (Interco Backbone)     | **410**  | 10.40.10.2        | **/28**           |
-| (Cœur)                | **vif 200 (Management SVI)**   | **200**  | **10.20.0.14**    | **/28**           |
-|                       | **vif 210 (Gateway PC Admin)** | **210**  | **10.20.10.1**    | **/28**           |
-|                       | **Gateways (SVI) Métiers**     | _Multi_  | 10.60.x.1         | **Variable***     |
+| **Équipement**        | **Interface / Rôle**           |  Bridge   | **VLAN** | **Adresse IP**    | **Masque (CIDR)** |
+| --------------------- | ------------------------------ | --------- | -------- | ----------------- | ----------------- |
+| **pfSense-1**         | WAN (Internet)                 |  vmbr1    | -        | _DHCP / Fixe FAI_ | -                 |
+| (**DX01** - Edge)     | LAN (Interco VyOS Backbone)    |  vmbr510  | -        | 10.40.0.1         | **/28**           |
+| **pfSense-2**         | WAN (Internet)                 |  vmbr510  | -        | 10.40.0.2         | **/28**           |
+| (**DX02** - Edge)     | DMZ (Interface Virtuelle)      |  vmbr511  | -        | 10.50.0.1         | **/28**           |
+|                       | LAN (Interco VyOS Backbone)    |  vmbr512  | -        | 10.40.10.1        | **/28**           |
+| **VyOS**              | eth0 (WAN)                     |  vmbr512  | -        | 10.40.10.2        | **/28**           |
+| (**DX03** - Backbone) | eth1 (Backbone - Core)         |  vmbr513  | -        | 10.40.20.1        | **/28**           |
+|                       | **vif 200 (Management SSH)**   |           | **200**  | **10.20.0.13**    | **/28**           |
+| **VyOS**              | eth0 (WAN)                     |  vmbr513  | -        | 10.40.20.2        | **/28**           |
+| (**DX04** - Cœur)     | eth1 (Backbone - Core)         |  vmbr515  | -        |                   |                   |
+|                       | **vif 200 (Management SVI)**   |           | **200**  | **10.20.0.14**    | **/28**           |
+|                       | **vif 210 (Gateway PC Admin)** |           | **210**  | **10.20.10.1**    | **/28**           |
+|                       | **Gateways (SVI) Métiers**     |           | _Multi_  | 10.60.x.1         | **Variable***     |
 
 ### 2.2. Infrastructure et Serveurs Critiques (Tableau d'affectation des hôtes)
 
@@ -82,8 +88,8 @@ Pour maintenir une cohérence d'administration, les serveurs utilisent systémat
 |**Nom (VM/CT)**|**Serveur / Service**|**VLAN**|**Adresse IP**|**Passerelle (GW)**|**Rôle / Justification**|
 |---|---|---|---|---|---|
 |**ECO-BDX-GX01**  |  **PC d'administration**  |**210**  | 10.20.10.5  | 10.20.10.1 | Poste de pilotage (Management Tier 1)|
-|**ECO-BDX-EX01**  |  **Windows AD-01**        | **220** | 10.20.20.5  | 10.20.20.1 | DC Principal (Core) / DNS / DHCP      |
-|**ECO-BDX-EX02**  |  **Windows AD-02 / NPS**  | **220** | 10.20.20.6  | 10.20.20.1 | DC Sec (GUI) & RADIUS               |
+|**ECO-BDX-EX01**  |  **Windows AD-01**        | **220** | 10.20.20.5  | 10.20.20.1 | DC Principal (Core) / DNS / DHCP     |
+|**ECO-BDX-EX02**  |  **Windows AD-02 / NPS**  | **220** | 10.20.20.6  | 10.20.20.1 | DC Sec (GUI) & RADIUS                |
 |**ECO-BDX-EX03**  |  **Serveur de Fichiers**  | **230** | 10.20.30.5  | 10.20.30.1 | Serveur de données Métiers           |
 |**ECO-BDX-FX01**  |  **Bareos (Backup)**      | **240** | 10.20.40.5  | 10.20.40.1 | Orchestrateur de sauvegarde          |
 |**ECO-BDX-EX04**  |  **Stockage Isolé**       | **250** | 10.20.50.5  |  _Aucune_  | Interface de stockage (L2)           |
@@ -128,6 +134,7 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 640 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.10**.
+
 
 
 
