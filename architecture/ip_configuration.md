@@ -79,7 +79,7 @@ Cette section détaille l'adressage statique des interfaces pour chaque équipem
 | (**DX04** - Cœur)     | eth1 (Backbone - Core)         |  vmbr515  | -        |                   |                   |
 |                       | **vif 200 (Management SVI)**   |           | **200**  | **10.20.0.14**    | **/28**           |
 |                       | **vif 210 (Gateway PC Admin)** |           | **210**  | **10.20.10.1**    | **/28**           |
-|                       | **Gateways (SVI) Métiers**     |           | _Multi_  | 10.60.x.1         | **Variable***     |
+|                       | **Gateways (SVI) Métiers**     |           | _Multi_  | 10.60.x.1         | **Variable**      |
 
 ### 2.2. Infrastructure et Serveurs Critiques (Tableau d'affectation des hôtes)
 
@@ -134,6 +134,7 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 640 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.10**.
+
 
 
 
