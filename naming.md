@@ -32,6 +32,7 @@ Pour masquer l'organigramme de la société, les départements sont identifiés 
 - **D05** : Service Après-Vente (SAV)
 - **D06** : Logistique (LOG)
 - **D07** : Comptabilité (CPTA)
+- **D08** : DSI (DSI)
 
 **Exemple de chemin (Distinguished Name) :** **ECOTECH > BDX > UX > D04 > anboutaleb** (Utilisateur de la Direction).
 
