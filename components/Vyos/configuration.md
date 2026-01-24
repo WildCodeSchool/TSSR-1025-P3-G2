@@ -108,6 +108,7 @@ Ici, nous vérifions que toutes les sous-interfaces (VIF) sont bien créées, po
 Cette capture valide le routage statique. Nous devons voir les réseaux connectés (C) et surtout la route par défaut (S) vers le Backbone.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/show%20ip%20route.PNG)
+
 *Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
 
 ### 7.3. Test de Connectivité (Ping)
@@ -116,6 +117,7 @@ Cette capture valide le routage statique. Nous devons voir les réseaux connect�
 Preuve que le routeur communique bien avec son voisin (DX03) et qu'il accède à l'extérieur.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20LAN.PNG)
+
 *Vérification : 0% packet loss.*
 
 ### 7.4. Configuration Appliquée (Synthèse)
