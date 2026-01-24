@@ -85,3 +85,43 @@ Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utili
 | `show configuration commands` | Affiche la configuration sous forme de liste de commandes `set`. |
 | `ping [IP]` | Teste la connectivité vers une IP. |
 | `monitor interface eth[X]` | Affiche le trafic en temps réel (débit) sur une interface. |
+
+---
+---
+
+## 7. Validation Visuelle (Preuves de fonctionnement)
+
+Cette section illustre l'état du routeur **DX04 (Cœur)** une fois la configuration appliquée.
+
+### 7.1. État des Interfaces (VLANs et Adressage)
+> **Commande tapée :** `show interfaces`
+
+Ici, nous vérifions que toutes les sous-interfaces (VIF) sont bien créées, possèdent les bonnes adresses IP (Passerelles) et sont dans l'état `u/u` (Up/Up).
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/show%20interfaces.PNG)
+
+*Vérification : S'assurer que les VLANs 200, 210, 220, 600, etc. sont bien listés sous eth1.*
+
+### 7.2. Table de Routage (Connectivité L3)
+> **Commande tapée :** `show ip route`
+
+Cette capture valide le routage statique. Nous devons voir les réseaux connectés (C) et surtout la route par défaut (S) vers le Backbone.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/show%20ip%20route.PNG)
+*Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
+
+### 7.3. Test de Connectivité (Ping)
+> **Commande tapée :** `ping 10.40.20.1 count 4` (Vers Backbone) et `ping 8.8.8.8 count 4` (Vers Internet)
+
+Preuve que le routeur communique bien avec son voisin (DX03) et qu'il accède à l'extérieur.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20LAN.PNG)
+*Vérification : 0% packet loss.*
+
+### 7.4. Configuration Appliquée (Synthèse)
+> **Commande tapée :** `show configuration commands | grep protocols`
+
+Vue synthétique des règles de routage et des protocoles actifs.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20internet.PNG)
+
