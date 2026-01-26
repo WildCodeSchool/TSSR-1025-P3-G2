@@ -128,11 +128,11 @@ Vue synthétique des règles de routage et des protocoles actifs.
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20internet.PNG)
 
 
-7.2 Validation Visuelle - Routeur Backbone (DX03)
+### 7.2 Validation Visuelle - Routeur Backbone (DX03)
 
 Cette section illustre l'état du routeur DX03 une fois la configuration appliquée.
 
-7.2.1 État des Interfaces (Transits)
+### 7.2.1 État des Interfaces (Transits)
 
     Commande tapée : show interfaces
 
@@ -146,7 +146,7 @@ Vérification attendue :
 
     eth1 : 10.40.20.1/28 (Côté Cœur AX01) - État u/u
 
-7.2.2 Table de Routage (Le point critique)
+### 7.2.2 Table de Routage (Le point critique)
 
     Commande tapée : show ip route
 
@@ -163,7 +163,7 @@ Vérification attendue :
 
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
-7.2.3 Test de Connectivité (Ping étendu)
+### 7.2.3 Test de Connectivité (Ping étendu)
 
     Commandes tapées :
 
@@ -189,7 +189,7 @@ Preuve que le Backbone discute bien avec ses deux voisins et accède au WAN.
 
 Vérification attendue : 0% packet loss sur les 3 tests.
 
-7.2.4 Synthèse de la configuration active
+### 7.2.4 Synthèse de la configuration active
 
     Commande tapée : show configuration commands | grep "protocols static"
 
