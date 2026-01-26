@@ -20,7 +20,7 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 ---
 
-Etape 1 : 
+### Etape 1 : 
 
 - 1] Se connecter tapez :
      Login : vyos
@@ -36,7 +36,7 @@ Etape 1 :
 
 ---
 
-Etape 2 : 
+### Etape 2 : 
 
 - 5] Appuyez sur '*ENTREE*'
 
@@ -50,7 +50,7 @@ Etape 2 :
 
 ---
 
-Etape 3 :
+### Etape 3 :
 
 - 9] Appuyez sur '*ENTREE*'
 
@@ -60,7 +60,7 @@ Etape 3 :
 
 ---
 
-Etape 4 : 
+### Etape 4 : 
 
 - 11] Retapez le mot de passe attribuer à l'utilisateur "vyos"
 
@@ -72,7 +72,7 @@ Etape 4 :
 
 ---
 
-Etape 5 : 
+### Etape 5 : 
 
 - 14] tapez `y`
 
