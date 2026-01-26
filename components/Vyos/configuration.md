@@ -51,7 +51,7 @@ Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par
 
 | Objectif | Syntaxe de la commande | Description |
 | :--- | :--- | :--- |
-| **Nom d'hôte** | `set system host-name '[NOM]'` | Définit le nom de la machine (ex: `ECO-BDX-DX04`). |
+| **Nom d'hôte** | `set system host-name '[NOM]'` | Définit le nom de la machine (ex: `ECO-BDX-AX01`). |
 | **Serveur DNS** | `set system name-server [IP_DNS]` | Définit le DNS utilisé par le routeur (ex: `1.1.1.1`). |
 | **Activer SSH** | `set service ssh port '22'` | Active l'accès distant sécurisé. |
 | **DHCP Relay (VLANs)** | `set service dhcp-relay interface eth[X].vif[ID]` | Définit quelle interface écoute les demandes DHCP. |
