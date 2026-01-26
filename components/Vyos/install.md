@@ -68,7 +68,7 @@ Etape 4 :
 
 - 13] tapez `reboot`
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/6b7efea00d65165844e0aac3dbf46e8606e095b2/components/Vyos/ressources/installation/VM4.png)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/34f85da888a0e308d87af1dde0fbbf0bc4f4edcc/components/Vyos/ressources/installation/VM4.png)
 
 ---
 
@@ -76,7 +76,7 @@ Etape 5 :
 
 - 14] tapez `y`
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/6b7efea00d65165844e0aac3dbf46e8606e095b2/components/Vyos/ressources/installation/vm5.png)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/34f85da888a0e308d87af1dde0fbbf0bc4f4edcc/components/Vyos/ressources/installation/vm5.png)
 
 ---
 **Après le redémarrage, l’utilisateur doit se connecter au système VyOS avec le compte vyos et le mot de passe définis lors de la phase d’installation.**
