@@ -91,7 +91,7 @@ Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utili
 
 ## 7.1 Validation Visuelle (Preuves de fonctionnement)
 
-Cette section illustre l'état du routeur **DX04 (Cœur-L3)** une fois la configuration appliquée.
+Cette section illustre l'état du routeur **AX01 (Cœur-L3)** une fois la configuration appliquée.
 
 ### 7.1.1 État des Interfaces (VLANs et Adressage)
 > **Commande tapée :** `show interfaces`
@@ -144,7 +144,7 @@ Vérification attendue :
 
     eth0 : 10.40.10.2/28 (Côté PfSense) - État u/u
 
-    eth1 : 10.40.20.1/28 (Côté Cœur DX04) - État u/u
+    eth1 : 10.40.20.1/28 (Côté Cœur AX01) - État u/u
 
 7.2.2 Table de Routage (Le point critique)
 
@@ -159,9 +159,9 @@ Vérification attendue :
 
     S>* 0.0.0.0/0 via 10.40.10.1 (Route vers Internet via PfSense).
 
-    S>* 10.20.0.0/16 via 10.40.20.2 (Route de retour vers Infra via DX04).
+    S>* 10.20.0.0/16 via 10.40.20.2 (Route de retour vers Infra via AX01).
 
-    S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via DX04).
+    S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 7.2.3 Test de Connectivité (Ping étendu)
 
@@ -173,7 +173,7 @@ Vérification attendue :
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/ping%20pfsense.PNG)
 
 
-        ping 10.40.20.2 count 4 (Test vers DX04)
+        ping 10.40.20.2 count 4 (Test vers AX01)
 
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/ping%20DX04.PNG)
