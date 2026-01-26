@@ -26,9 +26,9 @@ Accéder à l’environnement VyOS pour préparer l’installation
      Login : vyos
      Password : vyos
 
-- 2] tapez `install image`
+- 2] Tapez `install image`
 
-- 3] tapez `yes`
+- 3] Tapez `yes`
  
 - 4] Appuyez sur '*ENTREE*' 
 
@@ -40,7 +40,7 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 - 5] Appuyez sur '*ENTREE*'
 
-- 6] tapez `yes`
+- 6] Tapez `yes`
 
 - 7] Appuyez sur '*ENTREE*'
 
@@ -54,7 +54,7 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 - 9] Appuyez sur '*ENTREE*'
 
-- 10] tapez le mot de passe de l'utilisateur qui se nomme "vyos"
+- 10] Tapez le mot de passe de l'utilisateur qui se nomme "vyos"
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/6b7efea00d65165844e0aac3dbf46e8606e095b2/components/Vyos/ressources/installation/VM3.png)
 
@@ -74,7 +74,7 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 ### Etape 5 : 
 
-- 14] tapez `y`
+- 14] Tapez `y`
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/34f85da888a0e308d87af1dde0fbbf0bc4f4edcc/components/Vyos/ressources/installation/vm5.png)
 
