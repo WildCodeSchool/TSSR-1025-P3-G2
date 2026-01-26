@@ -138,7 +138,7 @@ Cette section illustre l'état du routeur DX03 une fois la configuration appliqu
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/show%20interfaces.PNG)
 
-Ici, on vérifie simplement les deux pattes du routeur. Contrairement au DX04, il ne doit pas y avoir de VLANs (pas de .200, .600, etc.), juste les interfaces physiques.
+Ici, on vérifie simplement les deux pattes du routeur. Contrairement au AX01, il ne doit pas y avoir de VLANs (pas de .200, .600, etc.), juste les interfaces physiques.
 
 Vérification attendue :
 
