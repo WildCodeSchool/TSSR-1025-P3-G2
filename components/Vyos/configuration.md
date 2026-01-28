@@ -11,7 +11,7 @@ Ce document recense les commandes nécessaires pour configurer les interfaces, l
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/21b27a7025fab3dfd82126510316727acf065d8a/components/Vyos/ressources/Logo%20Vyos/background.png)
 
 ---
-## 1. Gestion du Cycle de Vie (Mode Configuration)
+## Gestion du Cycle de Vie (Mode Configuration)
 
 Avant de taper ces commandes, il faut entrer en mode configuration via la commande `configure`.
 
@@ -26,7 +26,7 @@ Avant de taper ces commandes, il faut entrer en mode configuration via la comman
 
 ---
 
-## 2. Configuration des Interfaces (Niveau 2 & 3)
+## Configuration des Interfaces (Niveau 2 & 3)
 
 Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par le VLAN.
 
@@ -41,7 +41,7 @@ Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par
 
 ---
 
-## 3. Configuration du Routage (Statique)
+## Configuration du Routage (Statique)
 
 | Objectif | Syntaxe de la commande | Exemple Concret |
 | :--- | :--- | :--- |
@@ -51,32 +51,7 @@ Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par
 
 ---
 
-## 4. Système et Services de Base
-
-| Objectif | Syntaxe de la commande | Description |
-| :--- | :--- | :--- |
-| **Nom d'hôte** | `set system host-name '[NOM]'` | Définit le nom de la machine (ex: `ECO-BDX-AX01`). |
-| **Serveur DNS** | `set system name-server [IP_DNS]` | Définit le DNS utilisé par le routeur (ex: `1.1.1.1`). |
-| **Activer SSH** | `set service ssh port '22'` | Active l'accès distant sécurisé. |
-| **DHCP Relay (VLANs)** | `set service dhcp-relay interface eth[X].vif[ID]` | Définit quelle interface écoute les demandes DHCP. |
-| **DHCP Relay (Serveur)** | `set service dhcp-relay server [IP_SERVEUR]` | Définit vers où transférer les demandes (IP Serveur Windows). |
-
----
-
-## 5. Firewalling (Bases - Stateless / Stateful)
-
-*Note : VyOS utilise des "Rulesets" qu'on attache ensuite à une interface et une direction (`in`, `out`, `local`).*
-
-| Étape | Commande | Explication |
-| :--- | :--- | :--- |
-| **1. Créer le set** | `set firewall name [NOM_SET] default-action 'drop'` | Crée un pare-feu qui bloque tout par défaut. |
-| **2. Autoriser le retour** | `set firewall name [NOM_SET] rule 10 action 'accept'`<br>`set firewall name [NOM_SET] rule 10 state established 'enable'`<br>`set firewall name [NOM_SET] rule 10 state related 'enable'` | Indispensable : autorise les réponses aux connexions initiées. |
-| **3. Autoriser SSH** | `set firewall name [NOM_SET] rule 20 action 'accept'`<br>`set firewall name [NOM_SET] rule 20 protocol 'tcp'`<br>`set firewall name [NOM_SET] rule 20 destination port '22'` | Autorise le port 22 entrant. |
-| **4. Attacher (Direction)** | `set interfaces ethernet eth[X] firewall local name [NOM_SET]` | Applique les règles au trafic destiné au routeur lui-même (Local). |
-
----
-
-## 6. Diagnostic et Vérification (Mode Opérationnel)
+## Diagnostic et Vérification (Interface & Route statique)
 
 Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utiliser `run` devant si vous êtes en config).
 
@@ -89,6 +64,76 @@ Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utili
 | `show configuration commands` | Affiche la configuration sous forme de liste de commandes `set`. |
 | `ping [IP]` | Teste la connectivité vers une IP. |
 | `monitor interface eth[X]` | Affiche le trafic en temps réel (débit) sur une interface. |
+
+---
+
+## Système et Services de Base à connaitre
+
+| Objectif | Syntaxe de la commande | Description |
+| :--- | :--- | :--- |
+| **Nom d'hôte** | `set system host-name '[NOM]'` | Définit le nom de la machine (ex: `ECO-BDX-AX01`). |
+| **Serveur DNS** | `set system name-server [IP_DNS]` | Définit le DNS utilisé par le routeur (ex: `1.1.1.1`). |
+| **Activer SSH** | `set service ssh port '22'` | Active l'accès distant sécurisé. |
+
+---
+
+## Firewalling (Bases - Stateless / Stateful)
+
+*Note : VyOS utilise des "Rulesets" qu'on attache ensuite à une interface et une direction (`in`, `out`, `local`).*
+
+| Étape | Commande | Explication |
+| :--- | :--- | :--- |
+| **1. Créer le set** | `set firewall name [NOM_SET] default-action 'drop'` | Crée un pare-feu qui bloque tout par défaut. |
+| **2. Autoriser le retour** | `set firewall name [NOM_SET] rule 10 action 'accept'`<br>`set firewall name [NOM_SET] rule 10 state established 'enable'`<br>`set firewall name [NOM_SET] rule 10 state related 'enable'` | Indispensable : autorise les réponses aux connexions initiées. |
+| **3. Autoriser SSH** | `set firewall name [NOM_SET] rule 20 action 'accept'`<br>`set firewall name [NOM_SET] rule 20 protocol 'tcp'`<br>`set firewall name [NOM_SET] rule 20 destination port '22'` | Autorise le port 22 entrant. |
+| **4. Attacher (Direction)** | `set interfaces ethernet eth[X] firewall local name [NOM_SET]` | Applique les règles au trafic destiné au routeur lui-même (Local). |
+
+---
+
+| **Étape** | **Objectif / Action**                                           | **Commande généralisée**                                                  | **Fonctionnalité / Explication**                                                                       | **Remarques / prérequis**                                                                 |
+| --------: | --------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+|         1 | Définir la politique par défaut du firewall                     | `set firewall name <FW_NAME> default-action drop`                         | Fixe l’action appliquée quand aucune règle ne matche : ici bloquer tout trafic non autorisé.           | Doit être la première règle de politique pour respecter le principe du moindre privilège. |
+|         2 | Créer la règle “retour des connexions” (stateful)               | `set firewall ipv4 name <FW_NAME> rule <N> state established`             | Autorise les paquets appartenant à des connexions déjà établies (réponses).                            | Numérotation `<N>` : placer en début de liste (priorité haute pour les réponses).         |
+|         3 | Autoriser les flux liés (connexions associées)                  | `set firewall ipv4 name <FW_NAME> rule <N> state related`                 | Autorise les paquets considérés liés à une connexion existante (ex. flux de données complémentaires).  | Généralement placée avec/juste après la règle `established`.                              |
+|         4 | Autoriser un trafic spécifique                                  | `set firewall ipv4 name <FW_NAME> rule <N> action accept`                 | Permet le passage des paquets qui correspondent aux critères de la règle (service, destination, etc.). | Définir avant les règles de blocage explicite si nécessaire.                              |
+|         5 | Bloquer explicitement un trafic ou une zone                     | `set firewall ipv4 name <FW_NAME> rule <N> action drop`                   | Refuse silencieusement le trafic ciblé ; utile pour interdictions explicites.                          | Utiliser pour interdire des réseaux/segments spécifiques malgré le `default-action`.      |
+|         6 | Documenter la règle pour la maintenance                         | `set firewall ipv4 name <FW_NAME> rule <N> description "<texte>"`         | Ajoute une étiquette humaine expliquant l’objectif de la règle.                                        | Indispensable pour relecture / examen. Texte libre mais concis.                           |
+|         7 | Restreindre la règle à une destination précise                  | `set firewall ipv4 name <FW_NAME> rule <N> destination address <IP/CIDR>` | Limite l’application de la règle aux paquets destinés à une adresse ou un réseau précis.               | Utiliser pour protéger des serveurs ou segments sensibles.                                |
+|         8 | Appliquer le firewall sur une interface VLAN (filtrage entrant) | `set interfaces ethernet <if> vif <ID> firewall in name <FW_NAME>`        | Lie le firewall nommé à une interface VLAN ; filtre le trafic entrant sur ce VLAN.                     | Assure la segmentation : répéter pour chaque VLAN concerné.                               |
+|         9 | Appliquer / activer la configuration (runtime)                  | `commit`                                                                  | Valide et charge les modifications de configuration dans le système en cours.                          | Toujours `commit` avant `save` pour rendre effectif.                                      |
+|        10 | Sauvegarder la configuration                                    | `save`                                                                    | Persiste la configuration sur le stockage pour qu’elle survive à un redémarrage.                       | À exécuter après un `commit` validé.                                                      |
+
+
+
+
+---
+
+
+## Service dhcp-relay
+
+### But et principe rapide
+
+Le DHCP relay permet au routeur VyOS de rediriger les requêtes DHCP reçues sur des sous-réseaux locaux vers un/des serveurs DHCP centralisés (IPv4 et IPv6 supportés). Toutes les interfaces impliquées (interfaces d’écoute et l’interface vers le(s) serveur(s)) doivent être listées dans la configuration du relay.
+
+### Tableau des commandes service dhcp-relay (IPv4)
+| **Commande**                                                        | **Fonctionnalité**             | **À quoi ça sert concrètement**                           | **Remarques / Bonnes pratiques**                                                  |
+| ------------------------------------------------------------------- | ------------------------------ | --------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `set service dhcp-relay`                                            | Active le service DHCP Relay   | Permet à VyOS d’agir comme agent relais DHCP              | Le service ne fonctionne que si au moins une interface et un serveur sont définis |
+| `set service dhcp-relay listen-interface <interface>`               | Interface d’écoute DHCP        | Reçoit les requêtes DHCP des clients (broadcast)          | À configurer sur les interfaces VLAN / LAN où se trouvent les clients             |
+| `set service dhcp-relay upstream-interface <interface>`             | Interface vers le serveur DHCP | Envoie les requêtes DHCP vers le serveur distant          | **Fortement recommandé** de la déclarer explicitement                             |
+| `set service dhcp-relay server <IP>`                                | Serveur DHCP cible             | Adresse IP du serveur DHCP recevant les requêtes          | Peut être définie plusieurs fois pour la redondance                               |
+| `set service dhcp-relay relay-options hop-count <0-255>`            | Limite de sauts DHCP           | Empêche les boucles infinies de relay                     | Valeur par défaut : **10**                                                        |
+| `set service dhcp-relay disable`                                    | Désactivation du service       | Coupe complètement le DHCP Relay                          | Utile en phase de test                                                            |
+
+### Tableau de vérification (diagnostic)
+| **Commande**                           | **Objectif**                     |                           |
+| -------------------------------------- | -------------------------------- | ------------------------- |
+| `show service dhcp-relay`              | Vérifier la configuration active |                           |
+| `restart dhcp relay-agent`             | Redémarrer le service            |                           |
+| `ping <IP_DHCP>`                       | Tester l’accès au serveur DHCP   |                           |
+| `tcpdump -i <interface> port 67 or 68` | Observer les requêtes DHCP       |                           |
+| `show log                              | match dhcp`                      | Vérifier les erreurs DHCP |
+
 
 ---
 ---
