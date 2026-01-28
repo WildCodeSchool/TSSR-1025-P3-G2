@@ -7,6 +7,10 @@
 
 Ce document recense les commandes nécessaires pour configurer les interfaces, le routage, les services de base et le pare-feu, ainsi que les commandes de gestion du cycle de vie de la configuration.
 
+---
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/21b27a7025fab3dfd82126510316727acf065d8a/components/Vyos/ressources/Logo%20Vyos/background.png)
+
+---
 ## 1. Gestion du Cycle de Vie (Mode Configuration)
 
 Avant de taper ces commandes, il faut entrer en mode configuration via la commande `configure`.
