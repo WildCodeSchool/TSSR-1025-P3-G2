@@ -8,9 +8,9 @@ Ce document définit les standards de nommage pour l'ensemble de l'infrastructur
 
 ## 2. Unités d'Organisation (OU)
 
-### Structure de l'arborescence
+### 2.1. Structure de l'arborescence
 
-L'arborescence respecte une hiérarchie à 4 niveaux permettant de classer les objets par société, localisation, type et département.
+L'arborescence respecte une hiérarchie à 5 niveaux permettant de classer les objets par société, localisation, type et département.
 
 - **Niveau 1 (Société)** : **ECOTECH** (Racine de l'organisation).
 - **Niveau 2 (Localisation)** : **BDX** (Code pour le site de Bordeaux).
@@ -20,8 +20,9 @@ L'arborescence respecte une hiérarchie à 4 niveaux permettant de classer les o
     - **RX** : Groupes et ressources partagées.
     - **WX** : Postes de travail fixes et portables.
 - **Niveau 4 (Département)** : Situés sous UX et RX, identifiés par les codes **D01 à D07** (ex: D04 pour la Direction).
+- **Niveau 5 (Service)** : Situés sous les départements, identifiés par les codes **S01, S02, etc.** pour une granularité maximale et une obfuscation totale de l'organigramme.
 
-### Sous-structures des départements (dans UX et RX)
+### 2.2. Sous-structures des départements (dans UX et RX)
 
 Pour masquer l'organigramme de la société, les départements sont identifiés par des codes numériques :
 
@@ -29,12 +30,73 @@ Pour masquer l'organigramme de la société, les départements sont identifiés 
 - **D02** : Développement (DEV)
 - **D03** : Communication (COM)
 - **D04** : Direction (DIR)
-- **D05** : Service Après-Vente (SAV)
-- **D06** : Logistique (LOG)
-- **D07** : Comptabilité (CPTA)
-- **D08** : DSI (DSI)
+- **D05** : Service Commercial (SAV)
+- **D06** : DSI (DSI)
+- **D07** : Finance et Comptabilité (CPTA)
 
-**Exemple de chemin (Distinguished Name) :** **ECOTECH > BDX > UX > D04 > anboutaleb** (Utilisateur de la Direction).
+**Exemple de chemin (Distinguished Name) :** **ECOTECH > BDX > UX > D04 > S01 anboutaleb** (Utilisateur de la Direction).
+
+### 2.3. Sous-structures des services (dans UX et RX)
+
+Afin de pousser l'obfuscation jusqu'au niveau granulaire des pôles métiers, les services rattachés aux départements sont identifiés par des codes numériques **S01, S02, etc.** Ces codes sont réinitialisés pour chaque département.
+
+- **D01 (Ressources Humaines)** :
+    - **S01** : Formation
+    - **S02** : Recrutement / Administratif
+- **D02 (Développement)** :
+    - **S01** : Développement Frontend
+    - **S02** : Développement Backend
+- **D03 (Communication)** :
+    - **S01** : Événementiel
+    - **S02** : Communication Corporate / Interne
+- **D04 (Direction)** :
+    - **S01** : Direction Générale
+- **D05 (Service Commercial)** :
+    - **S01** : Gestion des comptes (Sales)
+    - **S02** : Avant-vente / Prospection
+- **D06 (DSI)** :
+    - **S01** : Exploitation / Infrastructure
+    - **S02** : Support / Helpdesk
+- **D07 (Finance et Comptabilité)** :
+    - **S01** : Finance / Analyse
+    - **S02** : Comptabilité
+
+**Exemple de chemin (Distinguished Name) :** **ECOTECH > BDX > UX > D02 > S01 > dadeslam** (Développeur Frontend).
+
+---
+
+**Exemple pour un membre de la DSI (Support / Helpdesk)**
+
+Si l'on définit que le Support est le service **S02** du département **D06** (DSI) :
+
+**Chemin LDAP (DN) :** 
+
+```
+CN=mazhang,OU=S02,OU=D06,OU=UX,OU=BDX,OU=ECOTECH,DC=ecotech,DC=local
+```
+
+
+> **Décomposition du chemin (de l'objet vers la racine) :**
+> 
+> - **CN=mazhang** : L'utilisateur (ex: Mateo Zhang).
+> - **OU=S02** : Le service (Helpdesk) — _Niveau 5_.
+> - **OU=D06** : Le département (DSI) — _Niveau 4_.
+> - **OU=UX** : Le type d'objet (Comptes utilisateurs) — _Niveau 3_.
+> - **OU=BDX** : La localisation (Bordeaux) — _Niveau 2_.
+> - **OU=ECOTECH** : La racine de l'organisation — _Niveau 1_.
+> - **DC=ecotech,DC=local** : Le domaine Active Directory.
+
+---
+
+**Autre exemple pour le Développement (Frontend)**
+
+Si le Frontend est le service **S01** du département **D02** (Développement) : 
+
+```
+CN=dadeslam,OU=S01,OU=D02,OU=UX,OU=BDX,OU=ECOTECH,DC=ecotech,DC=local
+```
+
+---
 
 **Justification : Modèle de Tiering (Sécurité)**
 
