@@ -1,6 +1,6 @@
 ## 1. Routeur Backbone (DX03)
 
-## 1.1 Rôle et Place dans l'architecture - DX03
+### 1.1 Rôle et Place dans l'architecture - DX03
 Ce routeur assure la fonction de **Backbone de Transit**. Il sert de "pont" entre le pare-feu périmétrique (PfSense) et le cœur de réseau interne (AX01).
 Il ne porte **aucun VLAN utilisateur** et ne fait pas de NAT. Son rôle est purement le routage de paquets entre les zones de transit. Il permet non seulement de superviser le trafic réseau, mais aussi de prévoir l’évolution de l’infrastructure. Grâce à lui, il est possible d’analyser en détail les flux entre les différents segments et de détecter les éventuels goulots d’étranglement ou zones saturées.
 
@@ -122,6 +122,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** 10.20.20.8.
+
 
 
 
