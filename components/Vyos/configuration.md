@@ -26,7 +26,8 @@ Ce document recense les commandes nécessaires pour configurer les interfaces, l
 - [3) Service DHCP-RELAY](#3-service-dhcp-relay)
    - [3.1 Commandes DHCP-Relay](#31-tableau-des-commandes-service-dhcp-relay-ipv4)
    - [3.2 Vérification DHCP](#32-tableau-de-vérification-service-dhcp-relay-diagnostic)
-
+- [4.1 Validation Visuelle](#41-validation-visuelle)
+- [4.2 Validation Visuelle - Routeur Backbone DX03](#42-validation-visuelle---routeur-backbone-dx03)
 
 ---
 # 1) Mode Configuration 
