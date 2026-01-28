@@ -1,4 +1,5 @@
-# Installation VyOS 📥
+# Installation VyOS 
+
 ----
 
 ## 1. Présentation
@@ -25,15 +26,24 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 ### Etape 1 : 
 
-- 1] Se connecter tapez :
-     Login : vyos
-     Password : vyos
+- 1] Pour se connecter tapez dans 
 
-- 2] Tapez `install image`
+     Login :
 
-- 3] Tapez `yes`
+      vyos
+     Password :
+
+      vyos
+
+- 2] Tapez la commande :
+
+      install image
+
+- 3] Tapez le mot :
+
+      yes
  
-- 4] Appuyez sur '*ENTREE*' 
+- 4] Appuyez sur la touche "ENTRÉE"
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/6b7efea00d65165844e0aac3dbf46e8606e095b2/components/Vyos/ressources/installation/VM1.png)
 
@@ -41,13 +51,15 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 ### Etape 2 : 
 
-- 5] Appuyez sur '*ENTREE*'
+- 5] Appuyez sur la touche "ENTRÉE"
 
-- 6] Tapez `yes`
+- 6] Tapez le mot :
 
-- 7] Appuyez sur '*ENTREE*'
+      yes
 
-- 8] Appuyez sur '*ENTREE*'
+- 7] Appuyez sur la touche "ENTRÉE"
+
+- 8] Appuyez sur la touche "ENTRÉE"
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/6b7efea00d65165844e0aac3dbf46e8606e095b2/components/Vyos/ressources/installation/VM2.png)
 
@@ -55,7 +67,7 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 ### Etape 3 :
 
-- 9] Appuyez sur '*ENTREE*'
+- 9] Appuyez sur la touche "ENTRÉE"
 
 - 10] Tapez le mot de passe de l'utilisateur qui se nomme "vyos"
 
@@ -67,9 +79,11 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 - 11] Retapez le mot de passe attribuer à l'utilisateur "vyos"
 
-- 12] Appuyez sur '*ENTREE*'
+- 12] Appuyez sur la touche "ENTRÉE"
 
-- 13] tapez `reboot`
+- 13] Tapez la commande :
+
+      reboot
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/34f85da888a0e308d87af1dde0fbbf0bc4f4edcc/components/Vyos/ressources/installation/VM4.png)
 
@@ -77,11 +91,14 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 ### Etape 5 : 
 
-- 14] Tapez `y`
+- 14] Tapez la lettre :
+
+      y
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/34f85da888a0e308d87af1dde0fbbf0bc4f4edcc/components/Vyos/ressources/installation/vm5.png)
 
 ---
-**Après le redémarrage, l’utilisateur doit se connecter au système VyOS avec le compte vyos et le mot de passe définis lors de la phase d’installation.**
+
+**Après le redémarrage, vous devez vous connecter au système VyOS avec le compte d'utilisateur "vyos" et le mot de passe définis lors de la phase d’installation.**
 
 ---
