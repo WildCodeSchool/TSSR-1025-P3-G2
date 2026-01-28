@@ -61,7 +61,7 @@ Certains segments bénéficient d'un durcissement (hardening) renforcé en raiso
 
 #### A. Le Sanctuaire de l'Identité (VLAN 220)
 
-- **Actifs :** AD-01 (GUI) et **AD-02 (Core)**.
+- **Actifs :** **AD-01 (Core)** et **AD-02 (GUI)**.
 - **Protection :** Aucun accès direct à Internet. Seul le flux DNS est autorisé vers le pfSense. L'utilisation de **Windows Server Core** pour le second contrôleur réduit la surface d'attaque de 60% en éliminant les composants inutiles (Internet Explorer, Explorateur de fichiers, etc.).
 
 #### B. La Zone de Sauvegarde Isolée (VLAN 250)
@@ -74,11 +74,11 @@ Certains segments bénéficient d'un durcissement (hardening) renforcé en raiso
 - **Actif :** Proxy filtrant et Serveur Web.
 - **Protection :** Zone tampon isolée par le pfSense. Tout serveur en DMZ est considéré comme potentiellement compromis ; ils n'ont donc aucun droit d'initier des connexions vers les réseaux internes (**Zones P, S, U**).
 
-### 2.3. Sécurité de la Téléphonie IP (VLAN 640)
+### 2.3. Sécurité de la Téléphonie IP (VLAN 670)
 
 Suite à l'analyse de l'inventaire (**243 terminaux**), la VoIP est isolée dans son propre segment en **/23**.
 
-- **Isolation :** Les flux SIP (Signalisation) et RTP (Voix) sont confinés au VLAN 640.
+- **Isolation :** Les flux SIP (Signalisation) et RTP (Voix) sont confinés au VLAN 670.
 - **Filtrage :** Seul le serveur FreePBX est autorisé à communiquer avec l'extérieur (SIP Trunk) via des règles strictes sur le pare-feu pfSense.
 
 ## 3. Politiques d’accès (Administrateurs / Utilisateurs)
@@ -102,9 +102,9 @@ L'administration du SI ne s'effectue jamais avec un compte utilisateur standard 
 Les 251 collaborateurs accèdent aux ressources selon leur appartenance de service ( segmentation par VLAN).
 
 - **Privilèges Locaux :** Aucun utilisateur ne possède de droits "Administrateur" sur son poste de travail. Les installations de logiciels sont gérées de manière centralisée (via GPO ou déploiement).
-- **Accès aux Partages (SMB) :** * L'accès au serveur de fichiers (**VLAN 230**) est filtré par des groupes de sécurité AD.
+- **Accès aux Partages (SMB) :** L'accès au serveur de fichiers (**VLAN 230**) est filtré par des groupes de sécurité AD.
     - Les utilisateurs du Wi-Fi (**VLAN 800**) n'ont pas accès aux partages de fichiers (lecture seule ou blocage complet selon le profil) pour limiter les risques en cas de perte de terminal mobile.
-- **Isolation Inter-Services :** Par défaut, un utilisateur du Pôle Développement (**VLAN 610**) ne peut pas accéder aux ressources du VLAN Direction/RH (**VLAN 600**).
+- **Isolation Inter-Services :** Par défaut, un utilisateur du Pôle Développement (**VLAN 660**) ne peut pas accéder aux ressources du VLAN Direction (**VLAN 600**).
 
 ### 3.3. Accès Distants (VPN et Partenaires)
 
@@ -166,7 +166,7 @@ En complément des logs, une sonde de supervision (type Zabbix) monitore la sant
 
 - **Alertes Critiques :** Envoi immédiat d'une notification (Email/Dashboard) en cas de :
     - Arrêt d'un contrôleur de domaine (**AD-01** ou **AD-02**).
-    - Saturation d'un pool DHCP (notamment le **VLAN 640** et ses 243 téléphones).
+    - Saturation d'un pool DHCP (notamment le **VLAN 670** et ses 243 téléphones).
     - Échec d'une sauvegarde Bareos (**VLAN 240**).
 - **Seuils de performance :** Surveillance CPU/RAM sur Proxmox pour anticiper le besoin de ressources lié à la croissance d'EcoTech.
 
@@ -194,7 +194,7 @@ Le service est orchestré par le serveur **Bareos (10.20.40.5)** situé dans le 
 C'est la mesure de sécurité la plus forte de l'infrastructure :
 
 - **Segment non-routé** : Le stockage des sauvegardes est situé dans le **VLAN 250**. Ce VLAN n'a **aucune passerelle par défaut**.
-- **Impossibilité de rebond** : Un attaquant ayant pris le contrôle d'un poste dans le VLAN Dev (610) ou même du contrôleur de domaine ne peut techniquement pas "voir" ou atteindre la baie de stockage. La communication ne se fait qu'au niveau de la couche 2 entre le serveur Bareos et son stockage.
+- **Impossibilité de rebond** : Un attaquant ayant pris le contrôle d'un poste dans le VLAN Dev (660) ou même du contrôleur de domaine ne peut techniquement pas "voir" ou atteindre la baie de stockage. La communication ne se fait qu'au niveau de la couche 2 entre le serveur Bareos et son stockage.
 - **Impossibilité de rebond :** Le serveur Bareos dispose de deux interfaces réseau (NICs) distinctes. L'une pour communiquer avec les agents de sauvegarde (VLAN 240), l'autre, sans passerelle, dédiée au stockage (VLAN 250). Cette séparation physique virtuelle empêche tout attaquant de remonter jusqu'au stockage même en cas de compromission du serveur de sauvegarde.
 
 ### 5.4. Politique de Sauvegarde et Rétention
@@ -212,7 +212,7 @@ Pour équilibrer performance et sécurité, les sauvegardes suivent un cycle ré
 
 Une sauvegarde n'a de valeur que si elle est restaurable.
 
-- **Vérification** : Un test de restauration complet est effectué chaque mois dans le **VLAN 630 (Lab/Tests)** pour valider l'intégrité des fichiers.
+- **Vérification** : Un test de restauration complet est effectué chaque mois dans le **VLAN 630 (Développement)** pour valider l'intégrité des fichiers.
 - **Objectifs (RTO/RPO)** :
     - **RPO (Perte de données maximale)** : 24 heures.
     - **RTO (Temps de remise en service)** : 4 heures pour les services critiques (Identité/Réseau).
