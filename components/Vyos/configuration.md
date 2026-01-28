@@ -301,12 +301,16 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
 
 Cette section illustre l'état du service dhcp-relay sur **AX01 Server-Core**. Sur le Projet 3 réalisé par le Groupe 2.
 
-### 4.1 État des interfaces du service dhcp-relay
+### 4.3.1 État des interfaces du service dhcp-relay
 
 Commande : 
 
     show service dhcp-relay
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/77ef7995e2c1c2450c63681ad883891a6805b676/components/Vyos/ressources/config%20DX04/show%20service%20dhcp-relay.png)
 
-*description*
+*Listen-interfaces - Le relais écoute les requêtes (DHCPDISCOVER) sur les interfaces vif :eth1.600, eth1.610, eth1.620, eth1.630, eth1.640, eth1.650, eth1.660, eth1.670.**
+
+*Server 10.20.20.8 - Toutes les requêtes interceptées sont transférées à l'adresse IP 10.20.20.8.*
+
+*Upstream-interface eth1.220 - L'interface "eth1.220" est désignée comme l'interface de sortie. Par ce VLAN que le routeur communique avec le serveur DHCP pour lui relayées/recevoir les offres de configurations réseaux.*
