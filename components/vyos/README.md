@@ -15,17 +15,17 @@ Il ne porte **aucun VLAN utilisateur** et ne fait pas de NAT. Son rôle est pure
 
 Ce routeur nécessite deux types de routes pour assurer la connectivité bidirectionnelle.
 
-###  Route par défaut (Vers Internet)
+####  Route par défaut (Vers Internet)
 Tout le trafic sortant vers Internet est redirigé vers le PfSense.
 - **Destination :** 0.0.0.0/0
 - **Next Hop :** 10.40.10.1 (Interface LAN du PfSense DX02)
 
-###  Routes vers le Réseau Interne (Vers le Cœur)
+#### Routes vers le Réseau Interne (Vers le Cœur)
 Le Backbone doit savoir où se trouvent les réseaux utilisateurs (10.2x.x.x et 10.6x.x.x) pour renvoyer les réponses.
 
 Chaque réseau (VLAN) est déclaré de manière individuelle avec son propre masque CIDR. Cette approche permet une segmentation granulaire du trafic et facilite le diagnostic réseau : le routeur de Backbone connaît exactement chaque sous-réseau sans inclure d'adresses inutilisées ou non attribuées.
 
-### Table de Routage - DX03
+#### Table de Routage - DX03
 
 *Pour le moment le routeur posséde ces routes spécifiques, Il peut en avoir de nouvelles ou quelques changements celon l'avancée du projet*
 
@@ -122,6 +122,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** 10.20.20.8.
+
 
 
 
