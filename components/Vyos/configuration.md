@@ -12,7 +12,7 @@ Ce document recense les commandes nécessaires pour configurer les interfaces, l
 
 ---
 
-## Table des Matières 📋
+# Table des Matières 📋
 
  - [1) Mode Configuration](#1-mode-configuration)
    - [1.1 Configuration des Interfaces](#11-configuration-des-interfaces-niveau-2--3)
@@ -28,6 +28,7 @@ Ce document recense les commandes nécessaires pour configurer les interfaces, l
    - [3.2 Vérification DHCP](#32-tableau-de-vérification-service-dhcp-relay-diagnostic)
 
 
+---
 # 1) Mode Configuration 
 
 Avant de taper ces commandes, il faut entrer en mode configuration via la commande `configure`.
