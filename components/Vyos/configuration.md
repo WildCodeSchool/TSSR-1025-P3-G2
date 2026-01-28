@@ -220,7 +220,7 @@ Vue synthétique des règles de routage et des protocoles actifs.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20internet.PNG)
 
-
+---
 
 # 4.2 Validation Visuelle - Routeur Backbone DX03
 
