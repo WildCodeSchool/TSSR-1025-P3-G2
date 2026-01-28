@@ -13,8 +13,8 @@ Il ne porte **aucun VLAN utilisateur** et ne fait pas de NAT. Son rôle est pure
 
 | Interface | Zone | Connecté à | Adresse IP | CIDR | Passerelle (Next Hop) |
 | --- | --- | --- | --- | --- | --- |
-| **eth0** | Transit 2 (Wan Side) | PfSense (DX02) | 10.40.10.2 | /28 | 10.40.10.1 |
-| **eth1** | Transit 3 (Lan Side) | Cœur L3 (AX01) | 10.40.20.1 | /28 | N/A (Est les GW de AX01, des interfaces vif de chaques VLANS) |
+| **eth0** | Transit 2 (côté Wan) | PfSense (DX02) | 10.40.10.2 | /28 | 10.40.10.1 |
+| **eth1** | Transit 3 (côté Lan) | Cœur L3 (AX01) | 10.40.20.1 | /28 | Ce sont les interfaces vif de chaques VLANS de AX01,) |
 
 ## 1.3 Configuration du Routage (Static Routing)
 
@@ -135,6 +135,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** `10.20.20.8`.
+
 
 
 
