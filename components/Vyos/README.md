@@ -22,8 +22,8 @@ Ce routeur nécessite deux types de routes pour assurer la connectivité bidirec
 
 ###  Route par défaut (Vers Internet)
 Tout le trafic sortant vers Internet est redirigé vers le PfSense.
-- **Destination :** `0.0.0.0/0`
-- **Next Hop :** `10.40.10.1` (Interface LAN du PfSense DX02)
+- **Destination :** 0.0.0.0/0
+- **Next Hop :** 10.40.10.1 (Interface LAN du PfSense DX02)
 
 ###  Routes vers le Réseau Interne (Vers le Cœur)
 Le Backbone doit savoir où se trouvent les réseaux utilisateurs (10.20.x.x et 10.60.x.x) pour renvoyer les réponses.
@@ -135,6 +135,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** `10.20.20.8`.
+
 
 
 
