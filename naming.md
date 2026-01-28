@@ -110,13 +110,13 @@ Cette segmentation constitue la défense la plus efficace contre le vol d'identi
 
 **Format** : **GRP-Type-Département-Service**
 - **TYPE** : **UX** (Utilisateurs), **WX** (Ordinateurs).
-- **DEPARTEMENT** : Ce **synchronise** avec la structure du domaine (ex : **D01 = Ressources Humaines**, **D02 = Développement**, etc...).
-- **SERVICE** : (optionnel) Ce **synchronise** avec la structure du domaine si un service est associer au groupe (ex : S01, S02, etc...).
+- **DEPARTEMENT** : Se **synchronise** avec la structure du domaine (ex : **D01 = Ressources Humaines**, **D02 = Développement**, etc...).
+- **SERVICE** : (optionnel) Se **synchronise** avec la structure du domaine si un service est associer au groupe (ex : S01, S02, etc...).
 
 **Exemples :**
 
-- GRP-UX-D02 **(Serice Commercial)** -S01 **(Finance)**
-- GRP-WX-D05 **(Développement)** -S04 **(Développement Mobile)**
+- GRP-UX-D02-S01 **(département Commercial > service Finance)**
+- GRP-WX-D05-S04 **(département Développement > service Mobile)**
 
 
 **Justification : Nomenclature hybride**
