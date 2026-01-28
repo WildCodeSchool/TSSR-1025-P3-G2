@@ -29,10 +29,10 @@ L'arborescence respecte une hiérarchie à 5 niveaux permettant de classer les o
 Pour masquer l'organigramme de la société, les départements sont identifiés par des codes numériques :
 
 - **D01** : Ressources Humaines (RH)
-- **D02** : Développement (DEV)
+- **D02** : Service Commercial (SAV)
 - **D03** : Communication (COM)
 - **D04** : Direction (DIR)
-- **D05** : Service Commercial (SAV)
+- **D05** : Développement (DEV)
 - **D06** : DSI (DSI)
 - **D07** : Finance et Comptabilité (CPTA)
 
@@ -45,17 +45,17 @@ Afin de pousser l'obfuscation jusqu'au niveau granulaire des pôles métiers, le
 - **D01 (Ressources Humaines)** :
     - **S01** : Formation
     - **S02** : Recrutement / Administratif
-- **D02 (Développement)** :
-    - **S01** : Développement Frontend
-    - **S02** : Développement Backend
+- **D02 (Service Commercial)** :
+    - **S01** : Gestion des comptes (Sales)
+    - **S02** : Avant-vente / Prospection
 - **D03 (Communication)** :
     - **S01** : Événementiel
     - **S02** : Communication Corporate / Interne
 - **D04 (Direction)** :
     - **S01** : Direction Générale
-- **D05 (Service Commercial)** :
-    - **S01** : Gestion des comptes (Sales)
-    - **S02** : Avant-vente / Prospection
+- **D05 (Développement)** :
+    - **S01** : Développement Frontend
+    - **S02** : Développement Backend
 - **D06 (DSI)** :
     - **S01** : Exploitation / Infrastructure
     - **S02** : Support / Helpdesk
@@ -108,23 +108,20 @@ Cette segmentation constitue la défense la plus efficace contre le vol d'identi
 
 ## 3. Groupes de Sécurité
 
-**Format** : **ECO-BDX-TYPE-PORTEE-CODENUM-DROIT**
-- **TYPE** : **U** (Utilisateurs), **C** (Ordinateurs).
-- **PORTEE** : **G** (Global), **L** (Local de domaine).
-- **CODE** : Utilisation exclusive des codes neutres définis en section 4 (AX, BX, GX, DX, etc.).
-- **NUM** : Numérotation séquentielle correspondant à la ressource.
-- **DROIT** (Optionnel pour les groupes locaux) : **L** (Lecture), **M** (Modification), **F** (Full/Contrôle total).
+**Format** : **GRP-Type-Département-Service**
+- **TYPE** : **UX** (Utilisateurs), **WX** (Ordinateurs).
+- **DEPARTEMENT** : Ce **synchronise** avec la structure du domaine (ex : **D01 = Ressources Humaines**, **D02 = Développement**, etc...).
+- **SERVICE** : (optionnel) Ce **synchronise** avec la structure du domaine si un service est associer au groupe (ex : S01, S02, etc...).
 
-| **Nom du groupe**      | **Description (Attribut AD)**         | **Logique de sécurité**       |
-| ---------------------- | ------------------------------------- | ----------------------------- |
-| **ECO-BDX-U-G-AX01-L** | Accès lecture ressources Serveur AX01 | Groupe Global (utilisateurs)  |
-| **ECO-BDX-U-L-AX01-L** | Permission lecture sur AX01           | Groupe Local (ressource)      |
-| **ECO-BDX-U-G-DX01**   | Accès administration Firewall         | Groupe Global (admins réseau) |
+**Exemples :**
+
+- GRP-UX-D02 **(Serice Commercial)** -S01 **(Finance)**
+- GRP-WX-D05 **(Développement)** -S04 **(Développement Mobile)**
+
 
 **Justification : Nomenclature hybride**
 
-1. **Sécurité par obfuscation** : L'utilisation des codes neutres (**AX**, **DX**) empêche l'identification immédiate des services ciblés par les groupes.
-2. **Rigueur technique (AGDLP)** : Le maintien des indicateurs de portée (**G** / **L**) est indispensable pour garantir une réplication correcte des objets et une gestion des droits conforme aux standards professionnels du métier.
+**Sécurité par obfuscation** : L'utilisation des codes neutres (**UX**, **WX**) empêche l'identification immédiate des services ciblés par les groupes.
 
 ## 4. Ordinateurs
 
