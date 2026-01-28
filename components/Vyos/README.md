@@ -27,13 +27,30 @@ Tout le trafic sortant vers Internet est redirigé vers le PfSense.
 
 ### 3.2. Routes vers le Réseau Interne (Vers le Cœur)
 Le Backbone doit savoir où se trouvent les réseaux utilisateurs (10.20.x.x et 10.60.x.x) pour renvoyer les réponses.
-Le routage est sommaire (super-netting) pour simplifier la table de routage.
+Le routage est sommaire pour simplifier la table de routage.
 
-- **Destination :** `10.20.0.0/16` (Zone Infra)
-- **Next Hop :** `10.40.20.2` (Interface Uplink du AX01)
+Chaque réseau (VLAN) est déclaré de manière individuelle avec son propre masque CIDR. Cette approche permet une segmentation granulaire du trafic et facilite le diagnostic réseau : le routeur de Backbone connaît exactement chaque sous-réseau sans inclure d'adresses inutilisées ou non attribuées.
 
-- **Destination :** `10.60.0.0/16` (Zone Métiers)
-- **Next Hop :** `10.40.20.2` (Interface Uplink du AX01)
+Réseau Destination,CIDR,Passerelle (Next-Hop),Interface,Description
+
+# Table de Routage
+
+| Réseau Destination | Masque (CIDR) | Prochain Saut (Next-Hop) | Interface | Description |
+|-------------------|---------------|-------------------------|-----------|-------------|
+| 0.0.0.0           | /0            | 10.40.10.1              | eth0      | Route par défaut (Internet via DX02) |
+| 10.50.0.0         | /28           | 10.40.10.1              | eth0      | Zone DMZ |
+| 10.20.0.0         | /28           | 10.40.20.2              | eth1      | VLAN 200 - MGMT (ESXi) |
+| 10.20.10.0        | /28           | 10.40.20.2              | eth1      | VLAN 210 - Admin IT |
+| 10.20.20.0        | /27           | 10.40.20.2              | eth1      | VLAN 220 - Serveurs |
+| 10.60.0.0         | /24           | 10.40.20.2              | eth1      | VLAN 600 - Direction |
+| 10.60.10.0        | /24           | 10.40.20.2              | eth1      | VLAN 610 - DSI |
+| 10.60.20.0        | /24           | 10.40.20.2              | eth1      | VLAN 620 - DRH |
+| 10.60.30.0        | /24           | 10.40.20.2              | eth1      | VLAN 630 - Commercial |
+| 10.60.40.0        | /24           | 10.40.20.2              | eth1      | VLAN 640 - Finance / Compta |
+| 10.60.50.0        | /24           | 10.40.20.2              | eth1      | VLAN 650 - Communication |
+| 10.60.60.0        | /24           | 10.40.20.2              | eth1      | VLAN 660 - Développement |
+| 10.60.70.0        | /23           | 10.40.20.2              | eth1      | VLAN 670 - VOIP / IOT |
+
 
 ## 4. Services d'Administration
 - **SSH :** Port 22
@@ -76,8 +93,6 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 | **210** | 210 | DSI / ADMIN | `10.20.10.0` | /24 | `10.20.10.254` |
 | **220** | 220 | SERVEURS | `10.20.20.0` | /24 | `10.20.20.254` |
 
-*(\* IP spécifique notée dans le fichier infra dx04.txt)*
-
 ### Zone Métiers (10.60.0.0/16)
 | Service / Département | VLAN | Réseau IP    | Masque (CIDR) | Nbr IP Utilisables | Passerelle (DX04) |
 | --------------------- | ---- | ------------ | ------------- | ------------------ | ----------------- |
@@ -107,4 +122,5 @@ Le routeur ne connaît pas la route vers Internet par défaut. Une route statiqu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** `10.20.20.8`.
+
 
