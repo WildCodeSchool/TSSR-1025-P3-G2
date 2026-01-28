@@ -99,7 +99,7 @@ Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utili
 
 Respecter l’ordre : définir politique → règles stateful → règles accept/drop → appliquer → commit → save.
 
-### 2] Définir la politique du firewall
+### 2.1) Définir la politique du firewall
 
 | **Étape** | **Commande généralisée**                                        | **Fonctionnalité / Explication**                                                               | **Remarques / prérequis**                                                   |
 | --------: | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
@@ -107,7 +107,7 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 |         2 | (optionnel) `set firewall name <FW_NAME> default-action accept` | Fixe la politique par défaut pour autoriser tout trafic non filtré.                            | Rarement utilisé en production ; généralement pour tests.                   |
 
 
-### 2.1) Règles stateful (retour de connexion)
+### 2.2) Règles stateful (retour de connexion)
 
 | **Étape** | **Commande généralisée**                                      | **Fonctionnalité / Explication**                                                            | **Remarques / prérequis**                                                                  |
 | --------: | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -115,7 +115,7 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 |         2 | `set firewall ipv4 name <FW_NAME> rule <N> state related`     | Autorise les paquets considérés liés à une connexion existante (ex : flux complémentaires). | Complète la fonctionnalité stateful. Numérotation `<N>` souvent juste après `established`. |
 
 
-### 2.2) Règles d’autorisation ou de blocage
+### 2.3) Règles d’autorisation ou de blocage
 
 | **Étape** | **Commande généralisée**                                                  | **Fonctionnalité / Explication**                                     | **Remarques / prérequis**                                                  |
 | --------: | ------------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -125,7 +125,7 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 |         4 | `set firewall ipv4 name <FW_NAME> rule <N> destination address <IP/CIDR>` | Restreint l’application de la règle à certaines adresses ou réseaux. | Permet un filtrage fin par destination.                                    |
 
 
-### 2.3) Appliquer le firewall, valider et sauvegarder
+### 2.4) Appliquer le firewall, valider et sauvegarder
 
 | **Étape** | **Commande généralisée**                                           | **Fonctionnalité / Explication**                                                   | **Remarques / prérequis**                                          |
 | --------: | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
@@ -221,13 +221,13 @@ Vue synthétique des règles de routage et des protocoles actifs.
 
 
 
-# 7.2 Validation Visuelle - Routeur Backbone DX03
+# 4.2 Validation Visuelle - Routeur Backbone DX03
 
 
 Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la configuration appliquée. Sur le Projet 3 réalisé par le Groupe 2.
 
 
-### 7.2.1 État des Interfaces (Transits)
+### 4.2.1 État des Interfaces (Transits)
 
   Commande : 
        
@@ -243,7 +243,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
 
     eth1 : 10.40.20.1/28 (Côté Cœur AX01) - État u/u
 
-### 7.2.2 Table de Routage (Le point critique)
+### 4.2.2 Table de Routage (Le point critique)
 
  Commande : 
              
@@ -260,7 +260,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
 
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
-### 7.2.3 Test de Connectivité (Ping étendu)
+### 4.2.3 Test de Connectivité (Ping étendu)
 
    Commandes :
 
@@ -285,7 +285,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
 *Preuve que le Backbone discute bien avec ses deux voisins et accède au WAN.*
 *Vérification attendue : 0% packet loss sur les 3 tests.*
 
-### 7.2.4 Synthèse de la configuration active
+### 4.2.4 Synthèse de la configuration active
 
   Commande  : 
   
