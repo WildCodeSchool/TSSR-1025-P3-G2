@@ -22,29 +22,28 @@ Conformément aux recommandations de l'ANSSI, l'infrastructure est segmentée en
 | **EDGE (E)**    | **Exposé**                | **Nulle.** Zone de front (DMZ, Wi-Fi Invités) soumise à inspection DPI.                        |
 | **TRANSIT (A)** | **Area**                  | **Technique.** Réseaux d'interconnexion point-à-point. Aucun hôte final.                       |
 
-### 1.3. Tableau détaillé de la segmentation (17 VLANs)
+### 1.3. Tableau détaillé de la segmentation (15 VLANs)
 
 Cette structure permet une gestion granulaire des flux sur le pare-feu pfSense.
 
-| Catégorie    | ID      | Nom          | **Usage / Population**            | Zone de Confiance       |
-| ------------ | ------- | ------------ | --------------------------------- | ----------------------- |
-| **INFRA**    | **200** | **VLAN_200** | Management Physique (Tier 0)      | **P** (Tier 0)          |
-| _(+10)_      | **210** | **VLAN_210** | Postes Administrateurs (Tier 1)   | **S** (Tier 1)          |
-|              | **220** | **VLAN_220** | Services Core (AD, DNS, DHCP)     | **S** (Services Core)   |
-|              | **230** | **VLAN_230** | **Serveur de Fichiers (Données)** | **S** (Fichiers)        |
-|              | **240** | **VLAN_240** | Serveur Sauvegarde (Bareos)       | **S** (Bareos)          |
-|              | **250** | **VLAN_250** | Stockage Isolé (NFS / iSCSI)      | **P** (Stockage L2)     |
-| **TRANSIT**  | **400** | **VLAN_400** | pfSense <-> VyOS                  | **A** (Transit SEC)     |
-| _(+10)_      | **410** | **VLAN_410** | VyOS <-> Cœur de réseau           | **A** (Transit CORE)    |
-| **BORDURE**  | **500** | **VLAN_500** | DMZ (Web, Proxy)                  | **E** (DMZ)             |
-| _(+10)_      | **510** | **VLAN_510** | Partenaires (VPN Nantes / Paris)  | **E** (VPN Partenaires) |
-| **METIERS**  | **600** | **VLAN_600** | Direction, RH, Finance            | **U** (Direction/RH)    |
-| _(+10)_      | **610** | **VLAN_610** | Pôle Développement                | **U** (Pôle Dev)        |
-|              | **620** | **VLAN_620** | Commercial, Com, DSI              | **U** (Commercial/DSI)  |
-|              | **630** | **VLAN_630** | Téléphonie IP (Serveur FreePBX)   | **R** (VoIP)            |
-|              | **640** | **VLAN_640** | Lab (Tests isolés)                | **U** (Lab / Tests)     |
-| **MOBILITE** | **800** | **VLAN_800** | **WiFi (802.1X / RADIUS)**        | **W** (WiFi RADIUS)     |
-| **SECURITE** | **999** | **VLAN_999** | **Quarantaine**                   | **S** (Quarantaine)     |
+| Catégorie    | ID      | Nom          | **Usage / Population**            | Zone de Confiance      |
+| ------------ | ------- | ------------ | --------------------------------- | ---------------------- |
+| **INFRA**    | **200** | **VLAN_200** | Management Physique (Tier 0)      | **P** (Tier 0)         |
+| _(+10)_      | **210** | **VLAN_210** | Postes Administrateurs (Tier 1)   | **S** (Tier 1)         |
+|              | **220** | **VLAN_220** | Services Core (AD, DNS, DHCP)     | **S** (Services Core)  |
+|              | **230** | **VLAN_230** | **Serveur de Fichiers (Données)** | **S** (Fichiers)       |
+|              | **240** | **VLAN_240** | Serveur Sauvegarde (Bareos)       | **S** (Bareos)         |
+|              | **250** | **VLAN_250** | Stockage Isolé (NFS / iSCSI)      | **P** (Stockage L2)    |
+| **METIERS**  | **600** | **VLAN_600** | Direction                         | **U** (Direction)      |
+| _(+10)_      | **610** | **VLAN_610** | Services IT, DSI                  | **U** (DSI)            |
+|              | **620** | **VLAN_620** | Direction des Ressources Humaines | **U** (DRH)            |
+|              | **630** | **VLAN_630** | Service Commercial                | **U** (Commercial)     |
+|              | **640** | **VLAN_640** | Finance et Comptabilité           | **U** (Finance/Compta) |
+|              | **650** | VLAN_650     | Communication                     | **U** (Communication)  |
+|              | **660** | VLAN_660     | Développement                     | **U** (Développement)  |
+|              | **670** | VLAN_670     | Service téléphonique              | **R** (VoIP)           |
+| **MOBILITE** | **800** | **VLAN_800** | **WiFi (802.1X / RADIUS)**        | **W** (WiFi RADIUS)    |
+| **SECURITE** | **999** | **VLAN_999** | **Quarantaine**                   | **S** (Quarantaine)    |
 
 ### 1.4. Zoom sur les Spécificités d'Architecture
 
@@ -56,28 +55,21 @@ L'infrastructure applique le modèle de segmentation par "Tiers" pour empêcher 
 - **Administration et Identité (Tier 1 — VLAN 210 & 220)** : L'administration ne s'effectue jamais depuis un poste standard. Les administrateurs utilisent des machines dédiées dans le **VLAN 210** pour piloter les services d'identité (**AD/DNS/DHCP**) situés dans le **VLAN 220**.
 - **Micro-segmentation des données (VLAN 230 & 240)** : Le serveur de fichiers (**230**) est séparé des services d'identité et de la sauvegarde (**240**). Cette étanchéité limite la propagation latérale de malwares de type Ransomware.
 
-#### B. Isolation spécifique de la DMZ (VLAN 500)
+#### B. Isolation spécifique de la DMZ
 
 Conformément au schéma, la **DMZ** est rattachée directement au **pfSense**.
 
 - **Étanchéité** : Aucun flux provenant de la DMZ ne peut atteindre le Cœur de réseau sans une inspection explicite (IPS/IDS).
 - **Relais de Services** : Le serveur Proxy en DMZ sert de point de passage unique pour les mises à jour, évitant d'exposer les serveurs critiques (Tier 1) directement à l'Internet.
 
-#### C. Réseaux de Transit (400 & 410)
-
-Ces réseaux techniques agissent comme des "tuyaux" de transport de niveau 3, sans hôte final.
-
-- **VLAN 400 (SEC-TRANSIT)** : Lien point-à-point entre le pfSense et le routeur VyOS. Il constitue l'unique porte de sortie Internet pour l'infrastructure.
-- **VLAN 410 (TRANSIT-CORE)** : Lien entre le routeur VyOS et le Switch L3 (simulé par les interfaces virtuelles de VyOS dans le lab). Il assure l'acheminement des flux entre les utilisateurs et le backbone.
-
-#### D. Réseaux de Sécurité L2 (035 & 080)
+#### C. Réseaux de Sécurité L2 (240 & 250)
 
 Ces réseaux sont dits "non-routés" car ils ne possèdent pas de passerelle par défaut.
 
 - **VLAN 250 (Stockage Isolé)** : Utilise les protocoles iSCSI/NFS pour relier le serveur **Bareos (240)** à son stockage physique. Étant non-routé, ce segment est physiquement inaccessible depuis le Wi-Fi (**800**) ou les postes de dev (**610**).
 - **VLAN 260 (Sync HA)** : (Théorique) Dédié à la synchronisation haute disponibilité des équipements de sécurité et des hyperviseurs.
 
-#### E. Stratégie de Mobilité et Authentification (VLAN 800)
+#### D. Stratégie de Mobilité et Authentification (VLAN 800)
 
 Le **VLAN 800** remplace le Wi-Fi ouvert par un accès **802.1X / RADIUS**.
 
@@ -96,15 +88,14 @@ L'infrastructure est segmentée en **17 VLANs** distincts, chacun répondant à 
 |              | **230**  | Serveur de Fichiers | **Haute**     | Données critiques de l'entreprise.        |
 |              | **240**  | Sauvegarde (Bareos) | **Haute**     | Orchestration du backup.                  |
 |              | **250**  | Stockage L2 (iSCSI) | **Critique**  | **Non-routé**. Flux brut Baie <-> Bareos. |
-| **TRANSIT**  | **400**  | Transit Sécurité    | **Haute**     | Interco pfSense <-> VyOS.                 |
-|              | **410**  | Transit Cœur        | **Haute**     | Interco VyOS <-> Cœur de réseau.          |
-| **BORDURE**  | **500**  | DMZ (Web/Proxy)     | **Moyenne**   | Services exposés. Zone tampon.            |
-|              | **510**  | VPN Partenaires     | **Moyenne**   | Accès distants sécurisés.                 |
-| **METIERS**  | **600**  | Direction / RH      | **Haute**     | Données sensibles (paie, contrats).       |
-|              | **610**  | Pôle Développement  | **Haute**     | Cœur de métier                            |
-|              | **620**  | Commercial / DSI    | **Moyenne**   | Postes utilisateurs standards.            |
+| **BORDURE**  |          | DMZ (Web/Proxy)     | **Moyenne**   | Services exposés. Zone tampon.            |
+|              |          | VPN Partenaires     | **Moyenne**   | Accès distants sécurisés.                 |
+| **METIERS**  | **600**  | Direction           | **Haute**     | Données sensibles (paie, contrats).       |
+|              | **610**  | DSI                 | **Haute**     | Cœur de métier                            |
+|              | **620**  | DRH                 | **Moyenne**   | Postes utilisateurs standards.            |
 |              | **630**  | Lab / Tests         | **Faible**    | Zone de test isolée pour les devs.        |
 |              | **640**  | Téléphonie IP       | **Haute**     | **243 terminaux**. CIDR pour QoS.         |
+|              |          |                     |               |                                           |
 | **MOBILITE** | **800**  | Wi-Fi RADIUS        | **Moyenne**   | Accès sans-fil authentifié (NPS).         |
 | **SECURITE** | **999**  | Quarantaine         | **Faible**    | Isolation des hôtes compromis.            |
 
@@ -112,19 +103,19 @@ L'infrastructure est segmentée en **17 VLANs** distincts, chacun répondant à 
 
 Afin de maintenir une cohérence d'administration, chaque segment suit une hiérarchie logique adaptée à sa taille (masque CIDR).
 
-|Rôle|Position dans le sous-réseau|Exemple /30 (Transit)|Exemple /23 (VoIP)|
-|---|---|---|---|
-|**Passerelle (Gateway)**|**1ère IP utilisable**|10.40.0.**1**|10.60.40.**1**|
-|**Serveurs / Statiques**|**Début de plage**|10.40.0.**2** (Peer)|10.60.40.**5** à **.49**|
-|**Plage DHCP**|**Cœur de plage**|_Aucune_|10.60.40.**50** à 10.61.41.**250**|
-|**Management / SVI**|**Dernière IP utilisable**|_N/A_|10.60.41.**254**|
+| Rôle                     | Position dans le sous-réseau | Exemple /30 (Transit) | Exemple /23 (VoIP)                 |
+| ------------------------ | ---------------------------- | --------------------- | ---------------------------------- |
+| **Passerelle (Gateway)** | **1ère IP utilisable**       | 10.40.0.**1**         | 10.60.40.**1**                     |
+| **Serveurs / Statiques** | **Début de plage**           | 10.40.0.**2** (Peer)  | 10.60.40.**5** à **.49**           |
+| **Plage DHCP**           | **Cœur de plage**            | _Aucune_              | 10.60.40.**50** à 10.61.41.**250** |
+| **Management / SVI**     | **Dernière IP utilisable**   | 10.40.0.14            | 10.60.41.**254**                   |
 
 #### Détails des conventions par type de masque :
 
-- **Réseaux de Transit (/30)** :
+- **Réseaux de Transit (/28)** :
     - **.1** : Équipement Amont (ex: pfSense).
     - **.2** : Équipement Aval (ex: VyOS).
-- **Petits réseaux Infra (/28, /29)** :
+- **Petits réseaux Infra (/27, /28)** :
     - **.1** : Passerelle.
     - **.2** à **.n-1** : Serveurs et services.
     - _Pas de pool DHCP pour ces segments critiques._
@@ -256,7 +247,7 @@ Cette section explique **comment** les paquets circulent entre tes 17 VLANs et c
 Pour garantir la performance et la sécurité, le routage est segmenté :
 
 - **Routage Inter-VLAN (Est-Ouest) :** Assuré par le **Switch L3**. Le trafic entre les développeurs (610) et le serveur de fichiers (230) ne remonte pas jusqu'au pare-feu. Il est routé localement à haute vitesse.
-- **Passerelle par défaut (Default Gateway) :** Chaque équipement pointe vers l'IP du Switch L3 dans son propre VLAN. Le Switch L3, lui, possède une **Route statique par défaut (0.0.0.0/0)** pointant vers le routeur VyOS (VLAN 410).
+- **Passerelle par défaut (Default Gateway) :** Chaque équipement pointe vers l'IP du Switch L3 dans son propre VLAN. Le Switch L3, lui, possède une **Route statique par défaut (0.0.0.0/0)** pointant vers le routeur VyOS (vmbr 512).
 - **Routage de Bordure (Nord-Sud) :** Le **pfSense** gère uniquement le trafic sortant vers l'Internet et le trafic entrant via VPN. Il ne connaît pas les détails des VLANs utilisateurs, il ne voit que le réseau de transit 400.
 
 ### 4.2. Stratégie de Filtrage (ACLs et Firewalling)
@@ -271,7 +262,7 @@ Nous appliquons deux types de filtrage selon la zone :
 
 ### 4.3. Gestion du trafic de Sauvegarde (Le cas Bareos)
 
-C'est ici que votre principe de **PRA** est mis en œuvre :
+C'est ici que notre principe de **PRA** est mis en œuvre :
 
 - Le serveur **Bareos (VLAN 240)** possède une route spécifique pour joindre le **VLAN 250 (Stockage)**.
 - **Filtrage Strict :** Le routeur VyOS interdit toute communication provenant du VLAN 250 vers n'importe quel autre segment. Le stockage peut "recevoir" des données mais ne peut jamais "initier" de connexion, ce qui neutralise toute tentative de rebond depuis un disque compromis.
@@ -285,7 +276,7 @@ Bien que la maquette sur Proxmox simule avec précision le comportement logique 
 Dans le lab, une partie de la redondance logicielle est déjà implémentée (Duo AD-01/AD-02 en Failover DHCP). Cependant, pour éliminer tout point de défaillance unique (SPOF) matériel, l'architecture cible prévoit :
 
 - **Cluster de Pare-feu (pfSense) :** Utilisation du protocole **CARP** pour faire fonctionner deux pare-feu en mode Actif/Passif avec une IP virtuelle (VIP).
-- **Redondance de Routage (VyOS) :** Mise en œuvre de **VRRP** (Virtual Router Redundancy Protocol) sur les réseaux de transit (**VLAN 400 et 410**).
+- **Redondance de Routage (VyOS) :** Mise en œuvre de **VRRP** (Virtual Router Redundancy Protocol) sur les réseaux de transit (**vmbr 510 et 512**).
 - **Cluster Proxmox VE :** Utilisation du **VLAN 260 (Sync HA)** pour la synchronisation Corosync entre au moins trois nœuds physiques, permettant le basculement automatique (HA) des VMs en cas de panne d'un serveur physique.
 
 ### 5.2. Maintenance en Condition de Sécurité
