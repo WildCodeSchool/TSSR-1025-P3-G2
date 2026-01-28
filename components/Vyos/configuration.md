@@ -166,13 +166,13 @@ Le DHCP relay permet au routeur VyOS de rediriger les requêtes DHCP reçues sur
 ---
 ---
 
-## 7.1 Validation Visuelle
+## 4.1 Validation Visuelle
 
 Cette section illustre l'état du routeur **AX01 (Cœur-L3)** une fois la configuration appliquée. Sur le Projet 3 réalisé par le Groupe 2.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/59fb98e20398b73df28ac2145234b417a611e4f6/components/Vyos/ressources/Logo%20Vyos/Firefly_Macro%20photography%20of%20a%20sleek%20enterprise%20rack-mounted%20router%20in%20a%20server%20room.%20On%20the%20%20746892.png)
 
-### 7.1.1 État des Interfaces (VLANs et Adressage)
+### 4.1.1 État des Interfaces (VLANs et Adressage)
 
 Commande :
           
@@ -184,7 +184,7 @@ Ici, nous vérifions que toutes les sous-interfaces (VIF) sont bien créées, po
 
 *Vérification : S'assurer que les VLANs 200, 210, 220, 600, etc. sont bien listés sous eth1.*
 
-### 7.1.2 Table de Routage (Connectivité L3)
+### 4.1.2 Table de Routage (Connectivité L3)
 
 Commande : 
             
@@ -196,7 +196,7 @@ Cette capture valide le routage statique. Nous devons voir les réseaux connect�
 
 *Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
 
-### 7.1.3 Test de Connectivité (Ping)
+### 4.1.3 Test de Connectivité (Ping)
 
 Commande :
 
@@ -209,7 +209,7 @@ Preuve que le routeur communique bien avec son voisin (DX03) et qu'il accède à
 
 *Vérification : 0% packet loss,  ping 10.40.20.1 count 4 (Vers Backbone) et ping 8.8.8.8 count 4 (Vers Internet)*
 
-### 7.1.4 Configuration Appliquée (Synthèse)
+### 4.1.4 Configuration Appliquée (Synthèse)
 
 Commande : 
            
