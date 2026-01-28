@@ -166,14 +166,17 @@ Le DHCP relay permet au routeur VyOS de rediriger les requêtes DHCP reçues sur
 ---
 ---
 
-## 7.1 Validation Visuelle (Preuves de fonctionnement)
+## 7.1 Validation Visuelle
 
 Cette section illustre l'état du routeur **AX01 (Cœur-L3)** une fois la configuration appliquée. Sur le Projet 3 réalisé par le Groupe 2.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/59fb98e20398b73df28ac2145234b417a611e4f6/components/Vyos/ressources/Logo%20Vyos/Firefly_Macro%20photography%20of%20a%20sleek%20enterprise%20rack-mounted%20router%20in%20a%20server%20room.%20On%20the%20%20746892.png)
 
 ### 7.1.1 État des Interfaces (VLANs et Adressage)
-> **Commande tapée :** `show interfaces`
+
+Commande :
+          
+    show interfaces
 
 Ici, nous vérifions que toutes les sous-interfaces (VIF) sont bien créées, possèdent les bonnes adresses IP (Passerelles) et sont dans l'état `u/u` (Up/Up).
 
@@ -182,7 +185,10 @@ Ici, nous vérifions que toutes les sous-interfaces (VIF) sont bien créées, po
 *Vérification : S'assurer que les VLANs 200, 210, 220, 600, etc. sont bien listés sous eth1.*
 
 ### 7.1.2 Table de Routage (Connectivité L3)
-> **Commande tapée :** `show ip route`
+
+Commande : 
+            
+    show ip route
 
 Cette capture valide le routage statique. Nous devons voir les réseaux connectés (C) et surtout la route par défaut (S) vers le Backbone.
 
@@ -191,35 +197,47 @@ Cette capture valide le routage statique. Nous devons voir les réseaux connect�
 *Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
 
 ### 7.1.3 Test de Connectivité (Ping)
-> **Commande tapée :** `ping 10.40.20.1 count 4` (Vers Backbone) et `ping 8.8.8.8 count 4` (Vers Internet)
+
+Commande :
+
+    ping 10.40.20.1 count 4
+    ping 8.8.8.8 count 4
 
 Preuve que le routeur communique bien avec son voisin (DX03) et qu'il accède à l'extérieur.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20LAN.PNG)
 
-*Vérification : 0% packet loss.*
+*Vérification : 0% packet loss,  ping 10.40.20.1 count 4 (Vers Backbone) et ping 8.8.8.8 count 4 (Vers Internet)*
 
 ### 7.1.4 Configuration Appliquée (Synthèse)
-> **Commande tapée :** `show configuration commands | grep protocols`
+
+Commande : 
+           
+    show configuration commands | grep protocols
 
 Vue synthétique des règles de routage et des protocoles actifs.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20internet.PNG)
 
 
-### 7.2 Validation Visuelle - Routeur Backbone (DX03)
 
-Cette section illustre l'état du routeur DX03 une fois la configuration appliquée.
+# 7.2 Validation Visuelle - Routeur Backbone DX03
+
+
+Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la configuration appliquée. Sur le Projet 3 réalisé par le Groupe 2.
+
 
 ### 7.2.1 État des Interfaces (Transits)
 
-    Commande tapée : show interfaces
+  Commande : 
+       
+    show interfaces
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/show%20interfaces.PNG)
 
-Ici, on vérifie simplement les deux pattes du routeur. Contrairement au AX01, il ne doit pas y avoir de VLANs (pas de .200, .600, etc.), juste les interfaces physiques.
+*Ici, on vérifie simplement les deux pattes du routeur. Contrairement au AX01, il ne doit pas y avoir de VLANs (pas de .200, .600, etc.), juste les interfaces physiques.*
 
-Vérification attendue :
+*Vérification attendue :*
 
     eth0 : 10.40.10.2/28 (Côté PfSense) - État u/u
 
@@ -227,14 +245,14 @@ Vérification attendue :
 
 ### 7.2.2 Table de Routage (Le point critique)
 
-    Commande tapée : show ip route
+ Commande : 
+             
+             show ip route
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/show%20ip%20route.PNG)
 
 
-C'est la capture la plus importante pour le Backbone. On doit voir qu'il sait envoyer le trafic vers Internet (défaut) ET renvoyer le trafic vers les réseaux internes (10.20.x et 10.60.x).
-
-Vérification attendue :
+*Vérification attendue :*
 
     S>* 0.0.0.0/0 via 10.40.10.1 (Route vers Internet via PfSense).
 
@@ -244,7 +262,7 @@ Vérification attendue :
 
 ### 7.2.3 Test de Connectivité (Ping étendu)
 
-    Commandes tapées :
+   Commandes :
 
         ping 10.40.10.1 count 4 (Test vers PfSense)
 
@@ -264,16 +282,17 @@ Vérification attendue :
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/ping%20Internet.PNG)
 
 
-Preuve que le Backbone discute bien avec ses deux voisins et accède au WAN.
-
-Vérification attendue : 0% packet loss sur les 3 tests.
+*Preuve que le Backbone discute bien avec ses deux voisins et accède au WAN.*
+*Vérification attendue : 0% packet loss sur les 3 tests.*
 
 ### 7.2.4 Synthèse de la configuration active
 
-    Commande tapée : show configuration commands | grep "protocols static"
+  Commande  : 
+  
+    show configuration commands | grep "protocols static"
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/protocols%20static.PNG)
 
 
-Cette vue filtrée permet de valider d'un coup d'œil que toutes les routes statiques ont été saisies correctement sans avoir à lire toute la config.
+*Cette vue filtrée permet de valider d'un coup d'œil que toutes les routes statiques ont été saisies correctement sans avoir à lire toute la config.*
 
