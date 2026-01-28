@@ -2,7 +2,7 @@
 
 - **Projet :** EcoTech Solutions - Sprint 2
 - **Groupe :** 2
-- **Hostname :** `ECO-BDX-DX03`
+- **Hostname :** ECO-BDX-DX03
 - **OS :** VyOS
 
 ## 1. Rôle et Place dans l'architecture
@@ -13,8 +13,8 @@ Il ne porte **aucun VLAN utilisateur** et ne fait pas de NAT. Son rôle est pure
 
 | Interface | Zone | Connecté à | Adresse IP | CIDR | Passerelle (Next Hop) |
 | :--- | :--- | :--- | :--- | :---: | :--- |
-| **eth0** | Transit 2 (Wan Side) | PfSense (DX02) | `10.40.10.2` | /28 | `10.40.10.1` |
-| **eth1** | Transit 3 (Lan Side) | Cœur L3 (DX04) | `10.40.20.1` | /28 | N/A (Est la GW de DX04) |
+| **eth0** | Transit 2 (Wan Side) | PfSense (DX02) | 10.40.10.2 | /28 | 10.40.10.1 |
+| **eth1** | Transit 3 (Lan Side) | Cœur L3 (AX01) | 10.40.20.1 | /28 | N/A (Est la GW de DX04) |
 
 ## 3. Configuration du Routage (Static Routing)
 
@@ -109,4 +109,4 @@ Le routeur ne connaît pas la route vers Internet par défaut. Une route statiqu
 
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
-- **Serveur Cible :** `10.20.20.x` (IP du serveur DHCP à définir).
+- **Serveur Cible :** `10.20.20.8`.
