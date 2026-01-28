@@ -44,7 +44,7 @@ Avant de taper ces commandes, il faut entrer en mode configuration via la comman
 
 ---
 
-## 1.1) Configuration des Interfaces (Niveau 2 & 3)
+### 1.1) Configuration des Interfaces (Niveau 2 & 3)
 
 Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par le VLAN.
 
@@ -59,7 +59,7 @@ Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par
 
 ---
 
-## 1.2) Configuration du Routage (Statique)
+### 1.2) Configuration du Routage (Statique)
 
 | Objectif | Syntaxe de la commande | Exemple Concret |
 | :--- | :--- | :--- |
@@ -69,7 +69,7 @@ Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par
 
 ---
 
-## 1.3) Diagnostic et Vérification (Interface & Route statique)
+### 1.3) Diagnostic et Vérification (Interface & Route statique)
 
 Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utiliser `run` devant si vous êtes en config).
 
@@ -85,7 +85,7 @@ Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utili
 
 ---
 
-## 1.4) Système et Services de Base à connaitre
+### 1.4) Système et Services de Base à connaitre
 
 | Objectif | Syntaxe de la commande | Description |
 | :--- | :--- | :--- |
@@ -95,11 +95,11 @@ Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utili
 
 ---
 
-## 2) Firewalling (Bases - Stateless / Stateful)
+# 2) Firewalling (Bases - Stateless / Stateful)
 
 Respecter l’ordre : définir politique → règles stateful → règles accept/drop → appliquer → commit → save.
 
-#### 2] Définir la politique du firewall
+### 2] Définir la politique du firewall
 
 | **Étape** | **Commande généralisée**                                        | **Fonctionnalité / Explication**                                                               | **Remarques / prérequis**                                                   |
 | --------: | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
@@ -107,7 +107,7 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 |         2 | (optionnel) `set firewall name <FW_NAME> default-action accept` | Fixe la politique par défaut pour autoriser tout trafic non filtré.                            | Rarement utilisé en production ; généralement pour tests.                   |
 
 
-#### 2.1) Règles stateful (retour de connexion)
+### 2.1) Règles stateful (retour de connexion)
 
 | **Étape** | **Commande généralisée**                                      | **Fonctionnalité / Explication**                                                            | **Remarques / prérequis**                                                                  |
 | --------: | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -115,7 +115,7 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 |         2 | `set firewall ipv4 name <FW_NAME> rule <N> state related`     | Autorise les paquets considérés liés à une connexion existante (ex : flux complémentaires). | Complète la fonctionnalité stateful. Numérotation `<N>` souvent juste après `established`. |
 
 
-#### 2.2) Règles d’autorisation ou de blocage
+### 2.2) Règles d’autorisation ou de blocage
 
 | **Étape** | **Commande généralisée**                                                  | **Fonctionnalité / Explication**                                     | **Remarques / prérequis**                                                  |
 | --------: | ------------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -125,7 +125,7 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 |         4 | `set firewall ipv4 name <FW_NAME> rule <N> destination address <IP/CIDR>` | Restreint l’application de la règle à certaines adresses ou réseaux. | Permet un filtrage fin par destination.                                    |
 
 
-#### 2.3) Appliquer le firewall, valider et sauvegarder
+### 2.3) Appliquer le firewall, valider et sauvegarder
 
 | **Étape** | **Commande généralisée**                                           | **Fonctionnalité / Explication**                                                   | **Remarques / prérequis**                                          |
 | --------: | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
@@ -137,13 +137,13 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 ---
 
 
-## 3) Service DHCP-RELAY
+# 3) Service DHCP-RELAY
 
 ### But et principe rapide
 
 Le DHCP relay permet au routeur VyOS de rediriger les requêtes DHCP reçues sur des sous-réseaux locaux vers un/des serveurs DHCP centralisés (IPv4 et IPv6 supportés). Toutes les interfaces impliquées (interfaces d’écoute et l’interface vers le(s) serveur(s)) doivent être listées dans la configuration du relay.
 
-### 3.1)Tableau des commandes service dhcp-relay (IPv4)
+### 3.1) Tableau des commandes service dhcp-relay (IPv4)
 | **Commande**                                                        | **Fonctionnalité**             | **À quoi ça sert concrètement**                           | **Remarques / Bonnes pratiques**                                                  |
 | ------------------------------------------------------------------- | ------------------------------ | --------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | `set service dhcp-relay`                                            | Active le service DHCP Relay   | Permet à VyOS d’agir comme agent relais DHCP              | Le service ne fonctionne que si au moins une interface et un serveur sont définis |
@@ -153,7 +153,7 @@ Le DHCP relay permet au routeur VyOS de rediriger les requêtes DHCP reçues sur
 | `set service dhcp-relay relay-options hop-count <0-255>`            | Limite de sauts DHCP           | Empêche les boucles infinies de relay                     | Valeur par défaut : **10**                                                        |
 | `set service dhcp-relay disable`                                    | Désactivation du service       | Coupe complètement le DHCP Relay                          | Utile en phase de test                                                            |
 
-### 3.2)Tableau de vérification service dhcp-relay (diagnostic)
+### 3.2) Tableau de vérification service dhcp-relay (diagnostic)
 | **Commande**                           | **Objectif**                     |                           |
 | -------------------------------------- | -------------------------------- | ------------------------- |
 | `show service dhcp-relay`              | Vérifier la configuration active |                           |
