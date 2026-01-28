@@ -16,17 +16,16 @@ Ce document recense les commandes nécessaires pour configurer les interfaces, l
 
  - [1) Mode Configuration](#1-mode-configuration)
    - [1.1 Configuration des Interfaces](#11-configuration-des-interfaces-niveau-2--3)
-   - [1.2 Configuration du Routage](#12-configuration-du-routage)
-   - [1.3) Diagnostic et Vérification](#diagnostic-et-vérification)
-   - [1.4) Système et Services de Base](#système-et-services-de-base)
-- [2) Firewalling](#2-firewalling)
-   - [2.1) Politique du firewall](#politique-du-firewall)
-   - [2.2) Règles stateful](#règles-stateful)
-   - [2.3) Règles d'autorisation/blocage](#règles-dautorisationblocage)
-   - [2.4) Application et validation](#application-et-validation)
-- [3) Service DHCP-RELAY](#3-service-dhcp-relay)
-   - [3.1) Commandes DHCP-Relay](#commandes-dhcp-relay)
-   - [3.2) Vérification DHCP](#vérification-dhcp)
+   - [1.2 Configuration du Routage](#12-configuration-du-routage-statique)
+  - [1.3 Diagnostic et Vérification](#13-diagnostic-et-vérification-interface--route-statique)
+  - [1.4 Système et Services de Base](#14-système-et-services-de-base-à-connaitre)
+- [2] Firewalling](#2-firewalling-bases---stateless--stateful)
+  - [2.1 Règles stateful](#21-règles-stateful-retour-de-connexion)
+  - [2.2 Règles d'autorisation/blocage](#22-règles-dautorisation-ou-de-blocage)
+  - [2.3 Application et validation](#23-appliquer-le-firewall-valider-et-sauvegarder)
+- [3] Service DHCP-RELAY](#3-service-dhcp-relay)
+  - [3.1 Commandes DHCP-Relay](#31-tableau-des-commandes-service-dhcp-relay-ipv4)
+  - [3.2 Vérification DHCP](#32-tableau-de-vérification-service-dhcp-relay-diagnostic)
 
 
 # 1) Mode Configuration 
