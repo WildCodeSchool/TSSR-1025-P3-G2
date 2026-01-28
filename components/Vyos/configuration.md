@@ -5,7 +5,7 @@
 **OS Cible :** VyOS 1.4+
 **Objectif :** Synthèse des commandes pour le déploiement des routeurs (Backbone & Cœur).
 
-Ce document recense les commandes nécessaires pour configurer les interfaces, le routage, les services de base et le pare-feu, ainsi que les commandes de gestion du cycle de vie de la configuration.
+Ce document recense les commandes nécessaires pour configurer les interfaces, le routage, les services de base et (le pare-feu, qui arrive d'ici peu), ainsi que les commandes de gestion du cycle de vie de la configuration.
 
 ---
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/21b27a7025fab3dfd82126510316727acf065d8a/components/Vyos/ressources/Logo%20Vyos/background.png)
