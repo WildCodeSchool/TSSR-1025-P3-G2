@@ -15,7 +15,7 @@ Ce document recense les commandes nécessaires pour configurer les interfaces, l
 ## Table des Matières 📋
 
  - [1) Mode Configuration](#1-mode-configuration)
-   - [1.1) Configuration des Interfaces](#11-configuration-des-interfaces)
+   - [1.1 Configuration des Interfaces](#11-configuration-des-interfaces-niveau-2--3)
    - [1.2) Configuration du Routage](#12-configuration-du-routage)
    - [1.3) Diagnostic et Vérification](#diagnostic-et-vérification)
    - [1.4) Système et Services de Base](#système-et-services-de-base)
