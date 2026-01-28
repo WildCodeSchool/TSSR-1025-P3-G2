@@ -295,7 +295,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/protocols%20static.PNG)
 
 
-*Cette vue filtrée permet de valider d'un coup d'œil que toutes les routes statiques ont été saisies correctement sans avoir à lire toute la config.*
+*Cette commande permet bien de valider que toutes les routes statiques ont été saisies correctement sans avoir à lire toute la config.*
 
 # 4.3 Validation Visuelle - Service dhcp-relay Switch L3 Core
 
