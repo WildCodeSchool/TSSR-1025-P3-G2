@@ -1,4 +1,4 @@
-# Configuration - VyOS 🛠️
+# Configuration - VyOS 
 
 **Projet :** EcoTech Solutions
 **Groupe :** 2
@@ -12,7 +12,7 @@ Ce document recense les commandes nécessaires pour configurer les interfaces, l
 
 ---
 
-# Table des Matières 📋
+# Table des Matières 
 
  - [1) Mode Configuration](#1-mode-configuration)
    - [1.1 Configuration des Interfaces](#11-configuration-des-interfaces-niveau-2--3)
@@ -167,7 +167,7 @@ Le DHCP relay permet au routeur VyOS de rediriger les requêtes DHCP reçues sur
 ---
 ---
 
-## 4.1 Validation Visuelle
+## 4.1 Validation Visuelle - Switch L3 Core AX01
 
 Cette section illustre l'état du routeur **AX01 (Cœur-L3)** une fois la configuration appliquée. Sur le Projet 3 réalisé par le Groupe 2.
 
@@ -297,3 +297,16 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
 
 *Cette vue filtrée permet de valider d'un coup d'œil que toutes les routes statiques ont été saisies correctement sans avoir à lire toute la config.*
 
+# 4.3 Validation Visuelle - Service dhcp-relay Switch L3 Core
+
+Cette section illustre l'état du service dhcp-relay sur **AX01 Server-Core**. Sur le Projet 3 réalisé par le Groupe 2.
+
+### 4.1 État des interfaces du service dhcp-relay
+
+Commande : 
+
+    show service dhcp-relay
+
+![image]()
+
+*description*
