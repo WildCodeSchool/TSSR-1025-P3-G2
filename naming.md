@@ -33,8 +33,8 @@ Pour masquer l'organigramme de la société, les départements sont identifiés 
 - **D03** : Communication (COM)
 - **D04** : Direction (DIR)
 - **D05** : Développement (DEV)
-- **D06** : DSI (DSI)
-- **D07** : Finance et Comptabilité (CPTA)
+- **D06** : Finance et Comptabilité (CPTA)
+- **D07** : DSI (DSI)
 
 **Exemple de chemin (Distinguished Name) :** **ECOTECH > BDX > UX > D04 > S01 anboutaleb** (Utilisateur de la Direction).
 
