@@ -1,4 +1,4 @@
-# Configuration - VyOS
+# Configuration - VyOS 🛠️
 
 **Projet :** EcoTech Solutions
 **Groupe :** 2
@@ -11,7 +11,25 @@ Ce document recense les commandes nécessaires pour configurer les interfaces, l
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/21b27a7025fab3dfd82126510316727acf065d8a/components/Vyos/ressources/Logo%20Vyos/background.png)
 
 ---
-## Gestion du Cycle de Vie (Mode Configuration)
+
+## Table des Matières 📋
+
+ - [1] Mode Configuration](#1-mode-configuration)
+  - [1.1 Configuration des Interfaces](#11-configuration-des-interfaces)
+  - [1.2 Configuration du Routage](#12-configuration-du-routage)
+  - [Diagnostic et Vérification](#diagnostic-et-vérification)
+  - [Système et Services de Base](#système-et-services-de-base)
+- [2] Firewalling](#2-firewalling)
+  - [Politique du firewall](#politique-du-firewall)
+  - [Règles stateful](#règles-stateful)
+  - [Règles d'autorisation/blocage](#règles-dautorisationblocage)
+  - [Application et validation](#application-et-validation)
+- [3] Service DHCP-RELAY](#3-service-dhcp-relay)
+  - [Commandes DHCP-Relay](#commandes-dhcp-relay)
+  - [Vérification DHCP](#vérification-dhcp)
+
+
+# 1] Mode Configuration 
 
 Avant de taper ces commandes, il faut entrer en mode configuration via la commande `configure`.
 
@@ -26,7 +44,7 @@ Avant de taper ces commandes, il faut entrer en mode configuration via la comman
 
 ---
 
-## Configuration des Interfaces (Niveau 2 & 3)
+## 1.1] Configuration des Interfaces (Niveau 2 & 3)
 
 Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par le VLAN.
 
@@ -41,7 +59,7 @@ Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par
 
 ---
 
-## Configuration du Routage (Statique)
+## 1.2] Configuration du Routage (Statique)
 
 | Objectif | Syntaxe de la commande | Exemple Concret |
 | :--- | :--- | :--- |
@@ -51,7 +69,7 @@ Remplacez `[X]` par le numéro de l'interface (ex: `eth0`, `eth1`) et `[ID]` par
 
 ---
 
-## Diagnostic et Vérification (Interface & Route statique)
+## 1.1] Diagnostic et Vérification (Interface & Route statique)
 
 Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utiliser `run` devant si vous êtes en config).
 
@@ -67,7 +85,7 @@ Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utili
 
 ---
 
-## Système et Services de Base à connaitre
+## 1.1] Système et Services de Base à connaitre
 
 | Objectif | Syntaxe de la commande | Description |
 | :--- | :--- | :--- |
@@ -77,39 +95,49 @@ Ces commandes se tapent en mode utilisateur (pas besoin de `configure`, ou utili
 
 ---
 
-## Firewalling (Bases - Stateless / Stateful)
+## 2] Firewalling (Bases - Stateless / Stateful)
 
-*Note : VyOS utilise des "Rulesets" qu'on attache ensuite à une interface et une direction (`in`, `out`, `local`).*
+Respecter l’ordre : définir politique → règles stateful → règles accept/drop → appliquer → commit → save.
 
-| Étape | Commande | Explication |
-| :--- | :--- | :--- |
-| **1. Créer le set** | `set firewall name [NOM_SET] default-action 'drop'` | Crée un pare-feu qui bloque tout par défaut. |
-| **2. Autoriser le retour** | `set firewall name [NOM_SET] rule 10 action 'accept'`<br>`set firewall name [NOM_SET] rule 10 state established 'enable'`<br>`set firewall name [NOM_SET] rule 10 state related 'enable'` | Indispensable : autorise les réponses aux connexions initiées. |
-| **3. Autoriser SSH** | `set firewall name [NOM_SET] rule 20 action 'accept'`<br>`set firewall name [NOM_SET] rule 20 protocol 'tcp'`<br>`set firewall name [NOM_SET] rule 20 destination port '22'` | Autorise le port 22 entrant. |
-| **4. Attacher (Direction)** | `set interfaces ethernet eth[X] firewall local name [NOM_SET]` | Applique les règles au trafic destiné au routeur lui-même (Local). |
+#### 2] Définir la politique du firewall
+
+| **Étape** | **Commande généralisée**                                        | **Fonctionnalité / Explication**                                                               | **Remarques / prérequis**                                                   |
+| --------: | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+|         1 | `set firewall name <FW_NAME> default-action drop`               | Fixe l’action par défaut pour tout trafic ne correspondant à aucune règle : ici blocage total. | Toujours la première étape pour respecter le principe du moindre privilège. |
+|         2 | (optionnel) `set firewall name <FW_NAME> default-action accept` | Fixe la politique par défaut pour autoriser tout trafic non filtré.                            | Rarement utilisé en production ; généralement pour tests.                   |
+
+
+#### 2] Règles stateful (retour de connexion)
+
+| **Étape** | **Commande généralisée**                                      | **Fonctionnalité / Explication**                                                            | **Remarques / prérequis**                                                                  |
+| --------: | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+|         1 | `set firewall ipv4 name <FW_NAME> rule <N> state established` | Autorise les paquets appartenant à des connexions déjà établies (réponses).                 | Placer en priorité haute dans les règles pour permettre le retour des flux légitimes.      |
+|         2 | `set firewall ipv4 name <FW_NAME> rule <N> state related`     | Autorise les paquets considérés liés à une connexion existante (ex : flux complémentaires). | Complète la fonctionnalité stateful. Numérotation `<N>` souvent juste après `established`. |
+
+
+#### 2] Règles d’autorisation ou de blocage
+
+| **Étape** | **Commande généralisée**                                                  | **Fonctionnalité / Explication**                                     | **Remarques / prérequis**                                                  |
+| --------: | ------------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+|         1 | `set firewall ipv4 name <FW_NAME> rule <N> action accept`                 | Permet le passage des paquets correspondant aux critères définis.    | À placer avant les règles de blocage si nécessaire.                        |
+|         2 | `set firewall ipv4 name <FW_NAME> rule <N> action drop`                   | Bloque silencieusement le trafic ciblé.                              | Utile pour bloquer explicitement certains flux malgré le `default-action`. |
+|         3 | `set firewall ipv4 name <FW_NAME> rule <N> description "<texte>"`         | Documente la règle avec une description lisible.                     | Important pour maintenance et relecture.                                   |
+|         4 | `set firewall ipv4 name <FW_NAME> rule <N> destination address <IP/CIDR>` | Restreint l’application de la règle à certaines adresses ou réseaux. | Permet un filtrage fin par destination.                                    |
+
+
+#### 2] Appliquer le firewall, valider et sauvegarder
+
+| **Étape** | **Commande généralisée**                                           | **Fonctionnalité / Explication**                                                   | **Remarques / prérequis**                                          |
+| --------: | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+|         1 | `set interfaces ethernet <if> vif <ID> firewall in name <FW_NAME>` | Applique le firewall à l’interface VLAN pour filtrer le trafic entrant.            | Répéter pour chaque VLAN concerné.                                 |
+|         2 | `commit`                                                           | Charge et applique la configuration dans le système en cours.                      | Nécessaire avant de sauvegarder ; valide toutes les modifications. |
+|         3 | `save`                                                             | Sauvegarde la configuration sur le stockage pour qu’elle survive aux redémarrages. | Toujours après `commit`.                                           |
+
 
 ---
 
-| **Étape** | **Objectif / Action**                                           | **Commande généralisée**                                                  | **Fonctionnalité / Explication**                                                                       | **Remarques / prérequis**                                                                 |
-| --------: | --------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-|         1 | Définir la politique par défaut du firewall                     | `set firewall name <FW_NAME> default-action drop`                         | Fixe l’action appliquée quand aucune règle ne matche : ici bloquer tout trafic non autorisé.           | Doit être la première règle de politique pour respecter le principe du moindre privilège. |
-|         2 | Créer la règle “retour des connexions” (stateful)               | `set firewall ipv4 name <FW_NAME> rule <N> state established`             | Autorise les paquets appartenant à des connexions déjà établies (réponses).                            | Numérotation `<N>` : placer en début de liste (priorité haute pour les réponses).         |
-|         3 | Autoriser les flux liés (connexions associées)                  | `set firewall ipv4 name <FW_NAME> rule <N> state related`                 | Autorise les paquets considérés liés à une connexion existante (ex. flux de données complémentaires).  | Généralement placée avec/juste après la règle `established`.                              |
-|         4 | Autoriser un trafic spécifique                                  | `set firewall ipv4 name <FW_NAME> rule <N> action accept`                 | Permet le passage des paquets qui correspondent aux critères de la règle (service, destination, etc.). | Définir avant les règles de blocage explicite si nécessaire.                              |
-|         5 | Bloquer explicitement un trafic ou une zone                     | `set firewall ipv4 name <FW_NAME> rule <N> action drop`                   | Refuse silencieusement le trafic ciblé ; utile pour interdictions explicites.                          | Utiliser pour interdire des réseaux/segments spécifiques malgré le `default-action`.      |
-|         6 | Documenter la règle pour la maintenance                         | `set firewall ipv4 name <FW_NAME> rule <N> description "<texte>"`         | Ajoute une étiquette humaine expliquant l’objectif de la règle.                                        | Indispensable pour relecture / examen. Texte libre mais concis.                           |
-|         7 | Restreindre la règle à une destination précise                  | `set firewall ipv4 name <FW_NAME> rule <N> destination address <IP/CIDR>` | Limite l’application de la règle aux paquets destinés à une adresse ou un réseau précis.               | Utiliser pour protéger des serveurs ou segments sensibles.                                |
-|         8 | Appliquer le firewall sur une interface VLAN (filtrage entrant) | `set interfaces ethernet <if> vif <ID> firewall in name <FW_NAME>`        | Lie le firewall nommé à une interface VLAN ; filtre le trafic entrant sur ce VLAN.                     | Assure la segmentation : répéter pour chaque VLAN concerné.                               |
-|         9 | Appliquer / activer la configuration (runtime)                  | `commit`                                                                  | Valide et charge les modifications de configuration dans le système en cours.                          | Toujours `commit` avant `save` pour rendre effectif.                                      |
-|        10 | Sauvegarder la configuration                                    | `save`                                                                    | Persiste la configuration sur le stockage pour qu’elle survive à un redémarrage.                       | À exécuter après un `commit` validé.                                                      |
 
-
-
-
----
-
-
-## Service dhcp-relay
+## 3] Service DHCP-RELAY
 
 ### But et principe rapide
 
