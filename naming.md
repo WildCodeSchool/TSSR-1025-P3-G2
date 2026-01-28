@@ -1,5 +1,7 @@
 
-Ce document définit les standards de nommage pour l'ensemble de l'infrastructure. L'objectif est d'assurer la cohérence technique tout en évitant de divulguer explicitement le rôle des machines aux yeux d'un utilisateur non autorisé.
+Ce document définit les standards de nommage pour l'ensemble de l'infrastructure.  
+L'objectif est d'assurer la cohérence technique tout en évitant de divulguer explicitement le rôle des machines aux yeux d'un utilisateur non autorisé.
+
 ## 1. Nom de Domaine
 
 - **Domaine racine** : ecotech.local
