@@ -111,7 +111,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 | **COMMUNICATION**     | 650  | 10.60.50.0 | **/24**       | 254                | 10.60.50.1     |
 | **DÉVELOPPEMENT**     | 660  | 10.60.60.0 | **/24**       | 254                | 10.60.60.1     |
 | **VOIP / IOT**        | 670  | 10.60.70.0 | **/23**       | 510                | 10.60.70.1     |
-| **Wifi (Radius)**     | 800  |  10.80.0.0 |    /23        |                         10.80.0.1
+| **Wifi (Radius)**     | 800  | 10.80.0.0  | **/23**       |                    | 10.80.0.1      |
 | **NATIVE**            | 999  | -          | -             | -                  | -              |
 
 **Note :** Les masques de sous-réseau varient (VLSM) selon les services.
@@ -121,7 +121,8 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
-- **Serveur Cible :** `10.20.20.8`.
+- **Serveur Cible :** 10.20.20.8.
+
 
 
 
