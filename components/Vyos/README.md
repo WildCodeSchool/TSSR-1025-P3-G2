@@ -70,7 +70,7 @@ Chaque réseau (VLAN) est déclaré de manière individuelle avec son propre mas
 **Rôle :** Cœur de réseau, Routage Inter-VLAN, DHCP Relay.
 
 
-# 2. Rôle et Place dans l'architecture - AX01
+# 2.1 Rôle et Place dans l'architecture - AX01
 Le routeur AX01 est le véritable cœur de l'infrastructure réseau d'EcoTech Solutions. Il agit comme une tour de contrôle centrale qui organise et sécurise la circulation des données à l'intérieur de l'entreprise. Ses missions principales se divisent en trois axes :
 
 Porte d'entrée des utilisateurs (Gateway) : C'est le point de passage obligé pour tous les équipements des collaborateurs. En "terminant" les VLANs, il sert de référence (passerelle par défaut) pour chaque ordinateur du parc, leur permettant de sortir de leur propre réseau local.
@@ -79,18 +79,28 @@ Aiguillage entre services (Routage Inter-VLAN) : AX01 assure la communication en
 
 Lien vers l'extérieur (Sortie Internet) : Lorsqu'un utilisateur souhaite accéder à une ressource externe, AX01 réceptionne la demande et la redirige intelligemment vers le Backbone (DX03), qui fait office de colonne vertébrale pour acheminer les données vers la sortie du réseau.
 
-## 2. Topologie Logique
+## 2.2 Topologie Logique
 
 | Interface | Zone | Description | Type | Adresse IP / Masque |
 | :--- | :--- | :--- | :--- | :--- |
 | **eth0** | **Transit 3** | Vers Backbone DX03 | Uplink | `10.40.20.2/28` |
 | **eth1** | **LAN** | Vers Switchs L2 | Trunk (802.1q) | *Voir tableau des VIFs* |
 
+## 2.3 Routage Statique
+
+Le routeur ne connaît pas la route vers Internet par défaut. Une route statique est nécessaire.
+
+- **Route par défaut (0.0.0.0/0)** :
+    - **Next Hop :** `10.40.20.1` (Interface eth1 du routeur DX03)
+    - **Interface de sortie :** `eth0`
+
+La communication entre les VLANs est assurée par le routeur AX01 via le routage inter-VLAN. Aucune route statique n'est nécessaire car les réseaux sont directement connectés aux interfaces du routeur, qui connaît donc nativement les chemins pour acheminer les paquets entre les segments.
+
 ## 2. Routes vers le Réseau Interne & configuration des Interfaces Virtuelles (VIF - Interface eth1)
 
 Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configurées sur les postes clients.
 
-### Zone Infrastructure (10.20.0.0/x)
+### Table de Routage - AX01
 
 | VLAN | VIF | Nom du Service | Sous-réseau | Masque | IP Passerelle (DX04) |
 | :---: | :---: | :--- | :--- | :---: | :--- |
@@ -100,7 +110,8 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 
 **Note :** Les masques de sous-réseau varient (VLSM) selon les services.
 
-### Zone Métiers (10.60.0.0/x)
+### Table de Routage - AX01
+
 | Service / Département | VLAN | Réseau IP    | Masque (CIDR) | Nbr IP Utilisables | Passerelle (DX04) |
 | --------------------- | ---- | ------------ | ------------- | ------------------ | ----------------- |
 | **MGMT (ESXi)**       | 200  | `10.20.0.0`  | **/28**       | 14                 | `10.20.0.4`       |
@@ -118,21 +129,13 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 
 **Note :** Les masques de sous-réseau varient (VLSM) selon les services.
 
-## 2. Routage Statique
-
-Le routeur ne connaît pas la route vers Internet par défaut. Une route statique est nécessaire.
-
-- **Route par défaut (0.0.0.0/0)** :
-    - **Next Hop :** `10.40.20.1` (Interface eth1 du routeur DX03)
-    - **Interface de sortie :** `eth0`
-
-La communication entre les VLANs est assurée par le routeur AX01 via le routage inter-VLAN. Aucune route statique n'est nécessaire car les réseaux sont directement connectés aux interfaces du routeur, qui connaît donc nativement les chemins pour acheminer les paquets entre les segments.
 
 ## 2. Services Associés
 
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** `10.20.20.8`.
+
 
 
 
