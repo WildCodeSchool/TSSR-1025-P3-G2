@@ -2,15 +2,15 @@
 Ce document définit les standards de nommage pour l'ensemble de l'infrastructure.  
 L'objectif est d'assurer la cohérence technique tout en évitant de divulguer explicitement le rôle des machines aux yeux d'un utilisateur non autorisé.
 
-## 1. Nom de Domaine
+# 1. Nom de Domaine
 
 - **Domaine racine** : ecotech.local
 - **Suffixe externe** : ecotechsolutions.fr
 - **NetBIOS** : ECOTECH
 
-## 2. Unités d'Organisation (OU)
+# 2. Unités d'Organisation (OU)
 
-### 2.1. Structure de l'arborescence
+## 2.1. Structure de l'arborescence
 
 L'arborescence respecte une hiérarchie à 5 niveaux permettant de classer les objets par société, localisation, type et département.
 
@@ -24,7 +24,7 @@ L'arborescence respecte une hiérarchie à 5 niveaux permettant de classer les o
 - **Niveau 4 (Département)** : Situés sous UX et RX, identifiés par les codes **D01 à D07** (ex: D04 pour la Direction).
 - **Niveau 5 (Service)** : Situés sous les départements, identifiés par les codes **S01, S02, etc.** pour une granularité maximale et une obfuscation totale de l'organigramme.
 
-### 2.2. Sous-structures des départements (dans UX et RX)
+## 2.2. Sous-structures des départements (dans UX et RX)
 
 Pour masquer l'organigramme de la société, les départements sont identifiés par des codes numériques :
 
@@ -38,7 +38,7 @@ Pour masquer l'organigramme de la société, les départements sont identifiés 
 
 **Exemple de chemin (Distinguished Name) :** **ECOTECH > BDX > UX > D04 > S01 anboutaleb** (Utilisateur de la Direction).
 
-### 2.3. Sous-structures des services (dans UX et RX)
+## 2.3. Sous-structures des services (dans UX et RX)
 
 Afin de pousser l'obfuscation jusqu'au niveau granulaire des pôles métiers, les services rattachés aux départements sont identifiés par des codes numériques **S01, S02, etc.** Ces codes sont réinitialisés pour chaque département.
 
@@ -106,7 +106,7 @@ Cette structure applique le modèle de Tiering recommandé par l'ANSSI pour gara
 En séparant la branche **GX** des utilisateurs standards **(UX)**, nous empêchons techniquement les comptes à hauts privilèges de s'authentifier sur des postes de travail vulnérables (OU **WX**).  
 Cette segmentation constitue la défense la plus efficace contre le vol d'identifiants et les mouvements latéraux d'un attaquant au sein de l'infrastructure.  
 
-## 3. Groupes de Sécurité
+# 3. Groupes de Sécurité
 
 **Format** : **GRP-Type-Département-Service**
 - **TYPE** : **UX** (Utilisateurs), **WX** (Ordinateurs).
@@ -123,7 +123,7 @@ Cette segmentation constitue la défense la plus efficace contre le vol d'identi
 
 **Sécurité par obfuscation** : L'utilisation des codes neutres (**UX**, **WX**) empêche l'identification immédiate des services ciblés par les groupes.
 
-## 4. Ordinateurs
+# 4. Ordinateurs
 
 - **Format** : **ECO-CodeSite-CodeTypeNumero**
 - **CodeSite** : **BDX** (Bordeaux)
@@ -156,9 +156,9 @@ Afin de maintenir l'obfuscation, le rôle réel de la machine ne doit jamais app
 
 L'utilisation de codes neutres (**AX**, **DX**, etc.) au lieu de noms explicites (AD, SRV, FW) vise à ralentir la phase de reconnaissance d'un attaquant. Sans information directe sur la fonction du serveur dans son nom, l'identification des cibles critiques (comme les contrôleurs de domaine) devient plus complexe, renforçant ainsi la posture de sécurité globale de l'infrastructure.
 
-## 5. Comptes Utilisateurs
+# 5. Comptes Utilisateurs
 
-### 5.1. Comptes Standards
+## 5.1. Comptes Standards
 
 Les comptes standards sont utilisés pour les tâches quotidiennes (messagerie, bureautique, navigation web).
 
@@ -169,7 +169,7 @@ Les comptes standards sont utilisés pour les tâches quotidiennes (messagerie, 
 	- **Exemple** : Anis BOUTALEB devient **anboutaleb**.
 - **Gestion des homonymes** : En cas de doublon, un chiffre incrémental est ajouté à la fin de l'identifiant (ex : **anboutaleb**, **anboutaleb1**).
 
-### 5.2. Comptes d'Administration
+## 5.2. Comptes d'Administration
 
 Pour garantir le respect du principe du moindre privilège et masquer les comptes critiques, nous utilisons le code neutre **GX** (lié aux stations d'administration) suivi d'une lettre de fonction.
 
@@ -204,7 +204,7 @@ L'alignement des comptes standards sur le format de messagerie assure une adopti
 Pour les administrateurs, l'utilisation du préfixe **GX** couplé à une segmentation fonctionnelle (**P, I, N, B...**) permet d'appliquer strictement le principe du moindre privilège.  
 Cette approche réduit le rayon d'exposition en cas de compromission d'un compte et empêche l'identification des cibles critiques par simple énumération de l'annuaire, tout en garantissant une traçabilité nominative totale.
 
-## 6. Stratégies de Groupe (GPO)
+# 6. Stratégies de Groupe (GPO)
 
 Le nom de chaque GPO doit permettre d'identifier immédiatement sa cible, sa portée et sa version, tout en suivant un index unique pour le suivi documentaire.
 
@@ -244,7 +244,7 @@ L'intégration d'un **ID unique** et d'un **numéro de version** directement dan
 Cette rigueur permet d'éviter les conflits lors de déploiements complexes et facilite grandement le dépannage (troubleshooting) en permettant de corréler une modification technique avec une date et un auteur dans le journal de bord du projet.  
 Le préfixe cible/type (**CR, CP, UR, UP**) permet de visualiser instantanément sur quelle partie de la ruche (ordinateur ou utilisateur) la stratégie agit, optimisant ainsi le temps d'administration.
 
-## 7. Tags Proxmox (Gestion Lab)
+# 7. Tags Proxmox (Gestion Lab)
 
 L'utilisation des tags est obligatoire pour la gestion de l'inventaire dans l'hyperviseur :
 
