@@ -48,7 +48,6 @@ Chaque réseau (VLAN) est déclaré de manière individuelle avec son propre mas
 | 10.60.60.0        | /24           | 10.40.20.2              | eth1      | VLAN 660 - Développement |
 | 10.60.70.0        | /23           | 10.40.20.2              | eth1      | VLAN 670 - VOIP / IOT |
 
-.0
 ## 1.3 Services d'Administration
 - **SSH :** Port 22
 - **Accès :** Restreint aux IPs d'administration (VLAN 210 via le routage).
@@ -122,6 +121,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** 10.20.20.8.
+
 
 
 
