@@ -30,14 +30,11 @@ Le Backbone doit savoir où se trouvent les réseaux utilisateurs (10.20.x.x et 
 Le routage est sommaire (super-netting) pour simplifier la table de routage.
 
 - **Destination :** `10.20.0.0/16` (Zone Infra)
-- **Next Hop :** `10.40.20.2` (Interface Uplink du DX04)
+- **Next Hop :** `10.40.20.2` (Interface Uplink du AX01)
 
 - **Destination :** `10.60.0.0/16` (Zone Métiers)
-- **Next Hop :** `10.40.20.2` (Interface Uplink du DX04)
+- **Next Hop :** `10.40.20.2` (Interface Uplink du AX01)
 
-*(Note : Une route globale `10.0.0.0/8` vers `10.40.20.2` est aussi possible si aucun autre réseau 10.x.x.x ne se trouve côté PfSense).*
-
-*Voir si changement*
 ## 4. Services d'Administration
 - **SSH :** Port 22
 - **Accès :** Restreint aux IPs d'administration (VLAN 210 via le routage).
@@ -45,7 +42,7 @@ Le routage est sommaire (super-netting) pour simplifier la table de routage.
 ----
 ----
 
-# Documentation Technique - Routeur Cœur L3 (DX04)
+# Documentation Technique - Routeur Cœur L3 (AX01)
 
 **Projet :** EcoTech Solutions - Sprint 2
 **Groupe :** 2
@@ -54,7 +51,7 @@ Le routage est sommaire (super-netting) pour simplifier la table de routage.
 **Rôle :** Cœur de réseau, Routage Inter-VLAN, DHCP Relay.
 
 ## 1. Description de l'élément
-Le routeur DX04 est le point central de l'infrastructure LAN.
+Le routeur AX01 est le point central de l'infrastructure LAN.
 - Il termine les VLANs utilisateurs (Gateway).
 - Il route le trafic entre les différents départements (Inter-VLAN).
 - Il redirige le trafic Internet vers le Backbone (DX03).
@@ -87,14 +84,14 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 | **MGMT (ESXi)**       | 200  | `10.20.0.0`  | **/28**       | 14                 | `10.20.0.4`       |
 | **Admin IT** t1       | 210  | `10.20.10.0` | **/28**       | 14                 | `10.20.10.1`      |
 | **SERVEURS**          | 220  | `10.20.20.0` | **/27**       | 30                 | `10.20.20.1`      |
-| **DIRECTION**         | 600  | `10.60.0.0`  | **/27**       | 62                 | `10.60.0.1`       |
-| **DSI**               | 610  | `10.60.10.0` | **/27**       | 32                 | `10.60.10.1`      |
-| **DRH**               | 620  | `10.60.20.0` | **/26**       | 32                 | `10.60.20.1`      |
-| **COMMERCIAL**        | 630  | `10.60.30.0` | **/25**       | 126                | `10.60.30.1`      |
-| **FINANCE / COMPTA**  | 640  | `10.60.40.0` | **/26**       | 62                 | `10.60.40.1`      |
-| **COMMUNICATION**     | 650  | `10.60.50.0` | **/26**       | 62                 | `10.60.50.1`      |
-| **DÉVELOPPEMENT**     | 660  | `10.60.60.0` | **/26**       | 62                 | `10.60.60.1`      |
-| **VOIP / IOT**        | 670  | `10.60.70.0` | **/23**       | 126                | `10.60.70.1`      |
+| **DIRECTION**         | 600  | `10.60.0.0`  | **/24**       | 254                | `10.60.0.1`       |
+| **DSI**               | 610  | `10.60.10.0` | **/24**       | 254                | `10.60.10.1`      |
+| **DRH**               | 620  | `10.60.20.0` | **/24**       | 254                | `10.60.20.1`      |
+| **COMMERCIAL**        | 630  | `10.60.30.0` | **/24**       | 254                | `10.60.30.1`      |
+| **FINANCE / COMPTA**  | 640  | `10.60.40.0` | **/24**       | 254                | `10.60.40.1`      |
+| **COMMUNICATION**     | 650  | `10.60.50.0` | **/24**       | 254                | `10.60.50.1`      |
+| **DÉVELOPPEMENT**     | 660  | `10.60.60.0` | **/24**       | 254                | `10.60.60.1`      |
+| **VOIP / IOT**        | 670  | `10.60.70.0` | **/23**       | 510                | `10.60.70.1`      |
 | **NATIVE**            | 999  | -            | -             | -                  | -                 |
 
 ## 4. Routage Statique
@@ -110,3 +107,4 @@ Le routeur ne connaît pas la route vers Internet par défaut. Une route statiqu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** `10.20.20.8`.
+
