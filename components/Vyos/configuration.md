@@ -170,7 +170,7 @@ Le DHCP relay permet au routeur VyOS de rediriger les requêtes DHCP reçues sur
 
 Cette section illustre l'état du routeur **AX01 (Cœur-L3)** une fois la configuration appliquée. Sur le Projet 3 réalisé par le Groupe 2.
 
-![image]( )
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/59fb98e20398b73df28ac2145234b417a611e4f6/components/Vyos/ressources/Logo%20Vyos/Firefly_Macro%20photography%20of%20a%20sleek%20enterprise%20rack-mounted%20router%20in%20a%20server%20room.%20On%20the%20%20746892.png)
 
 ### 7.1.1 État des Interfaces (VLANs et Adressage)
 > **Commande tapée :** `show interfaces`
