@@ -7,11 +7,11 @@ VyOS est un système d'exploitation réseau open-source basé sur Linux (Debian)
 
 Dans notre infrastructure EcoTech Solutions, ce serveur ne sert pas de simple machine, mais de cœur de routage. Contrairement à un pare-feu comme pfSense qui filtre et protège la sortie vers Internet, le VyOS a pour rôle principal de gérer le trafic interne entre les différentes zones (VLANs), ainsi que le routage entre les différents Zones.
 
----
+
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/21b27a7025fab3dfd82126510316727acf065d8a/components/Vyos/ressources/Logo%20Vyos/background.png)
 
----
+
 
 ## 2. Démarrage sur l’image VyOS
 
