@@ -5,16 +5,16 @@
 - **Hostname :** ECO-BDX-DX03
 - **OS :** VyOS
 
-## 1. Rôle et Place dans l'architecture
-Ce routeur assure la fonction de **Backbone de Transit**. Il sert de "pont" entre le pare-feu périmétrique (PfSense) et le cœur de réseau interne (DX04).
-Il ne porte **aucun VLAN utilisateur** et ne fait pas de NAT. Son rôle est purement le routage de paquets entre les zones de transit.
+## 1. Rôle et Place dans l'architecture - DX03
+Ce routeur assure la fonction de **Backbone de Transit**. Il sert de "pont" entre le pare-feu périmétrique (PfSense) et le cœur de réseau interne (AX01).
+Il ne porte **aucun VLAN utilisateur** et ne fait pas de NAT. Son rôle est purement le routage de paquets entre les zones de transit. Il permet non seulement de superviser le trafic réseau, mais aussi de prévoir l’évolution de l’infrastructure. Grâce à lui, il est possible d’analyser en détail les flux entre les différents segments et de détecter les éventuels goulots d’étranglement ou zones saturées.
 
 ## 2. Connexions Physiques & Adressage
 
 | Interface | Zone | Connecté à | Adresse IP | CIDR | Passerelle (Next Hop) |
-| :--- | :--- | :--- | :--- | :---: | :--- |
+| --- | --- | --- | --- | --- | --- |
 | **eth0** | Transit 2 (Wan Side) | PfSense (DX02) | 10.40.10.2 | /28 | 10.40.10.1 |
-| **eth1** | Transit 3 (Lan Side) | Cœur L3 (AX01) | 10.40.20.1 | /28 | N/A (Est la GW de DX04) |
+| **eth1** | Transit 3 (Lan Side) | Cœur L3 (AX01) | 10.40.20.1 | /28 | N/A (Est les GW de AX01, des interfaces vif de chaques VLANS) |
 
 ## 3. Configuration du Routage (Static Routing)
 
@@ -27,13 +27,15 @@ Tout le trafic sortant vers Internet est redirigé vers le PfSense.
 
 ### 3.2. Routes vers le Réseau Interne (Vers le Cœur)
 Le Backbone doit savoir où se trouvent les réseaux utilisateurs (10.20.x.x et 10.60.x.x) pour renvoyer les réponses.
-Le routage est sommaire pour simplifier la table de routage.
 
 Chaque réseau (VLAN) est déclaré de manière individuelle avec son propre masque CIDR. Cette approche permet une segmentation granulaire du trafic et facilite le diagnostic réseau : le routeur de Backbone connaît exactement chaque sous-réseau sans inclure d'adresses inutilisées ou non attribuées.
 
-Réseau Destination,CIDR,Passerelle (Next-Hop),Interface,Description
+## Table de Routage - DX03
 
-# Table de Routage
+*Pour le moment le routeur posséde ces routes spécifiques, Il peut en avoir de nouvelles ou quelques changements celon l'avancée du projet*
+
+- **eth0 via DX02**
+- **eth1 via AX01**
 
 | Réseau Destination | Masque (CIDR) | Prochain Saut (Next-Hop) | Interface | Description |
 |-------------------|---------------|-------------------------|-----------|-------------|
@@ -66,6 +68,11 @@ Réseau Destination,CIDR,Passerelle (Next-Hop),Interface,Description
 **Hostname :** `ECO-BDX-DX04`
 **OS :** VyOS 
 **Rôle :** Cœur de réseau, Routage Inter-VLAN, DHCP Relay.
+
+# 1. Rôle et Place dans l'architecture - AX01
+Ce routeur assure la fonction de **Core L3**. Il sert de "pont" entre les VLANs (6xx & 2x0) et le backbone (DX03).
+Il porte **les VLANs utilisateurs** et ne fait pas de NAT. Son rôle est purement le routage de paquets entre les zones de transit. Il permet non seulement de superviser le trafic réseau, mais aussi de prévoir l’évolution de l’infrastructure. Grâce à lui, il est possible d’analyser en détail les flux entre les différents segments et de détecter les éventuels goulots d’étranglement ou zones saturées.
+
 
 ## 1. Description de l'élément
 Le routeur AX01 est le point central de l'infrastructure LAN.
@@ -122,5 +129,6 @@ Le routeur ne connaît pas la route vers Internet par défaut. Une route statiqu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** `10.20.20.8`.
+
 
 
