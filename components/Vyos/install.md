@@ -52,7 +52,7 @@ Accéder à l’environnement VyOS pour préparer l’installation
 
 - 6] Tapez le mot :
 
-      yes
+      Yes
 
 - 7] Appuyez sur la touche "ENTRÉE"
 
