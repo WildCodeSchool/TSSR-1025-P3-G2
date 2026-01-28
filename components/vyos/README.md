@@ -1,31 +1,31 @@
-## 1. Routeur Backbone (DX03)
+# 1. Routeur Backbone (DX03)
 
-### 1.1 Rôle et Place dans l'architecture - DX03
+## 1.1 Rôle et Place dans l'architecture - DX03
 Ce routeur assure la fonction de **Backbone de Transit**. Il sert de "pont" entre le pare-feu périmétrique (PfSense) et le cœur de réseau interne (AX01).
 Il ne porte **aucun VLAN utilisateur** et ne fait pas de NAT. Son rôle est purement le routage de paquets entre les zones de transit. Il permet non seulement de superviser le trafic réseau, mais aussi de prévoir l’évolution de l’infrastructure. Grâce à lui, il est possible d’analyser en détail les flux entre les différents segments et de détecter les éventuels goulots d’étranglement ou zones saturées.
 
-### 1.2 Topologie Logique
+## 1.2 Topologie Logique
 
 | Interface | Zone | Connecté à | Adresse IP | CIDR | Passerelle (Next Hop) |
 | --- | --- | --- | --- | --- | --- |
 | **eth0** | Transit 2  | PfSense (DX02) | 10.40.10.2 | /28 | 10.40.10.1 |
 | **eth1** | Transit 3  | Cœur L3 (AX01) | 10.40.20.1 | /28 | 10.40.20.2 |
 
-### 1.3 Configuration du Routage (Static Routing)
+## 1.3 Configuration du Routage (Static Routing)
 
 Ce routeur nécessite deux types de routes pour assurer la connectivité bidirectionnelle.
 
-####  Route par défaut (Vers Internet)
+###  Route par défaut (Vers Internet)
 Tout le trafic sortant vers Internet est redirigé vers le PfSense.
 - **Destination :** 0.0.0.0/0
 - **Next Hop :** 10.40.10.1 (Interface LAN du PfSense DX02)
 
-#### Routes vers le Réseau Interne (Vers le Cœur)
+### Routes vers le Réseau Interne (Vers le Cœur)
 Le Backbone doit savoir où se trouvent les réseaux utilisateurs (10.2x.x.x et 10.6x.x.x) pour renvoyer les réponses.
 
 Chaque réseau (VLAN) est déclaré de manière individuelle avec son propre masque CIDR. Cette approche permet une segmentation granulaire du trafic et facilite le diagnostic réseau : le routeur de Backbone connaît exactement chaque sous-réseau sans inclure d'adresses inutilisées ou non attribuées.
 
-#### Table de Routage - DX03
+### Table de Routage - DX03
 
 *Pour le moment le routeur posséde ces routes spécifiques, Il peut en avoir de nouvelles ou quelques changements celon l'avancée du projet*
 
@@ -49,14 +49,14 @@ Chaque réseau (VLAN) est déclaré de manière individuelle avec son propre mas
 | 10.60.70.0        | /23           | 10.40.20.2              | eth1      | VLAN 670 - VOIP / IOT |
 
 
-### 1.3 Services d'Administration
+## 1.3 Services d'Administration
 - **SSH :** Port 22
 - **Accès :** Restreint aux IPs d'administration (VLAN 210 via le routage).
 
 
-## 2. Routeur Cœur L3 (AX01)
+# 2. Routeur Cœur L3 (AX01)
 
-### 2.1 Rôle et Place dans l'architecture - AX01
+## 2.1 Rôle et Place dans l'architecture - AX01
 Le routeur AX01 est le véritable cœur de l'infrastructure réseau d'EcoTech Solutions. Il agit comme une tour de contrôle centrale qui organise et sécurise la circulation des données à l'intérieur de l'entreprise. Ses missions principales se divisent en trois axes :
 
 Porte d'entrée des utilisateurs (Gateway) : C'est le point de passage obligé pour tous les équipements des collaborateurs. En "terminant" les VLANs, il sert de référence (passerelle par défaut) pour chaque ordinateur du parc, leur permettant de sortir de leur propre réseau local.
@@ -65,14 +65,14 @@ Aiguillage entre services (Routage Inter-VLAN) : AX01 assure la communication en
 
 Lien vers l'extérieur (Sortie Internet) : Lorsqu'un utilisateur souhaite accéder à une ressource externe, AX01 réceptionne la demande et la redirige intelligemment vers le Backbone (DX03), qui fait office de colonne vertébrale pour acheminer les données vers la sortie du réseau.
 
-### 2.2 Topologie Logique
+## 2.2 Topologie Logique
 
 | Interface | Zone | Description | Type | Adresse IP / Masque |
 | :--- | :--- | :--- | :--- | :--- |
 | **eth0** | **Transit 3** | Vers Backbone DX03 | Uplink | 10.40.20.2/28 |
 | **eth1** | **LAN** | Vers Switchs L2 | Trunk (802.1q) | *Voir tableau des VIFs* |
 
-### 2.3 Routage Statique
+## 2.3 Routage Statique
 
 Le routeur ne connaît pas la route vers Internet par défaut. Une route statique est nécessaire.
 
@@ -82,7 +82,7 @@ Le routeur ne connaît pas la route vers Internet par défaut. Une route statiqu
 
 La communication entre les VLANs est assurée par le routeur AX01 via le routage inter-VLAN. Aucune route statique n'est nécessaire car les réseaux sont directement connectés aux interfaces du routeur, qui connaît donc nativement les chemins pour acheminer les paquets entre les segments.
 
-### 2.4 Routes vers le Réseau Interne & configuration des Interfaces Virtuelles (VIF - Interface eth1)
+## 2.4 Routes vers le Réseau Interne & configuration des Interfaces Virtuelles (VIF - Interface eth1)
 
 Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configurées sur les postes clients.
 
@@ -117,11 +117,12 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 **Note :** Les masques de sous-réseau varient (VLSM) selon les services.
 
 
-### 2.5 Services Associés
+## 2.5 Services Associés
 
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** 10.20.20.8.
+
 
 
 
