@@ -13,7 +13,7 @@
 
 Ce document détaille le fonctionnement du script Synchro-Ecotech.ps1.  
 IL assure le déploiement automatisé de l'infrastructure (OUs), la création des comptes utilisateurs et la gestion des groupes de sécurité à partir d'un fichier source "Fiche_Personnel.csv"  
-Il respecte la nomenclature établie dans le fichier naming.md (lien hypertexte)
+Il respecte la nomenclature établie dans le fichier [naming](/naming.md).
 
 ## 1. Logique du script (Pseudo-code) :
 
@@ -214,7 +214,7 @@ Exemple :
 
 ### 2.3. Construction Dynamique des Groupes
 
-Le script applique la nomenclature définie dans le document naming.md (lien hypertexte)
+Le script applique la nomenclature définie dans le document [naming](/naming.md).
 
 ``` PowerShell
 
