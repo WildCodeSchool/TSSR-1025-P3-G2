@@ -100,16 +100,6 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 
 ### Table de Routage - AX01
 
-| VLAN | VIF | Nom du Service | Sous-réseau | Masque | IP Passerelle (DX04) |
-| :---: | :---: | :--- | :--- | :---: | :--- |
-| **200** | 200 | MGMT (Core) | 10.20.0.0 | /28 | 10.20.0.1 |
-| **210** | 210 | DSI / ADMIN | 10.20.10.0 | /28 | 10.20.10.1 |
-| **220** | 220 | SERVEURS | 10.20.20.0 | /27 | 10.20.20.1 |
-
-**Note :** Les masques de sous-réseau varient (VLSM) selon les services.
-
-### Table de Routage - AX01
-
 | Service / Département | VLAN | Réseau IP    | Masque (CIDR) | Nbr IP Utilisables | Passerelle (DX04) |
 | --------------------- | ---- | ------------ | ------------- | ------------------ | ----------------- |
 | **MGMT (Core)**       | 200  | 10.20.0.0  | **/28**       | 14                 | 10.20.0.1      |
@@ -134,6 +124,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** 10.20.20.8.
+
 
 
 
