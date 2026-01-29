@@ -1,6 +1,6 @@
 # Table des matieres :
 
-# [Automatisation du Déploiement Active Directory](#automatisation-du-deploiement-active-directory-)
+## [Automatisation du Déploiement Active Directory](#automatisation-du-deploiement-active-directory-)
 
 - [1. Logique du script (Pseudo-code)](#1-logique-du-script-pseudo-code-)
 - [2. Quelques points techniques.](#2-quelques-points-techniques)
@@ -9,11 +9,15 @@
   - [2.3. Construction Dynamique des Groupes](#23-construction-dynamique-des-groupes)
 - [3. Conclusion](#3-conclusion)
 
+---
+
 # Automatisation du Déploiement Active Directory
 
 Ce document détaille le fonctionnement du script Synchro-Ecotech.ps1.  
 IL assure le déploiement automatisé de l'infrastructure (OUs), la création des comptes utilisateurs et la gestion des groupes de sécurité à partir d'un fichier source "Fiche_Personnel.csv"  
 Il respecte la nomenclature établie dans le fichier [naming](/naming.md).
+
+---
 
 ## 1. Logique du script (Pseudo-code) :
 
@@ -168,9 +172,13 @@ Le script suit une logique séquentielle :
 
 ```
 
+---
+
 ## 2. Quelques points techniques.
 
 Le script intègre plusieurs mécanismes de sécurité et de standardisation pour gérer les cas limites (accents, doublons, structure dynamique).
+
+---
 
 ### 2.1. Normalisations des Données
 
@@ -188,6 +196,8 @@ return $Text -replace '[^a-z0-9]', ''
 L'Active Directory tolère mal les accents ou les caractères spéciaux.  
 La normalisation des caractères permet que le domaine se retrouve avec la même écriture.  
 
+---
+
 ### 2.2. Gestion Automatique des doublons :
 
 Pour éviter des erreurs de doublons qui pourraient bloquer le script, les homonymes sont gèrés automatiquement.
@@ -204,13 +214,17 @@ while (Get-ADUser -Filter "SamAccountName -eq '$SamAccountName'" -ErrorAction Si
     $Counter++ 
 }
 
-``` 
+```
+
+---
 
 Le script prend en compte les utilsateurs.  
 Il les analyse, si l'ID est déjà pris.
 Un suffixe numérique est rajouté.  
 Exemple :  
 - adabbassi devient adabbassi1 ou adabbassi2. (Le chiffre augmente jusqu'à trouver un ID libre).
+
+---
 
 ### 2.3. Construction Dynamique des Groupes
 
@@ -232,6 +246,10 @@ if (!(Get-ADGroup -Filter "Name -eq '$GrpName'")) {
 
 Le script n'utilise pas de noms de groupes statiques. Il assemble dynamiquement le nom en combinant le code Département (Dxx) et le code Service (Sxx) généré lors de l'analyse du CSV. Le groupe est ensuite automatiquement rangé dans l'OU RX (Ressources), séparant proprement les utilisateurs des droits d'accès.
 
+---
+
 ## 3. Conclusion
 
 Le script permet de passer du "Fichier_Personnel.csv" à une infrastructure Active Directory complète et conforme.
+
+---
