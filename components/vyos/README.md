@@ -43,7 +43,7 @@ Le trafic destiné aux serveurs ou aux PC utilisateurs est renvoyé vers l'inté
 
 *Pour le moment le routeur posséde ces routes spécifiques, Il peut en avoir de nouvelles ou quelques changements celon l'avancée du projet*
 
-- **eth0 via DX02**
+- **eth0 via DX01 & DX02**
 - **eth1 via AX01**
 
 | Réseau Destination | Masque (CIDR) | Prochain Saut (Next-Hop) | Interface | Description |
@@ -134,6 +134,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** 10.20.20.8.
+
 
 
 
