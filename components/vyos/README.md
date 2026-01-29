@@ -66,64 +66,75 @@ Le trafic destiné aux serveurs ou aux PC utilisateurs est renvoyé vers l'inté
 - **SSH :** Port 22
 - **Accès :** Restreint aux IPs d'administration (VLAN 210 via le routage).
 
-# 2. Routeur Cœur L3 (AX01)
+# 2. Routeur Cœur de Réseau (DX04)
 
-## 2.1 Rôle et Place dans l'architecture - AX01
-Le routeur AX01 est le véritable cœur de l'infrastructure réseau d'EcoTech Solutions. Il agit comme une tour de contrôle centrale qui organise et sécurise la circulation des données à l'intérieur de l'entreprise. Ses missions principales se divisent en trois axes :
-
-Porte d'entrée des utilisateurs (Gateway) : C'est le point de passage obligé pour tous les équipements des collaborateurs. En "terminant" les VLANs, il sert de référence (passerelle par défaut) pour chaque ordinateur du parc, leur permettant de sortir de leur propre réseau local.
-
-Aiguillage entre services (Routage Inter-VLAN) : AX01 assure la communication entre les différents départements (par exemple, permettre au service Développement d'accéder aux serveurs de l'unité Infrastructure). Il segmente le trafic pour éviter que tout le réseau ne soit "mélangé", tout en créant des ponts sécurisés là où c'est nécessaire.
-
-Lien vers l'extérieur (Sortie Internet) : Lorsqu'un utilisateur souhaite accéder à une ressource externe, AX01 réceptionne la demande et la redirige intelligemment vers le Backbone (DX03), qui fait office de colonne vertébrale pour acheminer les données vers la sortie du réseau.
+## 2.1 Rôle et Place dans l'architecture - DX04
+Ce routeur assure la fonction de **Cœur de Réseau L3** (Layer 3). Il sert de "pont" entre la zone de transit (vers le Backbone DX03) et l'ensemble des réseaux internes de l'entreprise (Zones Infra et Utilisateurs).
+Contrairement au routeur de transit, il porte **tous les VLANs utilisateurs** et assure le routage Inter-VLAN. Son rôle est de centraliser les passerelles par défaut des différents services. Il permet de segmenter le trafic interne et d'appliquer les premières politiques de sécurité entre les zones. Grâce à lui, il est possible de garantir que les flux entre les serveurs et les utilisateurs transitent par un point de contrôle unique.
 
 ## 2.2 Topologie Logique
 
-| Interface | Zone | Description | Type | Adresse IP / Masque |
-| :--- | :--- | :--- | :--- | :--- |
-| **eth0** | **Transit 3** | Vers Backbone DX03 | Uplink | 10.40.20.2/28 |
-| **eth1** | **LAN** | Vers Switchs L2 | Trunk (802.1q) | *Voir tableau des VIFs* |
+Cette section décrit comment les équipements sont connectés, en particulier la gestion des interfaces virtuelles et du lien montant.
 
-## 2.3 Routage Statique
+## Lien avec le Routeur Backbone (DX03)
+La sortie vers l'extérieur est assurée par le routeur **Backbone (DX03)** situé dans la zone de **TRANSIT 2** (`10.40.10.0/28`).
 
-Le routeur ne connaît pas la route vers Internet par défaut. Une route statique est nécessaire.
+**Pourquoi ce lien ?**
+C'est l'unique porte de sortie pour tout le trafic interne qui doit aller sur Internet. Le Cœur de Réseau (DX04) ne connecte pas directement les pare-feu ; il délègue cette tâche au Backbone pour maintenir une architecture hiérarchique propre.
 
-- **Route par défaut (0.0.0.0/0)** :
-    - **Next Hop :** 10.40.20.1 (Interface eth1 du routeur DX03)
-    - **Interface de sortie :** eth0
+## Gestion des VLANs (Interface Trunk)
+L'interface descendante (eth1) est configurée en mode **Trunk (802.1Q)**.
+Elle ne porte pas une adresse IP unique, mais héberge de multiples **Interfaces Virtuelles (VIF)**.
 
-La communication entre les VLANs est assurée par le routeur AX01 via le routage inter-VLAN. Aucune route statique n'est nécessaire car les réseaux sont directement connectés aux interfaces du routeur, qui connaît donc nativement les chemins pour acheminer les paquets entre les segments.
+Chaque VIF correspond à un VLAN (DSI, RH, Serveurs...) et agit comme la passerelle pour les machines de ce réseau. Cela permet de transporter plusieurs réseaux logiques sur un seul lien physique vers les switchs de distribution.
 
-## 2.4 Routes vers le Réseau Interne & configuration des Interfaces Virtuelles (VIF - Interface eth1)
+## 2.3 Configuration du Routage (Static Routing)
 
-Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configurées sur les postes clients.
+Le routage sur l'équipement **DX04** est configuré de manière statique pour gérer la sortie vers Internet et la distribution locale.
 
-### Table de Routage - AX01
+## 2.4 Route par défaut (Vers Internet)
+Tout le trafic qui n'est pas destiné au réseau local est envoyé vers le Backbone.
 
-| Service / Département | VLAN | Réseau IP    | Masque (CIDR) | Nbr IP Utilisables | Passerelle (DX04) |
-| --------------------- | ---- | ------------ | ------------- | ------------------ | ----------------- |
-| **MGMT (Core)**       | 200  | 10.20.0.0  | **/28**       | 14                 | 10.20.0.1      |
-| **Admin IT**          | 210  | 10.20.10.0 | **/28**       | 14                 | 10.20.10.1     |
-| **SERVEURS**          | 220  | 10.20.20.0 | **/27**       | 30                 | 10.20.20.1     |
-| **DIRECTION**         | 600  | 10.60.0.0  | **/24**       | 254                | 10.60.0.1      |
-| **DSI**               | 610  | 10.60.10.0 | **/24**       | 254                | 10.60.10.1     |
-| **DRH**               | 620  | 10.60.20.0 | **/24**       | 254                | 10.60.20.1     |
-| **COMMERCIAL**        | 630  | 10.60.30.0 | **/24**       | 254                | 10.60.30.1     |
-| **FINANCE / COMPTA**  | 640  | 10.60.40.0 | **/24**       | 254                | 10.60.40.1     |
-| **COMMUNICATION**     | 650  | 10.60.50.0 | **/24**       | 254                | 10.60.50.1     |
-| **DÉVELOPPEMENT**     | 660  | 10.60.60.0 | **/24**       | 254                | 10.60.60.1     |
-| **VOIP / IOT**        | 670  | 10.60.70.0 | **/23**       | 510                | 10.60.70.1     |
-| **Wifi (Radius)**     | 800  | 10.80.0.0  | **/23**       | 510                | 10.80.0.1      |
-| **NATIVE**            | 999  | -          | -             | -                  | -              |
+**Destination :** 0.0.0.0/0 (Internet)
+**Interface de sortie :** eth0 (TRANSIT 2)
+**Passerelle (Next Hop) :** 10.40.10.1 *L'adresse du routeur Backbone DX03*.
 
-**Note :** Les masques de sous-réseau varient (VLSM) selon les services.
+## 2.5 Route vers l'interne (Réseaux Connectés)
+Le trafic destiné aux serveurs ou aux PC utilisateurs est traité localement via les interfaces virtuelles.
+
+**Destination :** Les réseaux internes (VLANs).
+**Interface de sortie :** eth1.x (VIFs)
+**Type :** Connecté (C) *Le routeur connaît ces réseaux car il y est directement connecté*.
+
+## 2.6 Table de Routage - DX04
+
+*Pour le moment le routeur possède ces routes spécifiques, Il peut en avoir de nouvelles ou quelques changements selon l'avancée du projet*
+
+- **eth0 via DX03**
+- **eth1 (VIFs) Connectés directement**
+
+| Réseau Destination | Masque (CIDR) | Prochain Saut (Next-Hop) | Interface | Description |
+|-------------------|---------------|-------------------------|-----------|-------------|
+| 0.0.0.0           | /0            | 10.40.10.1              | eth0      | Route par défaut (Vers Backbone) |
+| 10.20.0.0         | /28           | interface VLAN connectée                | eth1.200  | VLAN 200 - MGMT  |
+| 10.20.10.0        | /28           | interface VLAN connectée               | eth1.210  | VLAN 210 - Admin IT |
+| 10.20.20.0        | /27           | interface VLAN connectée                 | eth1.220  | VLAN 220 - Serveurs |
+| 10.60.0.0         | /24           | interface VLAN connectée               | eth1.600  | VLAN 600 - Direction |
+| 10.60.10.0        | /24           | interface VLAN connectée                 | eth1.610  | VLAN 610 - DSI |
+| 10.60.20.0        | /24           | interface VLAN connectée                | eth1.620  | VLAN 620 - DRH |
+| 10.60.30.0        | /24           | interface VLAN connectée               | eth1.630  | VLAN 630 - Commercial |
+| 10.60.40.0        | /24           | interface VLAN connectée                | eth1.640  | VLAN 640 - Finance / Compta |
+| 10.60.50.0        | /24           | interface VLAN connectée                | eth1.650  | VLAN 650 - Communication |
+| 10.60.60.0        | /24           | interface VLAN connectée               | eth1.660  | VLAN 660 - Développement |
+| 10.60.70.0        | /23           | interface VLAN connectée                 | eth1.670  | VLAN 670 - VOIP / IOT |
+
+## 2.7 Services Associés
+- **SSH :** Port 22 (Administration).
+- **DHCP-Relay :** Ce service est configuré sur les interfaces des VLANs utilisateurs pour relayer les requêtes DHCP vers le serveur d'infrastructure.
+    - **Adresse Cible :** `10.20.20.8`
+- **Firewall :** Le service de pare-feu pour le filtrage inter-VLAN a été ajouté. *Statut : En cours de finalisation ou suppression selon l'évolution des besoins.*
 
 
-## 2.5 Services Associés
-
-### DHCP Relay
-Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
-- **Serveur Cible :** 10.20.20.8.
 
 
 
