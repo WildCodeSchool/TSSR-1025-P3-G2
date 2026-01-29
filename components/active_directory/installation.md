@@ -218,7 +218,7 @@ Changements post-redémarrage :
 * Gestion : Le module PowerShell ActiveDirectory est désormais opérationnel pour la création des unités d'organisation (OU) conformément au plan de Tiering.
 
 
-## Configuration de la Gouvernance (GPO)
+# Configuration de la Gouvernance (GPO)
 
 <span id="configuration-gpo"></span>
 
@@ -263,7 +263,7 @@ La GPO `CR-ADM-001-PowerShellSecurity-v1.0` assure que seuls les scripts autoris
 
 ## **Étape 4** : Validation de la création et de la liaison sur l'OU **GX** (Tiering).
 
-![alt text](6_GPO_ECO_BDX_EX02_6.png)
+![Etape 1](ressources/6_GPO_ECO_BDX_EX02_1.png)
 
 ---
 
