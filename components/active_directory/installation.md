@@ -162,7 +162,7 @@ La machine va redémarrer et le nouveau nom va s'appliquer.
 ![Name_server](ressources/4_NAME_ECO_BDX_EX02_1.png)
 
 ### 4.2. Adressage IPv4 statique et DNS : 
-<span id="adressage-ipv4-statique-et-dns"><span/>
+<span id="adressage-ipv4"><span/>
 
 * `10.20.20.6` (Masque /27), Passerelle par défaut `10.20.20.1`.
 
