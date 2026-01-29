@@ -2,12 +2,12 @@
 
 ## [Automatisation du Déploiement Active Directory](#automatisation-du-deploiement-active-directory-)
 
-- [1. Logique du script (Pseudo-code)](#1-logique-du-script-pseudo-code-)
-- [2. Quelques points techniques.](#2-quelques-points-techniques)
-  - [2.1. Normalisations des Données](#21-normalisations-des-données)
-  - [2.2. Gestion Automatique des doublons](#22-gestion-automatique-des-doublons-)
-  - [2.3. Construction Dynamique des Groupes](#23-construction-dynamique-des-groupes)
-- [3. Conclusion](#3-conclusion)
+- [1. Logique du script (Pseudo-code)](#logique-du-script)
+- [2. Quelques points techniques.](#points-techniques)
+  - [2.1. Normalisations des Données](#normalisations)
+  - [2.2. Gestion Automatique des doublons](#gestion-automatique)
+  - [2.3. Construction Dynamique des Groupes](#construction-dynamique)
+- [3. Conclusion](#conclusion)
 
 ## [Configuration de la Gouvernance (GPO)](#configuration-gpo)
   - [4. Structure des Unités d'Organisation (OU)](#4-structure-des-ou)
@@ -26,6 +26,7 @@ Il respecte la nomenclature établie dans le fichier [naming](/naming.md).
 ---
 
 ## 1. Logique du script (Pseudo-code) :
+<spann id="logique-du-script"><span/>
 
 Le script suit une logique séquentielle :
     - Vérification des droits de l'utilsateur (Administrateur uniquement)
@@ -181,12 +182,14 @@ Le script suit une logique séquentielle :
 ---
 
 ## 2. Quelques points techniques.
+<span id="points-techniques"><span/>
 
 Le script intègre plusieurs mécanismes de sécurité et de standardisation pour gérer les cas limites (accents, doublons, structure dynamique).
 
 ---
 
 ### 2.1. Normalisations des Données
+<span id="normalisations"><span/>
 
 La fonction Get-CleanString est utilisée sur toutes les entrées textuelles avant d'interroger l'Active Directory.
 
@@ -205,6 +208,7 @@ La normalisation des caractères permet que le domaine se retrouve avec la même
 ---
 
 ### 2.2. Gestion Automatique des doublons :
+<span id="gestion-automatique"><span/>
 
 Pour éviter des erreurs de doublons qui pourraient bloquer le script, les homonymes sont gèrés automatiquement.
 
@@ -233,6 +237,7 @@ Exemple :
 ---
 
 ### 2.3. Construction Dynamique des Groupes
+<span id="construction-dynamique"><span/>
 
 Le script applique la nomenclature définie dans le document [naming](/naming.md).
 
@@ -255,6 +260,7 @@ Le script n'utilise pas de noms de groupes statiques. Il assemble dynamiquement 
 ---
 
 ## 3. Conclusion
+<span id="conclusion"><span/>
 
 Le script permet de passer du "Fichier_Personnel.csv" à une infrastructure Active Directory complète et conforme.
 
