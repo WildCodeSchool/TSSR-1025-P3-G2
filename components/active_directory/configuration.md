@@ -9,6 +9,12 @@
   - [2.3. Construction Dynamique des Groupes](#23-construction-dynamique-des-groupes)
 - [3. Conclusion](#3-conclusion)
 
+## [Configuration de la Gouvernance (GPO)](#configuration-gpo)
+  - [4. Structure des Unités d'Organisation (OU)](#4-structure-des-ou)
+  - [5. Stratégies de Sécurité (GPO de Restriction)](#5-strategies-securite)
+  - [6. Stratégies de Configuration (GPO Standard)](#6-strategies-confort)
+  - [7. Validation du Modèle de Tiering](#7-validation-tiering)
+
 ---
 
 # Automatisation du Déploiement Active Directory
@@ -253,3 +259,80 @@ Le script n'utilise pas de noms de groupes statiques. Il assemble dynamiquement 
 Le script permet de passer du "Fichier_Personnel.csv" à une infrastructure Active Directory complète et conforme.
 
 ---
+
+# Configuration de la Gouvernance (GPO)
+
+<span id="configuration-gpo"></span>
+
+Cette section détaille la mise en œuvre des politiques de groupe nécessaires à la sécurisation et à l'administration de l'infrastructure `ecotech.local`.
+
+---
+
+### 7. Structure des Unités d'Organisation (OU)
+
+<span id="4-structure-des-ou"></span>
+
+L'arborescence Active Directory a été structurée sur 4 niveaux pour permettre une application précise des GPO et respecter le modèle de Tiering de l'ANSSI.
+
+* **Niveau 3 (Obfuscation)** : Utilisation de codes neutres pour masquer la fonction des objets : **GX** (Admin), **UX** (Utilisateurs), **RX** (Groupes/Ressources) et **WX** (Postes de travail).
+* **Niveau 4 (Départements)** : Segmentation sous **UX** et **RX** utilisant les codes **D01 à D07**.
+
+---
+
+### 8. Stratégies de Sécurité (GPO de Restriction)
+
+<span id="5-strategies-securite"></span>
+
+Conformément aux objectifs de sécurité, 7 GPO de restriction ont été identifiées, dont la gestion du pare-feu, le blocage du registre et la politique PowerShell.
+
+#### Exemple détaillé : Politique de sécurité PowerShell
+
+La GPO `CR-ADM-001-PowerShellSecurity-v1.0` assure que seuls les scripts autorisés s'exécutent sur les machines d'administration.
+
+## **Étape 1** : Ouverture de la console **Group Policy Management**.
+
+![Etape 1](ressources/6_GPO_ECO_BDX_EX02_1.png)
+
+## **Étape 2** : Création
+
+![Etape 2](ressources/6_GPO_ECO_BDX_EX02_2.png)
+
+## **Étape 3** : Configuration
+
+![Etape 3](ressources/6_GPO_ECO_BDX_EX02_3.png)
+![Etape 3](ressources/6_GPO_ECO_BDX_EX02_4.png)
+![Etape 3](ressources/6_GPO_ECO_BDX_EX02_5.png)
+
+## **Étape 4** : Validation de la création et de la liaison sur l'OU **GX** (Tiering).
+
+![Etape 4](ressources/6_GPO_ECO_BDX_EX02_6.png)
+
+---
+
+### 9. Stratégies de Configuration (GPO Standard)
+
+<span id="6-strategies-confort"></span>
+
+Au moins 3 GPO standards ont été déployées pour uniformiser l'environnement de travail.
+
+| Nom de la GPO | Cible | Objectif |
+| --- | --- | --- |
+| **UR-BDX-010-DesktopWallpaper-v1.0** | Utilisateur | Application du fond d'écran institutionnel. |
+| **UP-G-022-DriveMapping-v1.1** | Utilisateur | Mappage automatique des lecteurs réseaux départementaux. |
+| **UR-BDX-013-FolderRedirection-v1.0** | Utilisateur | Redirection des dossiers Bureau et Documents vers le serveur. |
+
+---
+
+### 10. Validation du Modèle de Tiering
+
+<span id="7-validation-tiering"></span>
+
+Le respect du modèle de Tiering est assuré par l'isolation de l'OU **GX**. La GPO `CR-ADM-005-RestrictedLogon-v1.0 interdit aux comptes d'administration (Tier 0/1) de se connecter sur des postes utilisateurs standards (OU **WX**) afin de prévenir le vol d'identifiants.
+
+Toute modification de ces restrictions s'effectue par l'édition directe de l'objet lié :
+
+Cette configuration garantit qu'une compromission sur un poste de travail `BX` ou `CX` ne pourra pas s'étendre aux comptes privilégiés du domaine.
+
+<p align="right">
+  <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
+</p>
