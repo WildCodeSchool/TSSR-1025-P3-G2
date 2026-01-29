@@ -20,25 +20,3 @@ La configuration du DNS se fait avec l'adresse `172.0.0.1` car il a le rôle pri
 - Vérifier via la commande `ipconfig /all` que la configuration du DNS est bien appliquée.
 
 ![IP_config](ressources/1_config_IP_DNS.png)
-
-## 2. Configuration des Forwarders.
-<span id="configuration-forwarders"><span/>
-
-Pour permettre aux utilisateurs et aux serveurs d'accéder à Internet (mises à jour, navigation via proxy), le serveur doit rediriger les requêtes qu'il ne connaît pas vers l'extérieur.
-
-- Cible Primaire : 10.40.0.1 (Interface du pfSense).
-- Cible Secondaire : 8.8.8.8 (Google DNS).
-
-``` PowerShell
-Add-DnsServerForwarder -IPAddress "10.40.0.1", "8.8.8.8"
-```
-
-## 3. Sécurisation
-<span id="securisation"><span/>
-
-Conformément au standard de Tiering, les transferts de zone sont restreints pour éviter la fuite d'informations.  
-Le serveur autorise uniquement le contrôleur secondaire à répliquer l'annuaire.
-
-``` PowerShell
-Set-DnsServerPrimaryZone -Name "ecotech.local" -SecureSecondaries "TransferToSecureServers" -SecondaryServers "10.20.20.6"
-```
