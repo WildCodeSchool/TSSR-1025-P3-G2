@@ -1,6 +1,6 @@
 # Table des matieres :
 
-# [Installation du sereur DNS sur le Contrôleur de Domaine Principal Version Core](#domaine-principal)
+## [Installation du sereur DNS sur le Contrôleur de Domaine Principal Version Core](#domaine-principal)
 - [1. Intsallation du DNS](#intsallation-DNS)
 - [2. Configuration des Forwarders](#configuration-forwarders)
 - [3. Sécurisation](#securisation)
