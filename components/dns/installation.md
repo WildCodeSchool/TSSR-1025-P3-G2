@@ -1,5 +1,4 @@
-### 1.3. DNS Local : 
-<span id="dns"><span/>
+Installation du sereur DNS sur le serveur A
 
 * Configuré sur `127.0.0.1` pour permettre la promotion du rôle AD DS.
 
