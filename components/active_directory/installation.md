@@ -249,21 +249,21 @@ La GPO `CR-ADM-001-PowerShellSecurity-v1.0` assure que seuls les scripts autoris
 
 ## **Étape 1** : Ouverture de la console **Group Policy Management**.
 
-![alt text](6_GPO_ECO_BDX_EX02_1.png)
+![Etape 1](ressources/6_GPO_ECO_BDX_EX02_1.png)
 
 ## **Étape 2** : Création
 
-![alt text](6_GPO_ECO_BDX_EX02_2.png)
+![Etape 2](ressources/6_GPO_ECO_BDX_EX02_2.png)
 
 ## **Étape 3** : Configuration
 
-![alt text](6_GPO_ECO_BDX_EX02_3.png)
-![alt text](6_GPO_ECO_BDX_EX02_4.png)
-![alt text](6_GPO_ECO_BDX_EX02_5.png)
+![Etape 3](ressources/6_GPO_ECO_BDX_EX02_3.png)
+![Etape 3](ressources/6_GPO_ECO_BDX_EX02_4.png)
+![Etape 3](ressources/6_GPO_ECO_BDX_EX02_5.png)
 
 ## **Étape 4** : Validation de la création et de la liaison sur l'OU **GX** (Tiering).
 
-![Etape 1](ressources/6_GPO_ECO_BDX_EX02_1.png)
+![Etape 4](ressources/6_GPO_ECO_BDX_EX02_6.png)
 
 ---
 
