@@ -66,12 +66,7 @@ Pour la configuration IP du serveur, il est préférable de passer par des comma
 ### 1.3. DNS Local : 
 <span id="dns"><span/>
 
-* Configuré sur `127.0.0.1` pour permettre la promotion du rôle AD DS.
-
-Configurer le DNS sur le serveur avec la commande`Set-DnsClientServerAddress -InterfaceIndex 3 -ServerAddresses ("127.0.0.1")`.  
-Vérifier via la commande `ipconfig /all` que la configuration du DNS est bien appliquée.
-
-![DNS_du_serveur](ressources/3_DNS_ECO_BDX_EX01.png)
+Les explications de l'installation se font sur le fichier [Installation du sereur DNS sur le Contrôleur de Domaine Principal Version Core](/components/dns/installation.md)
 
 ---
 
