@@ -2,12 +2,12 @@
 # Table des matieres :
 ## [Déploiement du Contrôleur de Domaine Principal Version Core](#déploiement-du-contrôleur-de-domaine-principal)
   - [1. Configuration de l'Hôte](#1-configuration-de-lhôte)
-    - [1.1. Nom d'hôte :](#11-nom-dhôte-)
+    - [1.1. Nom d'hôte](#11-nom-dhôte-)
     - [1.2. Adressage IPv4 statique :](#12-adressage-ipv4-statique-)
-    - [1.3. DNS Local :](#13-dns-local-)
   - [2. Installation et Promotion Active Directory](#2-installation-et-promotion-active-directory)
     - [2.1. Préparation du rôle](#21-préparation-du-rôle)
-    - [2.2. Promotion de la Forêt](#22-promotion-de-la-forêt)
+    - [2.2. DNS Local](#22-dns-local-)
+    - [2.3. Promotion de la Forêt](#23-promotion-de-la-forêt)
   - [3. Conclusion du déploiement](#3-conclusion-du-déploiement)
 
 ##  [Déploiement du Contrôleur de Domaine Secondaire Version GUI](#déploiement-du-contrôleur-de-domaine-principal)
@@ -63,13 +63,6 @@ Pour la configuration IP du serveur, il est préférable de passer par des comma
    
 ---
 
-### 1.3. DNS Local : 
-<span id="dns"><span/>
-
-Les explications de l'installation se font sur le fichier [Installation du sereur DNS sur le Contrôleur de Domaine Principal Version Core](/components/dns/installation.md)
-
----
-
 ## 2. Installation et Promotion Active Directory
 <span id="installatio-promotion"><span/>
 
@@ -79,11 +72,20 @@ Pour faciliter le déploiement, il est préférable de passer par des commandes 
 ### 2.1. Préparation du rôle
 <span id="prepartaion"><span/>
 
-* Exécuter la commande `Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools`
+- Exécuter la commande `Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools`
 
 Cette commande permet au serveur de récupérer tous les éléments nécessaires pour la future promotion.
 
-### 2.2. Promotion de la Forêt
+---
+
+### 2.2. DNS Local : 
+<span id="dns"><span/>
+
+Les explications de l'installation se font sur le fichier [Installation du sereur DNS sur le Contrôleur de Domaine Principal Version Core](/components/dns/installation.md)
+
+---
+
+### 2.3. Promotion de la Forêt
 <span id="promotion-foret"><span/>
 
 Le paramétrage suivant a été appliqué pour créer la forêt racine ecotech.local :
