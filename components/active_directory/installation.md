@@ -14,7 +14,7 @@
   - [4. Configuration de l'Hôte](#4-configuration-de-lhôte)
     - [4.1. Nom d'hôte](#41-nom-dhôte-)
     - [4.2. Adressage IPv4 statique DNS](#42-adressage-ipv4-statique-et-dns)
-  - [5. Installation Active Directory Domain Service Avec Ajout à un Domain](#5-installation-active-directory-domain-service-avec-ajout-a-un-domaine)
+ - [5. Installation Active Directory Domain Service Avec Ajout à un Domaine](#5-installation-active-directory-domain-service-avec-ajout-a-un-domaine)
     - [5.1. Ajout à la Forêt](#51-ajout-a-la-foret)
   - [6. Conclusion du déploiement](#6-conclusion-du-déploiement)
 
@@ -162,7 +162,7 @@ La machine va redémarrer et le nouveau nom va s'appliquer.
 ![Name_server](ressources/4_NAME_ECO_BDX_EX02_1.png)
 
 ### 4.2. Adressage IPv4 statique et DNS : 
-<span id="adressage-ipv4"><span/>
+<span id="42-adressage-ipv4-statique-et-dns"></span>
 
 * `10.20.20.6` (Masque /27), Passerelle par défaut `10.20.20.1`.
 
@@ -175,7 +175,7 @@ Mise en place de l'IP statique dans les paramètres de connexion
 ---
 
 ## 5. Installation Active Directory Domain Service Avec Ajout à un Domaine
-<span id="installation"><span/>
+<span id="5-installation-active-directory-domain-service-avec-ajout-a-un-domaine"></span>
 
 Etape d'installation de ADDS suivi de l'ajout au domaine ecotech.local
 
@@ -193,7 +193,7 @@ Et enfin, lancer l'installation et fermer la fenêtre, l'installation se fera en
 
 
 ### 5.1. Ajout à la Forêt
-<span id="ajout-a-la-forêt"><span/>
+<span id="51-ajout-a-la-foret"></span>
 
 Le paramétrage suivant a été appliqué pour ajouter ECO_BDX_EX02 à la forêt racine ecotech.local :
 
