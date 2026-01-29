@@ -1,12 +1,13 @@
 # Table des matieres :
 
-- [Automatisation du Déploiement Active Directory](#automatisation-du-déploiement-active-directory)
-  - [1. Logique du script (Pseudo-code) :](#1-logique-du-script-pseudo-code-)
-  - [2. Quelques points techniques.](#2-quelques-points-techniques)
-    - [2.1. Normalisations des Données](#21-normalisations-des-données)
-    - [2.2. Gestion Automatique des doublons :](#22-gestion-automatique-des-doublons-)
-    - [2.3. Construction Dynamique des Groupes](#23-construction-dynamique-des-groupes)
-  - [3. Conclusion](#3-conclusion)
+# Automatisation du Déploiement Active Directory
+
+- [1. Logique du script (Pseudo-code) :](#1-logique-du-script-pseudo-code-)
+- [2. Quelques points techniques.](#2-quelques-points-techniques)
+  - [2.1. Normalisations des Données](#21-normalisations-des-données)
+  - [2.2. Gestion Automatique des doublons :](#22-gestion-automatique-des-doublons-)
+  - [2.3. Construction Dynamique des Groupes](#23-construction-dynamique-des-groupes)
+- [3. Conclusion](#3-conclusion)
 
 # Automatisation du Déploiement Active Directory
 
