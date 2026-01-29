@@ -8,14 +8,14 @@ Il ne porte **aucun VLAN utilisateur** et ne fait pas de NAT. Son rôle est pure
 
 Cette section décrit comment les équipements sont connectés, en particulier la gestion de la sécurité en entrée de réseau.
 
-### Le Cluster de Pare-feu (DX01 & DX02)
+## Le Cluster de Pare-feu (DX01 & DX02)
 L'accès vers Internet est géré par deux pare-feu pfSense (**DX01** et **DX02**) configurés en **mode cluster**.
 
 **Qu'est-ce qu'un Cluster ?**
 C'est une technique qui consiste à faire fonctionner deux machines comme une seule pour assurer la **Haute Disponibilité**.
 Si le pare-feu principal tombe en panne, le second prend le relais immédiatement sans couper la connexion. Pour les autres équipements, ce changement est invisible car ils communiquent avec une **adresse IP virtuelle (VIP)** unique, et non avec les adresses physiques des machines.
 
-### Lien avec le Routeur Backbone (DX03)
+## Lien avec le Routeur Backbone (DX03)
 Le routeur **Backbone (DX03)** est situé dans la zone de **TRANSIT 1** (`10.40.0.0/28`).
 Il permet de faire le lien entre le cœur du réseau et la sortie Internet.
 
@@ -25,21 +25,21 @@ Pour garantir la continuité de service, ce routeur n'envoie pas ses données ve
 
 Le routage sur l'équipement **DX03** est configuré de manière statique pour aiguiller les paquets dans deux directions.
 
-### 1. Route par défaut (Vers Internet)
+### 1.4 Route par défaut (Vers Internet)
 Tout le trafic qui n'est pas destiné au réseau local est envoyé vers l'extérieur.
 
 **Destination :** 0.0.0.0/0 (Internet)
 **Interface de sortie :** eth0 (TRANSIT 1)
 **Passerelle (Next Hop) (VIP) :** 10.40.0.1 *L'adresse IP virtuelle (VIP) du cluster pfSense*.
 
-### 2. Route vers l'interne (Vers le Cœur de Réseau)
+### 1.5 Route vers l'interne (Vers le Cœur de Réseau)
 Le trafic destiné aux serveurs ou aux PC utilisateurs est renvoyé vers l'intérieur du réseau.
 
 **Destination :** Les réseaux internes de l'entreprise.
 **Interface de sortie :** eth1 (TRANSIT 2)
 **Passerelle (Next Hop) :** 10.40.10.2 *L'adresse du routeur Cœur L3 DX04*.
 
-### Table de Routage - DX03
+### 1.6 Table de Routage - DX03
 
 *Pour le moment le routeur posséde ces routes spécifiques, Il peut en avoir de nouvelles ou quelques changements celon l'avancée du projet*
 
@@ -62,10 +62,9 @@ Le trafic destiné aux serveurs ou aux PC utilisateurs est renvoyé vers l'inté
 | 10.60.60.0        | /24           | 10.40.20.2              | eth1      | VLAN 660 - Développement |
 | 10.60.70.0        | /23           | 10.40.20.2              | eth1      | VLAN 670 - VOIP / IOT |
 
-## 1.3 Services d'Administration
+## 1.7 Services d'Administration
 - **SSH :** Port 22
 - **Accès :** Restreint aux IPs d'administration (VLAN 210 via le routage).
-
 
 # 2. Routeur Cœur L3 (AX01)
 
@@ -135,6 +134,7 @@ Les adresses IP ci-dessous correspondent aux **passerelles par défaut** configu
 ### DHCP Relay
 Les requêtes DHCP des clients (VLANs Métiers) sont relayées vers le serveur DHCP (Windows/Linux) situé dans le VLAN 220.
 - **Serveur Cible :** 10.20.20.8.
+
 
 
 
