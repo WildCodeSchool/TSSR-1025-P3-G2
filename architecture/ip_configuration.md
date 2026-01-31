@@ -32,8 +32,6 @@ Cette organisation du **2ème octet** permet d'identifier visuellement la foncti
 - Une IP en **10.60.x.x** → Poste utilisateur métier
 - Une IP en **10.50.x.x** → Service de bordure (DMZ/VPN)
 
----
-
 ## 1.3. Plan d'Adressage Détaillé par Niveau de Sécurité (Tiering)
 
 L'infrastructure applique le **modèle de Tiering ANSSI** pour isoler les ressources critiques.  
@@ -215,4 +213,5 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 630, 640, 650, 660, 670 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.5 et .6**.
+
 
