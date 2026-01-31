@@ -1,7 +1,8 @@
 
 # 1. Référentiel des VLANs et Adressage IP
 
-L'infrastructure d'EcoTech Solutions utilise la plage privée **10.0.0.0/8** (RFC 1918). Ce choix permet une segmentation quasi illimitée tout en conservant une logique d'administration simplifiée.
+L'infrastructure d'EcoTech Solutions utilise la plage privée **10.0.0.0/8** (RFC 1918).  
+Ce choix permet une segmentation quasi illimitée tout en conservant une logique d'administration simplifiée.
 
 ## 1.1. Nomenclature d'adressage
 
@@ -213,5 +214,6 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 630, 640, 650, 660, 670 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.5 et .6**.
+
 
 
