@@ -174,7 +174,8 @@ Pour maintenir une cohérence d'administration, les serveurs utilisent systémat
 | **ECO-BDX-FX01** | **Bareos (Backup)**     | **240**  | 10.20.40.5     | 10.20.40.1          | Orchestrateur de sauvegarde           |
 | **ECO-BDX-EX04** | **Stockage Isolé**      | **250**  | 10.20.50.5     | _Aucune_            | Interface de stockage (L2)            |
 | **ECO-BDX-EX05** | **FreePBX (VoIP)**      | **670**  | 10.60.70.5     | 10.60.70.1          | IP-PBX Téléphonie                     |
-| **ECO-BDX-EX06** | **Proxy / Web (DMZ)**   | **500**  | 10.50.0.5      | 10.50.0.1           | Sortie Web & Site EcoTech             |
+| **ECO-BDX-EX06** | **Proxy (DMZ)**         | **500**  | 10.50.0.5      | 10.50.0.1           | Sortie Web                            |
+| **ECO-BDX-EX08** | **Web (DMZ)**           | **500**  | 10.50.0.5      | 10.50.0.1           | Site EcoTech                          |
 
 ## 2.3. Récapitulatif de la hiérarchie des hôtes (Convention .x)
 
@@ -218,6 +219,7 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 630, 640, 650, 660, 670 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.5 et .6**.
+
 
 
 
