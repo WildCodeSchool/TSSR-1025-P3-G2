@@ -26,8 +26,8 @@ Pour répondre à ces deux exigences, le serveur vitrine est placé en **DMZ** (
 
 | Élément                  | Adresse IP     | Zone          | Rôle dans l’exposition publique                          |
 |--------------------------|----------------|---------------|----------------------------------------------------------|
-| Reverse Proxy            | 10.50.0.5      | DMZ (VLAN 500)| Seul point d’entrée visible depuis le WAN                |
-| Serveur web vitrine      | 10.50.0.6      | DMZ (VLAN 500)| Contient les pages du site – jamais accessible directement |
+| Reverse Proxy            | 10.50.0.5      | DMZ | Seul point d’entrée visible depuis le WAN                |
+| Serveur web vitrine      | 10.50.0.6      | DMZ | Contient les pages du site – jamais accessible directement |
 | pfSense                  | WAN publique   | WAN           | NAT / Port Forwarding vers le Reverse Proxy               |
 
 La DMZ est une zone intermédiaire entre le WAN et le LAN.  
