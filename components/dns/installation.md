@@ -5,7 +5,7 @@
 - [2. Configuration des Forwarders](#configuration-forwarders)
 - [3. Sécurisation](#securisation)
 ## [Installation du serveur DNS sur le Contrôleur de Domaine Secondaire Version GUI.](#domaine-secondaire)
-- [4.Installation](#installation)
+- [4. Installation](#installation)
 
 # Installation du sereur DNS sur le Contrôleur de Domaine Principal Version Core.
 <span id="domaine-principal"><span/>
