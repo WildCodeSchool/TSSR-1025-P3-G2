@@ -111,7 +111,7 @@ On va créer deux enregistrements : un pour la racine (apex) et un pour www.
 Les deux noms (racine et www) pointent vers le Reverse Proxy → c’est l’effet split-horizon recherché.
 
 
-## Étape 10 – Test de résolution depuis un client interne
+## Étape 9 – Test de résolution depuis un client interne
 
 Sur un poste du LAN (ex. VLAN 610 ou 620) :
 
@@ -119,5 +119,6 @@ Sur un poste du LAN (ex. VLAN 610 ou 620) :
 2. Tapez :
 
         nslookup www.ecotech-solutions.com
+
 
 
