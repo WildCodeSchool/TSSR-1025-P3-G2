@@ -59,85 +59,86 @@ Configuration Failover DHCP
 
 1. Dans **DHCP Manager**, faites un clic droit sur **"DHCP"** et sélectionnez **"Manage Authorized Servers..."**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/21_fovdhcp_configuration.jpg)
 
 2. Cliquez sur **"Authorize..."**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/13_fovdhcp_configuration.jpg)
 
 3. Tapez l'adresse IP de votre deuxième serveur DHCP.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/14_fovdhcp_configuration.jpg)
 
 4. Sélectionnez le serveur secondaire.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/15_fovdhcp_configuration.jpg)
 
 5. Ouvrez l'onglet de votre **premier serveur DHCP**, faites un clic droit sur **IPv4**, puis cliquez sur **"Configure Failover"**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/17_fovdhcp_configuration.jpg)
 
 6. Laissez les options par défaut, cela va sélectionner tous vos scopes.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/01_fovdhcp_configuration.jpg)
 
 7. Cliquez sur **"Add Server"**, puis **"Browse"** et sélectionnez votre deuxième serveur DHCP. Cliquez ensuite sur **"OK"**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/18_fovdhcp_configuration.jpg)
 
 8. Cliquez sur **"Next"**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/19_fovdhcp_configuration.jpg)
 
 9. **Onglet Configure Failover :** Donnez un nom au failover dans "Relationship Name". Laissez le "Maximum Client Lead Time" par défaut, c’est le temps maximum pendant lequel un serveur peut gérer un lease sans synchronisation. Choisissez le **Mode** : "Load Balance" pour que les deux serveurs soient actifs et se partagent les requêtes, ou "Hot Standby" pour qu’un serveur soit actif et l’autre en veille prête à prendre le relais. "State Switchover Interval" définit après combien de minutes un basculement automatique se fait si un serveur ne répond plus. Activez "Enable Message Authentication" pour sécuriser les échanges entre serveurs et entrez le "Shared Secret", mot de passe identique sur les deux serveurs pour chiffrer et authentifier les synchronisations.
 
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/20_fovdhcp_configuration.jpg)
 
 10. Cliquez sur **"Finish"**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/02_fovdhcp_configuration.jpg)
 
 11. Cliquez sur **"Close"**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/03_fovdhcp_configuration.jpg)
 
 
 ## Suite Configuration des 2 machines DHCP
 
 1. Ouvrez **Server Manager** et cliquez sur **More**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/04_fovdhcp_configuration.jpg)
 
 2. Cliquez sur **Complete DHCP Configuration**.
 
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/05_fovdhcp_configuration.jpg)
+
 3. Cliquez sur **Next**.
 
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/06_fovdhcp_configuration.jpg)
 
 4. Sélectionnez **Use the following user's credentials**, vérifiez que le nom d'utilisateur est celui de l'administrateur, puis cliquez sur **Commit**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/12_fovdhcp_configuration.png)
 
 5. Cliquez sur **Close**.
 
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/07_fovdhcp_configuration.jpg)
 
 6. Retournez dans **DHCP Manager**, faites un clic droit sur **DHCP**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/08_fovdhcp_configuration.jpg)
 
 7. Cliquez sur **Add Server...**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/09_fovdhcp_configuration.jpg)
 
 8. Sélectionnez le deuxième serveur DHCP et cliquez sur **OK**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/544b3db93d03ef2877291c14b42e131f3e55be39/components/dhcp/ressources/config/10_fovdhcp_configuration.jpg)
 
 Vous avez configuré un **DHCP Failover** avec succès !
 
