@@ -175,7 +175,7 @@ Cette section illustre l'état du routeur **AX01 (Cœur-L3)** une fois la config
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/59fb98e20398b73df28ac2145234b417a611e4f6/components/Vyos/ressources/Logo%20Vyos/Firefly_Macro%20photography%20of%20a%20sleek%20enterprise%20rack-mounted%20router%20in%20a%20server%20room.%20On%20the%20%20746892.png)
 
-### 4.1.1 État des Interfaces (VLANs et Adressage)
+### 4.2 État des Interfaces (VLANs et Adressage)
 
 Commande :
           
@@ -187,7 +187,7 @@ Ici, nous vérifions que toutes les sous-interfaces (VIF) sont bien créées, po
 
 *Vérification : S'assurer que les VLANs 200, 210, 220, 600, etc. sont bien listés sous eth1.*
 
-### 4.1.2 Table de Routage (Connectivité L3)
+### 4.3 Table de Routage (Connectivité L3)
 
 Commande : 
             
@@ -199,38 +199,33 @@ Cette capture valide le routage statique. Nous devons voir les réseaux connect�
 
 *Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
 
-### 4.1.3 Test de Connectivité (Ping)
+### 4.4 État des interfaces du service dhcp-relay
 
-Commande :
-
-    ping 10.40.20.1 count 4
-    ping 8.8.8.8 count 4
-
-Preuve que le routeur communique bien avec son voisin (DX03) et qu'il accède à l'extérieur.
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20LAN.PNG)
-
-*Vérification : 0% packet loss,  ping 10.40.20.1 count 4 (Vers Backbone) et ping 8.8.8.8 count 4 (Vers Internet)*
-
-### 4.1.4 Configuration Appliquée (Synthèse)
+Cette section illustre l'état du service dhcp-relay sur **AX01 Server-Core**. Sur le Projet 3 réalisé par le Groupe 2.
 
 Commande : 
-           
-    show configuration commands | grep protocols
 
-Vue synthétique des règles de routage et des protocoles actifs.
+    show service dhcp-relay
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/ping%20internet.PNG)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/77ef7995e2c1c2450c63681ad883891a6805b676/components/Vyos/ressources/config%20DX04/show%20service%20dhcp-relay.png)
+
+*Listen-interfaces - Le relais écoute les requêtes (DHCPDISCOVER) sur les interfaces vif :eth1.600, eth1.610, eth1.620, eth1.630, eth1.640, eth1.650, eth1.660, eth1.670.**
+
+*Server 10.20.20.8 - Toutes les requêtes interceptées sont transférées à l'adresse IP 10.20.20.8.*
+
+*Upstream-interface eth1.220 - L'interface "eth1.220" est désignée comme l'interface de sortie. Par ce VLAN que le routeur communique avec le serveur DHCP pour lui relayées/recevoir les offres de configurations réseaux.*
+
+EXPLIQUER
 
 ---
 
-# 4.2 Validation Visuelle - Routeur Backbone DX03
+## 5. Validation Visuelle - Routeur Backbone DX03
 
 
 Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la configuration appliquée. Sur le Projet 3 réalisé par le Groupe 2.
 
 
-### 4.2.1 État des Interfaces (Transits)
+### 5.1 État des Interfaces (Transits)
 
   Commande : 
        
@@ -246,7 +241,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
 
     eth1 : 10.40.20.1/28 (Côté Cœur AX01) - État u/u
 
-### 4.2.2 Table de Routage (Le point critique)
+### 5.2 Table de Routage (Le point critique)
 
  Commande : 
              
@@ -263,56 +258,8 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
 
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
-### 4.2.3 Test de Connectivité (Ping étendu)
-
-   Commandes :
-
-        ping 10.40.10.1 count 4 (Test vers PfSense)
+----
 
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/ping%20pfsense.PNG)
 
 
-        ping 10.40.20.2 count 4 (Test vers AX01)
-
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/ping%20DX04.PNG)
-
-
-        ping 8.8.8.8 count 4 (Test vers Internet)
-
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/ping%20Internet.PNG)
-
-
-*Preuve que le Backbone discute bien avec ses deux voisins et accède au WAN.*
-*Vérification attendue : 0% packet loss sur les 3 tests.*
-
-### 4.2.4 Synthèse de la configuration active
-
-  Commande  : 
-  
-    show configuration commands | grep "protocols static"
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/protocols%20static.PNG)
-
-
-*Cette commande permet bien de valider que toutes les routes statiques ont été saisies correctement.*
-
-# 4.3 Validation Visuelle - Service dhcp-relay Switch L3 Core
-
-Cette section illustre l'état du service dhcp-relay sur **AX01 Server-Core**. Sur le Projet 3 réalisé par le Groupe 2.
-
-### 4.3.1 État des interfaces du service dhcp-relay
-
-Commande : 
-
-    show service dhcp-relay
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/77ef7995e2c1c2450c63681ad883891a6805b676/components/Vyos/ressources/config%20DX04/show%20service%20dhcp-relay.png)
-
-*Listen-interfaces - Le relais écoute les requêtes (DHCPDISCOVER) sur les interfaces vif :eth1.600, eth1.610, eth1.620, eth1.630, eth1.640, eth1.650, eth1.660, eth1.670.**
-
-*Server 10.20.20.8 - Toutes les requêtes interceptées sont transférées à l'adresse IP 10.20.20.8.*
-
-*Upstream-interface eth1.220 - L'interface "eth1.220" est désignée comme l'interface de sortie. Par ce VLAN que le routeur communique avec le serveur DHCP pour lui relayées/recevoir les offres de configurations réseaux.*
