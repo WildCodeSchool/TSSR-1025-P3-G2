@@ -169,13 +169,13 @@ Le DHCP relay permet au routeur VyOS de rediriger les requêtes DHCP reçues sur
 ---
 ---
 
-## 4.1 Validation Visuelle - Switch L3 Core AX01
+## 4 Validation Visuelle - Switch L3 Core AX01
 
 Cette section illustre l'état du routeur **AX01 (Cœur-L3)** une fois la configuration appliquée. Sur le Projet 3 réalisé par le Groupe 2.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/59fb98e20398b73df28ac2145234b417a611e4f6/components/Vyos/ressources/Logo%20Vyos/Firefly_Macro%20photography%20of%20a%20sleek%20enterprise%20rack-mounted%20router%20in%20a%20server%20room.%20On%20the%20%20746892.png)
 
-### 4.2 État des Interfaces (VLANs et Adressage)
+### 4.1 État des Interfaces (VLANs et Adressage)
 
 Commande :
           
@@ -187,7 +187,7 @@ Ici, nous vérifions que toutes les sous-interfaces (VIF) sont bien créées, po
 
 *Vérification : S'assurer que les VLANs 200, 210, 220, 600, etc. sont bien listés sous eth1.*
 
-### 4.3 Table de Routage (Connectivité L3)
+### 4.2 Table de Routage (Connectivité L3)
 
 Commande : 
             
@@ -199,7 +199,7 @@ Cette capture valide le routage statique. Nous devons voir les réseaux connect�
 
 *Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
 
-### 4.4 État des interfaces du service dhcp-relay
+### 4.3 État des interfaces du service dhcp-relay
 
 Cette section illustre l'état du service dhcp-relay sur **AX01 Server-Core**. Sur le Projet 3 réalisé par le Groupe 2.
 
@@ -214,6 +214,8 @@ Commande :
 *Server 10.20.20.8 - Toutes les requêtes interceptées sont transférées à l'adresse IP 10.20.20.8.*
 
 *Upstream-interface eth1.220 - L'interface "eth1.220" est désignée comme l'interface de sortie. Par ce VLAN que le routeur communique avec le serveur DHCP pour lui relayées/recevoir les offres de configurations réseaux.*
+
+La configuration du service DHCP relay sur VyOS 1.5, avec plusieurs interfaces VLAN (eth2.xxx) configurées pour relayer les requêtes DHCP des différents réseaux. Le relay redirige les demandes vers deux serveurs DHCP (10.20.20.5 et 10.20.20.6). Ces deux serveurs fonctionnent en full-over (répartition de charge / load balancing ) afin d’assurer la haute disponibilité et le partage de la charge des attributions d’adresses IP. La documentation des serveurs Dhcp est présent ici : [Texte du lien](./architecture/dhcp/README.md)
 
 EXPLIQUER
 
@@ -259,6 +261,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 ----
+
 
 
 
