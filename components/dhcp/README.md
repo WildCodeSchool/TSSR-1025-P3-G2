@@ -24,7 +24,7 @@ La redondance du service DHCP est assurée par un failover en mode Load Balancin
 - Adresses IP statiques sur les deux serveurs DHCP
 - Accès aux scopes pour chaque VLAN sur les deux serveurs
 - NTP synchronisé sur les deux serveurs (même source de temps)
-- Firewall et Switch L3 : ports DHCP ouverts (UDP 67/68) depuis les VLANs clients vers les deux serveurs
+- Switch L3 : ports DHCP ouverts (UDP 67/68) depuis les VLANs clients vers les deux serveurs
 - Communication bidirectionnelle entre les deux serveurs DHCP :
 - TCP 647 (port Failover)
 - ICMP (pour tests de connectivité)
