@@ -64,13 +64,10 @@ Sélectionnez **Do not allow dynamic updates**
 
 Cliquez sur **Next**
 
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/6e5bb96ddcd76397b1349271cf39f8ee1e465378/components/web_ex/dns_externe/ressources/config/06_dns_configuration.jpg)
+
 On désactive les mises à jour dynamiques pour éviter qu’un client malveillant modifie la zone.  
 Dans ce cas, tous les enregistrements seront créés manuellement.
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/6e5bb96ddcd76397b1349271cf39f8ee1e465378/components/web_ex/dns_externe/ressources/config/06_dns_configuration.jpg)
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/6e5bb96ddcd76397b1349271cf39f8ee1e465378/components/web_ex/dns_externe/ressources/config/06_dns_configuration.jpg)
-
 
 ## Étape 7 – Fin de l’assistant
 
@@ -122,4 +119,5 @@ Sur un poste du LAN (ex. VLAN 610 ou 620) :
 2. Tapez :
 
         nslookup www.ecotech-solutions.com
+
 
