@@ -59,7 +59,7 @@ Elle permet d’exposer des services publics tout en isolant fortement le résea
 | Enregistrement                | Type | Valeur         | Commentaire                                      |
 |-------------------------------|------|----------------|--------------------------------------------------|
 | ecotech-solutions.com         | A    | 10.50.0.5      | Zone apex → Reverse Proxy                        |
-| www.ecotech-solutions.com     | A    | 10.50.0.5      | Alias www → Reverse Proxy                        |
+| www.ecotech-solutions.com     | CNAME    | 10.50.0.5      | Alias www → Reverse Proxy                        |
 
 ## Sécurité minimale appliquée
 
@@ -72,3 +72,4 @@ Elle permet d’exposer des services publics tout en isolant fortement le résea
 
 - nslookup www.ecotech-solutions.com depuis un poste interne → réponse 10.50.0.5  
 - Navigation HTTPS depuis un poste LAN → page servie via Reverse Proxy  
+
