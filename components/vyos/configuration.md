@@ -218,8 +218,30 @@ Commande :
 La configuration du service DHCP relay sur VyOS 1.5, avec plusieurs interfaces VLAN (eth2.xxx) configurées pour relayer les requêtes DHCP des différents réseaux. Le relay redirige les demandes vers deux serveurs DHCP (10.20.20.5 et 10.20.20.6). Ces deux serveurs fonctionnent en full-over (répartition de charge / load balancing ) afin d’assurer la haute disponibilité et le partage de la charge des attributions d’adresses IP. La documentation des serveurs Dhcp est présent ici [DHCP](./../../components/dhcp/README.md)
 
 ### 4.4 État du services firewall
+*La configuration actuel de ce service dépendra des circonstances du projet, elle poura donc évolué/supprimé celon l'avancé du projet*
 
-La configuration du firewall VyOS limite le trafic des VLANs métiers vers la VLAN serveurs (réseau 10.20.20.0/27, VLAN 220) en bloquant tout par défaut et en n'autorisant que les communications essentielles aux services Active Directory (AD), même si cette VLAN contient d'autres éléments. On regroupe les VLANs métiers dans un groupe pour appliquer uniformément les règles, on redirige leur trafic vers une chaîne dédiée, et on ouvre uniquement les ports nécessaires pour AD (comme l'authentification, l'annuaire, les partages et la synchronisation), évitant ainsi d'exposer les autres services potentiels de la VLAN serveurs. Cela assure une sécurité stricte en ne laissant passer que le minimum vital.
+La configuration du firewall faite va limiter le trafic des VLANs métiers vers la VLAN serveurs 10.20.20.0/27 en bloquant tout par défaut et en n'autorisant que les communications essentielles, même si cette VLAN contient d'autres éléments. On regroupe les VLANs métiers dans un groupe pour appliquer uniformément les règles, on redirige leur trafic vers une chaîne dédiée, et on ouvre uniquement les ports nécessaires pour l'AD par exemple, évitant ainsi d'exposer les autres services potentiels de la VLAN serveurs. Cela assure une sécurité stricte en ne laissant passer que le minimum vital.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/c72a4b69bf9b6e90d0c0c1c74dfdf0b282b79e42/components/vyos/ressources/DX04/05_vyos_configuration.png)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/c72a4b69bf9b6e90d0c0c1c74dfdf0b282b79e42/components/vyos/ressources/DX04/06_vyos_configuration.png)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/c72a4b69bf9b6e90d0c0c1c74dfdf0b282b79e42/components/vyos/ressources/DX04/04_vyos_configuration.jpg)
+
+Voici le tableau qui explique la mise en place faite concrête pour le service du firewall AX01 : 
+
+| Étape | Ce qui est fait | En langage simple | Pourquoi c’est important |
+|-------|------------------|-------------------|---------------------------|
+| 1 | Création du groupe METIERS_GROUP | On regroupe tous les VLANs métiers (600 à 660) ensemble | Pour gérer les règles sur plusieurs réseaux sans les répéter à chaque fois |
+| 2 | Règle de redirection (jump) dans le forward | Le trafic des VLANs métiers est envoyé vers la liste de règles « METIERS_TO_AD » | C’est le point de contrôle qui vérifie tout ce qui va vers la VLAN serveurs |
+| 3 | Comportement par défaut | Tout trafic est bloqué sauf ce qu’on autorise explicitement | Pour protéger la VLAN serveurs en n’ouvrant que ce qui est vraiment utile à AD |
+| 4 | Règles established / related et drop invalid | On accepte les réponses aux connexions en cours + on ignore les paquets suspects | Permet aux échanges normaux de continuer sans ouvrir de portes inutiles |
+| 5 | Règle 10 – DNS (port 53) | Autorise la résolution de noms (trouver les adresses des serveurs) | Essentiel pour que les machines des VLANs métiers localisent les services AD |
+| 6 | Règle 20 – Kerberos (ports 88, 464) | Autorise les connexions sécurisées (comme les logins) | Nécessaire pour l’authentification des utilisateurs dans le domaine AD |
+| 7 | Règle 30 – LDAP / LDAPS (ports 389, 636, 3268, 3269) | Autorise l’accès à l’annuaire des utilisateurs et groupes | Permet de consulter ou modifier les infos AD sans exposer d’autres services |
+| 8 | Règle 40 – SMB / RPC (ports 135, 445) | Autorise les partages de fichiers et communications basiques Windows | Utilisé pour les politiques de groupe et les accès réseau limités à AD |
+| 9 | Règle 50 – Ports dynamiques RPC (49152–65535) | Autorise les ports temporaires pour les fonctions avancées Windows | Obligatoire pour que les opérations AD complexes fonctionnent sans tout ouvrir |
+| 10 | Règle 60 – NTP (port 123) | Autorise la mise à l’heure des machines | L’heure synchronisée est critique pour la sécurité et le bon fonctionnement d’AD |
+
+
 
 ---
 
@@ -267,6 +289,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 ----
+
 
 
 
