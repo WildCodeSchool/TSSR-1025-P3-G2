@@ -183,7 +183,7 @@ Commande :
 
 Ici, nous vérifions que toutes les sous-interfaces (VIF) sont bien créées, possèdent les bonnes adresses IP (Passerelles) et sont dans l'état u/u (Up/Up).
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/show%20interfaces.PNG)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/8cd81d36f4a40859ca4cb481dff096e0142d667a/components/vyos/ressources/DX04/01_vyos_configuration.jpg)
 
 *Vérification : S'assurer que les VLANs 200, 210, 220, 600, etc. sont bien listés sous eth1.*
 
@@ -195,7 +195,7 @@ Commande :
 
 Cette capture valide le routage statique. Nous devons voir les réseaux connectés (C) et surtout la route par défaut (S) vers le Backbone.
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/51b86ec2eefbf5cef7e2611b46f9359b6f34670e/components/Vyos/ressources/DX04/show%20ip%20route.PNG)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/8cd81d36f4a40859ca4cb481dff096e0142d667a/components/vyos/ressources/DX04/02_vyos_configuration.jpg)
 
 *Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
 
@@ -207,7 +207,7 @@ Commande :
 
     show service dhcp-relay
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/77ef7995e2c1c2450c63681ad883891a6805b676/components/Vyos/ressources/config%20DX04/show%20service%20dhcp-relay.png)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/8cd81d36f4a40859ca4cb481dff096e0142d667a/components/vyos/ressources/DX04/03_vyos_configuration.jpg)
 
 *Listen-interfaces - Le relais écoute les requêtes (DHCPDISCOVER) sur les interfaces vif :eth1.600, eth1.610, eth1.620, eth1.630, eth1.640, eth1.650, eth1.660, eth1.670.**
 
@@ -259,6 +259,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 ----
+
 
 
 
