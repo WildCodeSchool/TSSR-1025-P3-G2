@@ -34,3 +34,6 @@ Set-DnsServerPrimaryZone -Name "ecotech.local" -SecureSecondaries "TransferToSec
 <span id="domaine-secondaire"><span/>
 
 Pour la version GUI la configuration se passe dans les paramètres réseaux.
+
+![DNS](ressources/7_CONFIG_DNS_ECO_BDX_EX02_1.png)
+![DNS](ressources/7_CONFIG_DNS_ECO_BDX_EX02_2.png)
