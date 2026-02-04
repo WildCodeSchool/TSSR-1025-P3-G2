@@ -4,35 +4,35 @@
 
 ---
 
-1. Dans le DHCP Manager, faites un clique droit, cliquez sur "New Scope"
+1. Dans le DHCP Manager, faites un clique droit, cliquez sur "New Scope".
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/01_dhcp_configuration.jpg)
 
-2. Cliquez sur "Next"
+2. Cliquez sur "Next".
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/02_dhcp_configuration.jpg)
 
-3. Entrez un nom à votre scope, puis une description
+3. Entrez un nom à votre scope, puis une description.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/03_dhcp_configuration.jpg)
 
-4. Tapez le début et la fin de l'étendu de votre réseau, ensuite la longueur (CIDR)
+4. Tapez le début et la fin de l'étendu de votre réseau, ensuite la longueur (CIDR).
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/04_dhcp_configuration.jpg)
 
-5. Si vous voulez ajoutez des adresses ip d'exclusion, entrez là
+5. Si vous voulez ajoutez des adresses ip d'exclusion, écrivez là dans l'onglet "Start IP address" & "End IP address" puis sur "Add" sinon cliquez sur "Next" directement.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/05_dhcp_configuration.jpg)
 
-6. Tapez la durée du bail choisi pour votre Scope
+6. Tapez la durée du bail choisi pour votre Scope.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/06_dhcp_configuration.jpg)
 
-7. Cochez "Yes, I want to configure these options now" pour poursuivre les configuration DHCP
+7. Cochez "Yes, I want to configure these options now" pour poursuivre les configuration DHCP.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/07_dhcp_configuration.jpg)
 
-8. Tapez l'ip de la route par défault
+8. Tapez l'ip de la route par défault, si il y en a une.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/08_dhcp_configuration.jpg)
 
@@ -40,11 +40,11 @@
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/09_dhcp_configuration.jpg)
 
-10. Cliquez sur "Next"
+10. Cliquez sur "Next".
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/10_dhcp_configuration.jpg)
 
-11. Cochez la case "Yes, I want to activate this scope now" pour amorcer votre configuration 
+11. Cochez la case "Yes, I want to activate this scope now" pour amorcer votre configuration.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/2dc664b6012611efe94f56269271f433d3a64ea1/components/dhcp/ressources/config/11_dhcp_configuration.jpg)
 
