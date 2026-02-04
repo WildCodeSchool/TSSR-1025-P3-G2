@@ -215,7 +215,7 @@ Commande :
 
 *Upstream-interface eth1.220 - L'interface "eth1.220" est désignée comme l'interface de sortie. Par ce VLAN que le routeur communique avec le serveur DHCP pour lui relayées/recevoir les offres de configurations réseaux.*
 
-La configuration du service DHCP relay sur VyOS 1.5, avec plusieurs interfaces VLAN (eth2.xxx) configurées pour relayer les requêtes DHCP des différents réseaux. Le relay redirige les demandes vers deux serveurs DHCP (10.20.20.5 et 10.20.20.6). Ces deux serveurs fonctionnent en full-over (répartition de charge / load balancing ) afin d’assurer la haute disponibilité et le partage de la charge des attributions d’adresses IP. La documentation des serveurs Dhcp est présent ici [DHCP](./architecture/dhcp/README.md)
+La configuration du service DHCP relay sur VyOS 1.5, avec plusieurs interfaces VLAN (eth2.xxx) configurées pour relayer les requêtes DHCP des différents réseaux. Le relay redirige les demandes vers deux serveurs DHCP (10.20.20.5 et 10.20.20.6). Ces deux serveurs fonctionnent en full-over (répartition de charge / load balancing ) afin d’assurer la haute disponibilité et le partage de la charge des attributions d’adresses IP. La documentation des serveurs Dhcp est présent ici [DHCP](./components/dhcp/README.md)
 
 EXPLIQUER
 
@@ -261,6 +261,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 ----
+
 
 
 
