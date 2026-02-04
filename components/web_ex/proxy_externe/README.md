@@ -21,13 +21,11 @@ Cette architecture protège le serveur de contenu final et respecte la segmentat
 | pfSense                | WAN publique   | WAN             | NAT 80/443 → 10.50.0.5                                 |
 | Clients internes       | 10.x.x.x      | LAN         | Résolution DNS interne → 10.50.0.5                     |
 
-## Système et logiciels installés
+## État de la Configuration
 
-- Système d’exploitation : Debian 12 (Bookworm)  
-- Serveur web : Apache2  
-- Modules activés :  
-  - proxy  
-  - proxy_http  
-  - ssl  
-  - rewrite  
-  - headers  
+- Certificat : Auto-signé (SSL/TLS), généré via OpenSSL.
+- Protocoles : Seuls TLS 1.2 et 1.3 sont autorisés. Tout ce qui est plus vieux (SSLv3, TLS 1.0/1.1) a été banni.
+- Redirection : Forçage du HTTPS actif.
+- Masquage d'identité (Hardening) : * ServerTokens Prod : Le serveur ne crie pas sa version sur tous les toits.
+- ServerSignature Off : Les pages d'erreur sont "anonymes".
+- DNS : Le Proxy répond au nom www.ecotech-solutions.com/ecotech-solutions.com grâce au Split-Horizon DNS configuré sur ton AD.
