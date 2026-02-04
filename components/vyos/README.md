@@ -16,7 +16,7 @@ C'est une technique qui consiste à faire fonctionner deux machines comme une se
 Si le pare-feu principal tombe en panne, le second prend le relais immédiatement sans couper la connexion. Pour les autres équipements, ce changement est invisible car ils communiquent avec une **adresse IP virtuelle (VIP)** unique, et non avec les adresses physiques des machines.
 
 ## Lien avec le Routeur Backbone (DX03)
-Le routeur **Backbone (DX03)** est situé dans la zone de **TRANSIT 1** (`10.40.0.0/28`).
+Le routeur **Backbone (DX03)** est situé dans la zone de **TRANSIT 1** (`10.40.0.0/29`).
 Il permet de faire le lien entre le cœur du réseau et la sortie Internet.
 
 Pour garantir la continuité de service, ce routeur n'envoie pas ses données vers DX01 ou DX02 directement, mais vers l'**IP Virtuelle (VIP)** du cluster. Ainsi, la sortie Internet reste fonctionnelle même si un des pare-feu est éteint.
@@ -77,7 +77,7 @@ Contrairement au routeur de transit, il porte **tous les VLANs utilisateurs** et
 Cette section décrit comment les équipements sont connectés, en particulier la gestion des interfaces virtuelles et du lien montant.
 
 ## Lien avec le Routeur Backbone (DX03)
-La sortie vers l'extérieur est assurée par le routeur **Backbone (DX03)** situé dans la zone de **TRANSIT 2** (`10.40.10.0/28`).
+La sortie vers l'extérieur est assurée par le routeur **Backbone (DX03)** situé dans la zone de **TRANSIT 2** (`10.40.10.0/29`).
 
 **Pourquoi ce lien ?**
 C'est l'unique porte de sortie pour tout le trafic interne qui doit aller sur Internet. Le Cœur de Réseau (DX04) ne connecte pas directement les pare-feu ; il délègue cette tâche au Backbone pour maintenir une architecture hiérarchique propre.
@@ -133,6 +133,7 @@ Le trafic destiné aux serveurs ou aux PC utilisateurs est traité localement vi
 - **DHCP-Relay :** Ce service est configuré sur les interfaces des VLANs utilisateurs pour relayer les requêtes DHCP vers le serveur d'infrastructure.
     - **Adresse Cible :** `10.20.20.8`
 - **Firewall :** Le service de pare-feu pour le filtrage inter-VLAN a été ajouté. *Statut : En cours de finalisation ou suppression selon l'évolution des besoins.*
+
 
 
 
