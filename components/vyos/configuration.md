@@ -231,7 +231,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
        
     show interfaces
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/show%20interfaces.PNG)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/981c6b405cbfea27c9a7aa7b4483126ff8976595/components/vyos/ressources/DX03/01_vyos_configuration.jpg)
 
 *Ici, on vérifie simplement les deux pattes du routeur. Contrairement au AX01, il ne doit pas y avoir de VLANs (pas de .200, .600, etc.), juste les interfaces physiques.*
 
@@ -247,7 +247,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
              
              show ip route
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a419c690e53b79516eb0994fc224e65326883c1d/components/Vyos/config%20DX03/show%20ip%20route.PNG)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/981c6b405cbfea27c9a7aa7b4483126ff8976595/components/vyos/ressources/DX03/02_vyos_configuration.jpg)
 
 
 *Vérification attendue :*
@@ -259,6 +259,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 ----
+
 
 
 
