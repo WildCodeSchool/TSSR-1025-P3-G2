@@ -59,45 +59,85 @@ Configuration Failover DHCP
 
 1. Dans **DHCP Manager**, faites un clic droit sur **"DHCP"** et sélectionnez **"Manage Authorized Servers..."**.
 
+![image]()
+
 2. Cliquez sur **"Authorize..."**.
+
+![image]()
 
 3. Tapez l'adresse IP de votre deuxième serveur DHCP.
 
+![image]()
+
 4. Sélectionnez le serveur secondaire.
+
+![image]()
 
 5. Ouvrez l'onglet de votre **premier serveur DHCP**, faites un clic droit sur **IPv4**, puis cliquez sur **"Configure Failover"**.
 
+![image]()
+
 6. Laissez les options par défaut, cela va sélectionner tous vos scopes.
+
+![image]()
 
 7. Cliquez sur **"Add Server"**, puis **"Browse"** et sélectionnez votre deuxième serveur DHCP. Cliquez ensuite sur **"OK"**.
 
+![image]()
+
 8. Cliquez sur **"Next"**.
+
+![image]()
 
 9. **Onglet Configure Failover :** Donnez un nom au failover dans "Relationship Name". Laissez le "Maximum Client Lead Time" par défaut, c’est le temps maximum pendant lequel un serveur peut gérer un lease sans synchronisation. Choisissez le **Mode** : "Load Balance" pour que les deux serveurs soient actifs et se partagent les requêtes, ou "Hot Standby" pour qu’un serveur soit actif et l’autre en veille prête à prendre le relais. "State Switchover Interval" définit après combien de minutes un basculement automatique se fait si un serveur ne répond plus. Activez "Enable Message Authentication" pour sécuriser les échanges entre serveurs et entrez le "Shared Secret", mot de passe identique sur les deux serveurs pour chiffrer et authentifier les synchronisations.
 
 
+![image]()
+
 10. Cliquez sur **"Finish"**.
 
+![image]()
+
 11. Cliquez sur **"Close"**.
+
+![image]()
 
 
 ## Suite Configuration des 2 machines DHCP
 
 1. Ouvrez **Server Manager** et cliquez sur **More**.
 
+![image]()
+
 2. Cliquez sur **Complete DHCP Configuration**.
 
+
+![image]()
 3. Cliquez sur **Next**.
+
+
+![image]()
 
 4. Sélectionnez **Use the following user's credentials**, vérifiez que le nom d'utilisateur est celui de l'administrateur, puis cliquez sur **Commit**.
 
+![image]()
+
 5. Cliquez sur **Close**.
+
+
+![image]()
 
 6. Retournez dans **DHCP Manager**, faites un clic droit sur **DHCP**.
 
+![image]()
+
 7. Cliquez sur **Add Server...**.
 
+![image]()
+
 8. Sélectionnez le deuxième serveur DHCP et cliquez sur **OK**.
+
+![image]()
 
 Vous avez configuré un **DHCP Failover** avec succès !
 
