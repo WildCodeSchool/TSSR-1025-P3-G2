@@ -3,8 +3,9 @@
 ## [Configuration du sereur DNS sur le Contrôleur de Domaine Principal Version Core](#domaine-principal)
 - [1. Configuration des Forwarders](#configuration-forwarders)
 - [2. Sécurisation](#securisation)
+## [Configuration du serveur DNS sur le Contrôleur de Domaine Secondaire Version GUI](#domaine-secondaire)
 
-# Configuration du sereur DNS sur le Contrôleur de Domaine Principal Version Core.
+# Configuration du serveur DNS sur le Contrôleur de Domaine Principal Version Core.
 <span id="domaine-principal"><span/>
 
 ## 1. Configuration des Forwarders.
@@ -28,3 +29,8 @@ Le serveur autorise uniquement le contrôleur secondaire à répliquer l'annuair
 ``` PowerShell
 Set-DnsServerPrimaryZone -Name "ecotech.local" -SecureSecondaries "TransferToSecureServers" -SecondaryServers "10.20.20.6"
 ```
+
+# Configuration du serveur DNS sur le Contrôleur de Domaine Secondaire Version GUI.
+<span id="domaine-secondaire"><span/>
+
+Pour la version GUI la configuration se passe dans les paramètres réseaux.
