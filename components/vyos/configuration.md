@@ -218,7 +218,7 @@ Commande :
 La configuration du service DHCP relay sur VyOS 1.5, avec plusieurs interfaces VLAN (eth2.xxx) configurées pour relayer les requêtes DHCP des différents réseaux. Le relay redirige les demandes vers deux serveurs DHCP (10.20.20.5 et 10.20.20.6). Ces deux serveurs fonctionnent en full-over (répartition de charge / load balancing ) afin d’assurer la haute disponibilité et le partage de la charge des attributions d’adresses IP. La documentation des serveurs Dhcp est présent ici [DHCP](./../../components/dhcp/README.md)
 
 ### 4.4 État du services firewall
-*La configuration actuel de ce service dépendra des circonstances du projet, elle poura donc évolué/supprimé celon l'avancé du projet*
+*La configuration actuel de ce service dépendra des circonstances du projet, elle pourra donc évolué, être supprimé celon l'avancé du projet*
 
 La configuration du firewall faite va limiter le trafic des VLANs métiers vers la VLAN serveurs 10.20.20.0/27 en bloquant tout par défaut et en n'autorisant que les communications essentielles, même si cette VLAN contient d'autres éléments. On regroupe les VLANs métiers dans un groupe pour appliquer uniformément les règles, on redirige leur trafic vers une chaîne dédiée, et on ouvre uniquement les ports nécessaires pour l'AD par exemple, évitant ainsi d'exposer les autres services potentiels de la VLAN serveurs. Cela assure une sécurité stricte en ne laissant passer que le minimum vital.
 
@@ -289,6 +289,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 ----
+
 
 
 
