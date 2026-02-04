@@ -1,12 +1,5 @@
 DHCP
-
-Table des matières
-
-1. Rôle du service
-2. Position dans l'architecture
-3. Prérequis
-4. Fonctionnalités
-5. Documentation liée
+----
 
 1. Rôle du service
 Le serveur DHCP attribue automatiquement les paramètres réseau aux équipements clients qui se connectent au réseau (postes de travail, imprimantes, téléphones VoIP, points d'accès, etc.).
