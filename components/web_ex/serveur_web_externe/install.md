@@ -44,7 +44,7 @@ Commande exécutée :
 Apache2 est installé et en cours d’exécution.  
 Le serveur écoute par défaut sur le port 80 (testable avec curl http://10.50.0.5 depuis un poste du réseau).
 
-### Prochaines étapes (déjà réalisées ou en cours)
+### Prochaines étapes (déjà réalisées)
 
 - Activation des modules proxy, proxy_http, ssl, rewrite, headers  
 - Création du certificat auto-signé  
@@ -53,3 +53,4 @@ Le serveur écoute par défaut sur le port 80 (testable avec curl http://10.50.0
 - Reload du service (systemctl reload apache2)
 
 Ces étapes sont détaillées dans le fichier **configuration.md**.
+
