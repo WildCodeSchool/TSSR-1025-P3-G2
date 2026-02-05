@@ -1,3 +1,3 @@
-Intallation GLPI
+Installation GLPI
 
 ---
