@@ -10,7 +10,7 @@ Il est conçu pour être présenté à un professeur ou partagé sur GitHub dans
 
 Avant de configurer la liaison LDAP, on vérifie que le compte bind existe bien dans l’annuaire.
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/c6322174151f87547863f46c8fa57fd2ba273001/components/glpi/ressources/config/14_glpi_config.png)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/dfabac5dc39a48ed939f7f168b96b0b6fa6e8523/components/glpi/ressources/config/14_glpi_config.png)
 
 Commande PowerShell : Get-ADUser -Identity Administrator  
 
@@ -20,7 +20,7 @@ Le compte CN=Administrator existe dans l’OU Users.
 
 Menu : Configuration Authentification Annuaires LDAP + (nouveau)
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/c6322174151f87547863f46c8fa57fd2ba273001/components/glpi/ressources/config/13_glpi_config.png)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/dfabac5dc39a48ed939f7f168b96b0b6fa6e8523/components/glpi/ressources/config/16_glpi_config.png)
 
 Paramètres principaux renseignés :
 - Serveur par défaut : Oui
@@ -35,7 +35,7 @@ Paramètres principaux renseignés :
 
 Onglet « Intitulés » et « Composants » du même formulaire.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/c6322174151f87547863f46c8fa57fd2ba273001/components/glpi/ressources/config/13_glpi_config.png)
 
 Filtre de connexion :  
 
@@ -72,7 +72,8 @@ Menu : Administration -> Annuaires LDAP -> Importation de nouveaux utilisateurs
 
 Connexion avec le compte glpi par défaut → page d’accueil avec les avertissements classiques post-installation.
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/c6322174151f87547863f46c8fa57fd2ba273001/components/glpi/ressources/config/13_glpi_config.png)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/dfabac5dc39a48ed939f7f168b96b0b6fa6e8523/components/glpi/ressources/config/11_glpi_config.png)
+
 
 Alertes visibles :
 - Changer les mots de passe par défaut (glpi, post-only, tech, normal)
