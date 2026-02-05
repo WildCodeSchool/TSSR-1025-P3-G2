@@ -14,7 +14,7 @@ Avant de lancer l’installation via le navigateur, on vérifie que les services
 
 Le service Apache est actif et tourne depuis plusieurs minutes.
 
-![Statut Apache](image1.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/install/40_glpi_install.png)  
 
 Service actif – Apache HTTP Server 2.4
 
@@ -22,7 +22,7 @@ Service actif – Apache HTTP Server 2.4
 
 Le serveur de base de données est lancé et prêt à recevoir les connexions.
 
-![Statut MariaDB](image2.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/install/39_glpi_install.png)  
 
 MariaDB 11.8.3 – service actif
 
@@ -30,7 +30,7 @@ MariaDB 11.8.3 – service actif
 
 Suppression du fichier index.html par défaut et ajustement des droits pour l’utilisateur web.
 
-![Ajustement des droits](image3.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/install/06_glpi_install.png)  
 
 Dossiers config, files et marketplace passés en propriété www-data avec droits 775
 
@@ -40,7 +40,7 @@ Dossiers config, files et marketplace passés en propriété www-data avec droit
 
 GLPI demande un accès temporaire en écriture sur certains fichiers de configuration pendant l’installation.
 
-![Avertissement écriture](image4.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/05_glpi_config.png)
 
 Accès temporaire nécessaire pour config-db.php et glpicrypt.key
 
@@ -48,7 +48,7 @@ Accès temporaire nécessaire pour config-db.php et glpicrypt.key
 
 Sélection de la langue d’interface pour l’assistant d’installation.
 
-![Sélection langue](image5.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/03_glpi_config.png)
 
 Langue choisie : Français
 
@@ -56,11 +56,9 @@ Langue choisie : Français
 
 Lecture et acceptation de la licence open-source.
 
-![Licence GLPI](image6.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/02_glpi_config.png)
 
 GNU General Public License – Version 3, 29 juin 2007
-
-![Licence suite](image7.png)  
 
 Écran de licence avec bouton Continuer
 
@@ -68,7 +66,7 @@ GNU General Public License – Version 3, 29 juin 2007
 
 Nouvelle installation ou mise à jour d’une version existante.
 
-![Début installation](image8.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/04_glpi_config.png)
 
 Option « Installer » sélectionnée
 
@@ -76,11 +74,11 @@ Option « Installer » sélectionnée
 
 GLPI teste l’environnement PHP et les extensions nécessaires.
 
-![Vérification compatibilité](image9.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/07_glpi_config.png)
 
 Tous les tests obligatoires sont passés (curl, gd, intl, zlib, sodium, etc.)
 
-![Vérification sécurité](image10.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/08_glpi_config.png)
 
 Quelques avertissements de sécurité à traiter après l’installation
 
@@ -88,7 +86,8 @@ Quelques avertissements de sécurité à traiter après l’installation
 
 Connexion réussie à MariaDB et sélection de la base.
 
-![Test connexion BDD](image11.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/09_glpi_config.png)
+
 
 Connexion validée – Base sélectionnée : glpidb
 
@@ -96,7 +95,7 @@ Connexion validée – Base sélectionnée : glpidb
 
 Création des tables et insertion des données de base.
 
-![Initialisation BDD](image12.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/10_glpi_config.png)
 
 Message de succès : « OK – La base a bien été initialisée »
 
@@ -106,7 +105,7 @@ Message de succès : « OK – La base a bien été initialisée »
 
 Connexion avec le compte super-admin par défaut et affichage des alertes de sécurité.
 
-![Tableau de bord](image13.png)  
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/config/11_glpi_config.png)
 
 Alertes importantes : changer les mots de passe par défaut, supprimer le dossier install/, sécuriser le dossier racine
 
@@ -118,7 +117,4 @@ Alertes importantes : changer les mots de passe par défaut, supprimer le dossie
 
 - Changer les mots de passe des comptes par défaut (glpi, post-only, tech, normal)  
 
-- Passer en HTTPS dès que possible (même avec un certificat auto-signé pour le labo)  
 - Mettre en place une synchronisation LDAP si besoin (voir document séparé)
-
-Bon laboratoire et bonne présentation !
