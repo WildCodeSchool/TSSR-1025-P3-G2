@@ -2,7 +2,7 @@
 
 Ce document détaille les étapes de création du conteneur et l'installation du moteur web.
 
-## 1. Installation du Service Apache
+## Installation du Service Apache
 
 - Le système d'exploitation de base est Debian 12.
 
@@ -17,6 +17,8 @@ Installation du paquet
 La commande suivante installe le serveur web et ses dépendances :
 
 ```
+
+### Installation du serveur Web **APACHE2**
 
 - L'installation d'Apache peut s'effectuer.
 
