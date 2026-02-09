@@ -22,5 +22,5 @@ Il a été conçu pour être accessible uniquement depuis le réseau interne (LA
   - URL directe : `http://10.20.20.7`
   - URL DNS : `http://portail.ecotech.local`
 
-Pour procéder au déploiement, veuillez consulter [Installation.md](./Installation.md).
-Pour les détails de paramétrage, voir [Configuration.md](./Configuration.md).
+- Pour procéder au déploiement, veuillez consulter [Installation.md](./Installation.md).
+- Pour les détails de paramétrage, voir [Configuration.md](./Configuration.md).
