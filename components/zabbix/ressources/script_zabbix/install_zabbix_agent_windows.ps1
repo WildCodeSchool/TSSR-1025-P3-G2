@@ -1,6 +1,6 @@
 ################################################################################
 # Script : install_zabbix_agent_windows.ps1
-# Version : 5.0 - PRODUCTION FINALE
+# Version : 5.2 - URL MSI CORRIGÉE
 # Compatible : Windows Server 2008 R2+ / Windows 7+
 # PSK : Gestion manuelle
 ################################################################################
@@ -24,19 +24,11 @@ $PSK_FILE = "$INSTALL_DIR\zabbix_agent2.psk"
 $LOG_FILE = "$INSTALL_DIR\zabbix_agent2.log"
 $BACKUP_DIR = "C:\ZabbixBackups"
 
-# ✅ CORRECTION URL MSI
-# Déterminer la version complète (ex: 7.4 -> 7.0.7 ou 7.4.0)
-$majorMinor = $ZABBIX_VERSION -replace '\.0$', ''  # 7.4 reste 7.4
-
-# URLs possibles pour Zabbix 7.x
+# URLs MSI Zabbix (versions LTS 7.0)
 $MSI_URLS = @(
-    # Essai 1 : Version LTS officielle 7.0.x
     "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.7/zabbix_agent2-7.0.7-windows-amd64-openssl.msi",
-    
-    # Essai 2 : Dernière version stable connue
     "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.6/zabbix_agent2-7.0.6-windows-amd64-openssl.msi",
-    
-    # Essai 3 : Version générique
+    "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.5/zabbix_agent2-7.0.5-windows-amd64-openssl.msi",
     "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.0/zabbix_agent2-7.0.0-windows-amd64-openssl.msi"
 )
 
@@ -76,23 +68,36 @@ function Test-AgentInstalled {
 }
 
 function Download-ZabbixMSI {
-    Write-Log "Telechargement depuis: $MSI_URL"
+    Write-Log "Recherche meilleure URL de telechargement..."
     
-    try {
-        $webClient = New-Object System.Net.WebClient
-        $webClient.DownloadFile($MSI_URL, $MSI_DOWNLOAD_PATH)
+    foreach ($url in $MSI_URLS) {
+        Write-Log "Tentative: $url"
         
-        if (-not (Test-Path $MSI_DOWNLOAD_PATH)) {
-            throw "Fichier non cree"
+        try {
+            $webClient = New-Object System.Net.WebClient
+            $webClient.DownloadFile($url, $MSI_DOWNLOAD_PATH)
+            
+            if (Test-Path $MSI_DOWNLOAD_PATH) {
+                $fileSize = (Get-Item $MSI_DOWNLOAD_PATH).Length
+                if ($fileSize -gt 1MB) {
+                    Write-Log "Telechargement reussi ($([math]::Round($fileSize/1MB, 2)) MB)" -Level SUCCESS
+                    Write-Log "URL utilisee: $url" -Level INFO
+                    return $true
+                }
+                else {
+                    Write-Log "Fichier invalide, tentative suivante..." -Level WARNING
+                    Remove-Item $MSI_DOWNLOAD_PATH -Force -ErrorAction SilentlyContinue
+                }
+            }
         }
-        
-        Write-Log "Telechargement reussi" -Level SUCCESS
-        return $true
+        catch {
+            Write-Log "Echec: $($_.Exception.Message)" -Level WARNING
+        }
     }
-    catch {
-        Write-Log "Erreur telechargement: $_" -Level ERROR
-        return $false
-    }
+    
+    Write-Log "Toutes les URLs ont echoue" -Level ERROR
+    Write-Log "Telechargement manuel requis depuis: https://www.zabbix.com/download_agents" -Level INFO
+    return $false
 }
 
 function Install-ZabbixAgent {
@@ -118,6 +123,9 @@ function Install-ZabbixAgent {
         }
         else {
             Write-Log "Erreur installation (code: $($proc.ExitCode))" -Level ERROR
+            if (Test-Path $logPath) {
+                Write-Log "Log: $logPath" -Level INFO
+            }
             return $false
         }
     }
@@ -380,9 +388,9 @@ function Main {
             exit 1
         }
         
-        Configure-Agent
-        Configure-PSK
-        Configure-Firewall
+        Configure-Agent | Out-Null
+        Configure-PSK | Out-Null
+        Configure-Firewall | Out-Null
         
         if (Start-AndVerify) { exit 0 } else { exit 1 }
     }
