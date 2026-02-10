@@ -24,8 +24,6 @@ Pour permettre aux serveurs de la DMZ (ex: Serveur Web) d'être accessibles depu
 
 > **[Menu Firewall > NAT > Port Forward]**
 
----
-
 ## 3. Règles de Pare-feu (Firewall Rules)
 
 La politique de sécurité appliquée est le **"Default Deny"** : tout ce qui n'est pas explicitement autorisé est bloqué.
