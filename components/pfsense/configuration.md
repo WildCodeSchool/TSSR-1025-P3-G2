@@ -7,7 +7,7 @@ pfSense est configuré avec plusieurs interfaces virtuelles pour segmenter les f
 
 - **WAN** : Connexion vers l'extérieur (Internet).
 - **LAN / Transit** : Lien vers le routeur interne (VyOS).
-- **DMZ : Zone accueillant le serveur Web et le Proxy.
+- **DMZ** : Zone accueillant le serveur Web et le Proxy.
 
 > **[Menu Interfaces > Assignments]**
 
