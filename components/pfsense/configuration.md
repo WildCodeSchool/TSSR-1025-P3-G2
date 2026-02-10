@@ -9,13 +9,13 @@ pfSense est configuré avec plusieurs interfaces virtuelles pour segmenter les f
 
 > **[Menu Interfaces > Assignments]**
 
-## 2. Services Réseau de Base
+# 2. Services Réseau de Base
 
-### 2.1. DNS Resolver (Unbound)
+## 2.1. DNS Resolver (Unbound)
 
 pfSense est configuré pour résoudre les noms externes tout en relayant les requêtes internes vers les contrôleurs de domaine **AD-01** et **AD-02**.
 
-### 2.2. NAT (Network Address Translation)
+## 2.2. NAT (Network Address Translation)
 
 Pour permettre aux serveurs de la DMZ (ex: Serveur Web) d'être accessibles depuis l'extérieur, des règles de **Port Forwarding** sont appliquées.
 
@@ -24,15 +24,15 @@ Pour permettre aux serveurs de la DMZ (ex: Serveur Web) d'être accessibles depu
 
 > **[Menu Firewall > NAT > Port Forward]**
 
-## 3. Règles de Pare-feu (Firewall Rules)
+# 3. Règles de Pare-feu (Firewall Rules)
 
 La politique de sécurité appliquée est le **"Default Deny"** : tout ce qui n'est pas explicitement autorisé est bloqué.
 
-### 3.1. Règles sur l'interface WAN
+## 3.1. Règles sur l'interface WAN
 
 Seuls les flux indispensables (VPN, ports exposés de la DMZ) sont autorisés en entrée.
 
-### 3.2. Règles sur l'interface DMZ
+## 3.2. Règles sur l'interface DMZ
 
 Le serveur Web est autorisé à contacter les serveurs de mise à jour, mais ne peut pas initier de connexion vers le VLAN Admin (VLAN 210).
 
