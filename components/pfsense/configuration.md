@@ -4,33 +4,24 @@ pfSense constitue la barrière périmétrique d'**EcoTech Solutions**. Son rôle
 
 # Table des matières :
 
-- [pfSense configuration du pare-feu et du VPN](#pfsense-configuration-du-pare-feu-et-du-vpn)
-- [Table des matières :](#table-des-matières-)
 - [1. Affectation des Interfaces et VLANs](#1-affectation-des-interfaces-et-vlans)
-  - [2. Services Réseau de Base](#2-services-réseau-de-base)
-    - [2.1. DNS Resolver (Unbound)](#21-dns-resolver-unbound)
-    - [2.2. NAT (Network Address Translation)](#22-nat-network-address-translation)
-  - [3. Règles de Pare-feu (Firewall Rules)](#3-règles-de-pare-feu-firewall-rules)
-    - [3.1. Règles sur l'interface WAN](#31-règles-sur-linterface-wan)
-    - [3.2. Règles sur l'interface DMZ (Sortant)](#32-règles-sur-linterface-dmz-sortant)
+- [2. Services Réseau de Base](#2-services-réseau-de-base)
+  - [2.1. DNS Resolver (Unbound)](#21-dns-resolver-unbound)
+  - [2.2. NAT (Network Address Translation)](#22-nat-network-address-translation)
+- [3. Règles de Pare-feu (Firewall Rules)](#3-règles-de-pare-feu-firewall-rules)
+  - [3.1. Règles sur l'interface WAN](#31-règles-sur-linterface-wan)
+  - [3.2. Règles sur l'interface DMZ (Sortant)](#32-règles-sur-linterface-dmz-sortant)
 - [4. Accès Distants (OpenVPN)](#4-accès-distants-openvpn)
   - [4.1. Architecture et Cryptographie (PKI)](#41-architecture-et-cryptographie-pki)
-    - [1. Autorité de Certification](#1-autorité-de-certification)
-    - [2. Certificats Serveur et Utilisateurs](#2-certificats-serveur-et-utilisateurs)
   - [4.2. Configuration du Serveur OpenVPN](#42-configuration-du-serveur-openvpn)
-    - [1. Paramétrage du Tunnel](#1-paramétrage-du-tunnel)
-    - [2. Configuration Réseau et DNS](#2-configuration-réseau-et-dns)
   - [4.3. Gestion des Utilisateurs et Privilèges](#43-gestion-des-utilisateurs-et-privilèges)
-    - [1. Création des utilisateurs](#1-création-des-utilisateurs)
-    - [2. Surcharge Administrateur (CSO)](#2-surcharge-administrateur-cso)
   - [4.4. Déploiement Client et Export](#44-déploiement-client-et-export)
   - [4.5. Stratégie de Sécurité (Pare-feu)](#45-stratégie-de-sécurité-pare-feu)
   - [4.6. Validation fonctionnelle](#46-validation-fonctionnelle)
 - [5. Journalisation et Monitoring (Log Management)](#5-journalisation-et-monitoring-log-management)
 - [6. Supervision sur pfSense](#6-supervision-sur-pfsense)
   - [6.1. Configuration de l'affichage](#61-configuration-de-laffichage)
-    - [1. Nettoyage et Mise en page](#1-nettoyage-et-mise-en-page)
-    - [6.2. Sélection des Widgets (Indicateurs)](#62-sélection-des-widgets-indicateurs)
+  - [6.2. Sélection des Widgets (Indicateurs)](#62-sélection-des-widgets-indicateurs)
   - [6.3. Organisation du Tableau de Bord](#63-organisation-du-tableau-de-bord)
   - [6.4. Validation fonctionnelle](#64-validation-fonctionnelle)
 
@@ -105,8 +96,6 @@ Création de l'autorité racine interne qui signera tous les certificats de l'in
 
 ### 2. Certificats Serveur et Utilisateurs
 
-<span id="12-certificats-serveur-et-utilisateurs"><span/>
-
 Un certificat serveur est généré pour identifier le pfSense :
 
 * **Nom :** `EcoTech-VPN-Server-Cert`
@@ -118,13 +107,11 @@ Chaque utilisateur (Prestataire ou Admin) disposera également de son propre cer
 ---
 
 ## 4.2. Configuration du Serveur OpenVPN
-
 <span id="2-configuration-du-serveur-openvpn"><span/>
 
 Le service a été configuré via l'assistant (Wizard) pour assurer une conformité rapide, puis affiné manuellement.
 
 ### 1. Paramétrage du Tunnel
-<span id="21-parametrage-du-tunnel"><span/>
 
 Les paramètres suivants définissent le "tuyau" chiffré :
 
@@ -136,7 +123,6 @@ Les paramètres suivants définissent le "tuyau" chiffré :
 | **Topology** | Subnet | Un seul sous-réseau pour tous les clients. |
 
 ### 2. Configuration Réseau et DNS
-<span id="22-configuration-reseau-et-dns"><span/>
 
 C'est ici que l'intégration avec le réseau local est définie :
 
@@ -165,8 +151,6 @@ Les comptes sont créés dans le **User Manager** local de pfSense.
 * **Exemple Admin :** `ecotech_admin` (Certificat créé, IP statique).
 
 ### 2. Surcharge Administrateur (CSO)
-
-<span id="32-surcharge-administrateur"><span/>
 
 Pour permettre à l'administrateur d'avoir tous les droits sans créer de faille de sécurité pour les prestataires, nous utilisons un **Client Specific Override**.
 
@@ -273,7 +257,7 @@ Les widgets ont été disposés logiquement pour séparer l'état du système (H
 | 1. System Information | 1. Interfaces |
 | 2. Thermal Sensors | 2. Gateways |
 | 3. Services Status | 3. OpenVPN |
-|  | 4. Traffic Graphs |
+|             | 4. Traffic Graphs |
 
 ## 6.4. Validation fonctionnelle
 
