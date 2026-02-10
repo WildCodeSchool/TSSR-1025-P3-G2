@@ -1,6 +1,6 @@
 ################################################################################
 # Script : install_zabbix_agent_windows.ps1
-# Version : 5.2 - URL MSI CORRIGÉE
+# Version : 6.0 - CORRECTION FINALE (Config corrompu + Service manquant)
 # Compatible : Windows Server 2008 R2+ / Windows 7+
 # PSK : Gestion manuelle
 ################################################################################
@@ -50,13 +50,7 @@ function Write-Log {
 }
 
 function Test-AgentInstalled {
-    Write-Log "Verification installation..."
-    
-    $service = Get-Service -Name $AGENT_SERVICE -ErrorAction SilentlyContinue
-    if ($service) {
-        Write-Log "Service trouve"
-        return $true
-    }
+    Write-Log "Verification repertoire installation..."
     
     if (Test-Path $INSTALL_DIR) {
         Write-Log "Repertoire trouve"
@@ -96,7 +90,6 @@ function Download-ZabbixMSI {
     }
     
     Write-Log "Toutes les URLs ont echoue" -Level ERROR
-    Write-Log "Telechargement manuel requis depuis: https://www.zabbix.com/download_agents" -Level INFO
     return $false
 }
 
@@ -118,14 +111,12 @@ function Install-ZabbixAgent {
         $proc = Start-Process -FilePath "msiexec.exe" -ArgumentList $args -Wait -PassThru -NoNewWindow
         
         if ($proc.ExitCode -in @(0, 1641, 3010)) {
-            Write-Log "Installation reussie" -Level SUCCESS
+            Write-Log "Installation MSI reussie" -Level SUCCESS
+            Start-Sleep 5
             return $true
         }
         else {
             Write-Log "Erreur installation (code: $($proc.ExitCode))" -Level ERROR
-            if (Test-Path $logPath) {
-                Write-Log "Log: $logPath" -Level INFO
-            }
             return $false
         }
     }
@@ -135,72 +126,43 @@ function Install-ZabbixAgent {
     }
 }
 
-function Backup-Config {
+function Create-CleanConfig {
+    Write-Log "Creation configuration propre..."
+    
+    # Configuration minimale mais complète
+    $configContent = @"
+Server=$ZABBIX_SERVER
+ServerActive=$ZABBIX_SERVER
+Hostname=$TARGET_HOSTNAME
+
+LogFile=$LOG_FILE
+LogFileSize=10
+"@
+
+    # Ajouter PSK si activé
+    if ($USE_PSK -eq "yes") {
+        $configContent += @"
+
+TLSConnect=psk
+TLSAccept=psk
+TLSPSKIdentity=$PSK_IDENTITY
+TLSPSKFile=$PSK_FILE
+"@
+    }
+    
+    # Backup ancien fichier
     if (Test-Path $CONFIG_FILE) {
         if (-not (Test-Path $BACKUP_DIR)) {
             New-Item -ItemType Directory -Path $BACKUP_DIR -Force | Out-Null
         }
         $backup = "$BACKUP_DIR\zabbix_agent2.conf.backup_$TIMESTAMP"
-        Copy-Item -Path $CONFIG_FILE -Destination $backup
-        Write-Log "Config sauvegardee"
-    }
-}
-
-function Configure-Agent {
-    Write-Log "Configuration agent..."
-    
-    Backup-Config
-    
-    if (-not (Test-Path $CONFIG_FILE)) {
-        Write-Log "Config non trouvee" -Level ERROR
-        return $false
+        Copy-Item -Path $CONFIG_FILE -Destination $backup -ErrorAction SilentlyContinue
+        Write-Log "Config sauvegardee: $backup"
     }
     
-    $config = Get-Content $CONFIG_FILE
-    
-    function Set-ConfigValue {
-        param([string]$Key, [string]$Value, [ref]$Arr)
-        
-        $pattern = "^$Key\s*="
-        $newLine = "$Key=$Value"
-        
-        $found = $false
-        for ($i = 0; $i -lt $Arr.Value.Count; $i++) {
-            if ($Arr.Value[$i] -match $pattern) {
-                $Arr.Value[$i] = $newLine
-                $found = $true
-                break
-            }
-        }
-        
-        if (-not $found) {
-            $commentPattern = "^#\s*$Key\s*="
-            for ($i = 0; $i -lt $Arr.Value.Count; $i++) {
-                if ($Arr.Value[$i] -match $commentPattern) {
-                    $Arr.Value[$i] = $newLine
-                    $found = $true
-                    break
-                }
-            }
-        }
-        
-        if (-not $found) {
-            $Arr.Value += $newLine
-        }
-    }
-    
-    Set-ConfigValue -Key "Server" -Value $ZABBIX_SERVER -Arr ([ref]$config)
-    Set-ConfigValue -Key "ServerActive" -Value $ZABBIX_SERVER -Arr ([ref]$config)
-    Set-ConfigValue -Key "Hostname" -Value $TARGET_HOSTNAME -Arr ([ref]$config)
-    Set-ConfigValue -Key "LogFile" -Value $LOG_FILE -Arr ([ref]$config)
-    Set-ConfigValue -Key "LogFileSize" -Value "10" -Arr ([ref]$config)
-    
-    $config | Set-Content -Path $CONFIG_FILE -Encoding UTF8
-    
-    Write-Log "Configuration appliquee" -Level SUCCESS
-    Write-Log "  Server       : $ZABBIX_SERVER"
-    Write-Log "  ServerActive : $ZABBIX_SERVER"
-    Write-Log "  Hostname     : $TARGET_HOSTNAME"
+    # Créer nouveau fichier
+    $configContent | Set-Content -Path $CONFIG_FILE -Encoding UTF8
+    Write-Log "Configuration creee" -Level SUCCESS
     
     return $true
 }
@@ -219,8 +181,10 @@ function Configure-PSK {
     Write-Log "Configuration PSK..."
     
     try {
+        # Créer fichier PSK
         $PSK_CONTENT | Set-Content -Path $PSK_FILE -Encoding ASCII -NoNewline
         
+        # Permissions restrictives
         $acl = Get-Acl $PSK_FILE
         $acl.SetAccessRuleProtection($true, $false)
         
@@ -236,57 +200,15 @@ function Configure-PSK {
         Set-Acl -Path $PSK_FILE -AclObject $acl
         
         Write-Log "Fichier PSK cree [OK]" -Level SUCCESS
+        Write-Log "  Identity: $PSK_IDENTITY"
+        Write-Log "  Fichier: $PSK_FILE"
+        
+        return $true
     }
     catch {
         Write-Log "Erreur creation PSK: $_" -Level ERROR
         return $false
     }
-    
-    $config = Get-Content $CONFIG_FILE
-    
-    function Set-ConfigValue {
-        param([string]$Key, [string]$Value, [ref]$Arr)
-        
-        $pattern = "^$Key\s*="
-        $newLine = "$Key=$Value"
-        
-        $found = $false
-        for ($i = 0; $i -lt $Arr.Value.Count; $i++) {
-            if ($Arr.Value[$i] -match $pattern) {
-                $Arr.Value[$i] = $newLine
-                $found = $true
-                break
-            }
-        }
-        
-        if (-not $found) {
-            $commentPattern = "^#\s*$Key\s*="
-            for ($i = 0; $i -lt $Arr.Value.Count; $i++) {
-                if ($Arr.Value[$i] -match $commentPattern) {
-                    $Arr.Value[$i] = $newLine
-                    $found = $true
-                    break
-                }
-            }
-        }
-        
-        if (-not $found) {
-            $Arr.Value += $newLine
-        }
-    }
-    
-    Set-ConfigValue -Key "TLSConnect" -Value "psk" -Arr ([ref]$config)
-    Set-ConfigValue -Key "TLSAccept" -Value "psk" -Arr ([ref]$config)
-    Set-ConfigValue -Key "TLSPSKIdentity" -Value $PSK_IDENTITY -Arr ([ref]$config)
-    Set-ConfigValue -Key "TLSPSKFile" -Value $PSK_FILE -Arr ([ref]$config)
-    
-    $config | Set-Content -Path $CONFIG_FILE -Encoding UTF8
-    
-    Write-Log "PSK configure [OK]" -Level SUCCESS
-    Write-Log "  Identity: $PSK_IDENTITY"
-    Write-Log "  Fichier: $PSK_FILE"
-    
-    return $true
 }
 
 function Configure-Firewall {
@@ -330,25 +252,75 @@ function Configure-Firewall {
     }
 }
 
+function Install-Service {
+    Write-Log "Installation du service Windows..."
+    
+    # Vérifier si le service existe déjà
+    $existingService = Get-Service -Name $AGENT_SERVICE -ErrorAction SilentlyContinue
+    
+    if ($existingService) {
+        Write-Log "Service deja present, suppression..." -Level WARNING
+        Stop-Service -Name $AGENT_SERVICE -Force -ErrorAction SilentlyContinue
+        Start-Sleep 2
+        
+        & sc.exe delete $AGENT_SERVICE
+        Start-Sleep 2
+    }
+    
+    # Installer le service via l'exécutable
+    try {
+        $exePath = Join-Path $INSTALL_DIR "zabbix_agent2.exe"
+        
+        if (-not (Test-Path $exePath)) {
+            Write-Log "Executable non trouve: $exePath" -Level ERROR
+            return $false
+        }
+        
+        Write-Log "Installation service via: $exePath"
+        
+        & $exePath --config $CONFIG_FILE --install
+        
+        Start-Sleep 3
+        
+        # Configurer démarrage automatique
+        & sc.exe config $AGENT_SERVICE start= auto
+        
+        Write-Log "Service installe [OK]" -Level SUCCESS
+        return $true
+    }
+    catch {
+        Write-Log "Erreur installation service: $_" -Level ERROR
+        return $false
+    }
+}
+
 function Start-AndVerify {
     Write-Log "Demarrage service..."
     
     try {
+        # Démarrer le service
+        & sc.exe start $AGENT_SERVICE
+        
+        Start-Sleep 5
+        
+        # Vérifier status
         $service = Get-Service -Name $AGENT_SERVICE -ErrorAction Stop
-        
-        Set-Service -Name $AGENT_SERVICE -StartupType Automatic
-        Restart-Service -Name $AGENT_SERVICE -Force
-        Start-Sleep 3
-        
-        $service = Get-Service -Name $AGENT_SERVICE
         
         if ($service.Status -eq "Running") {
             Write-Log "[OK] Service actif" -Level SUCCESS
         } else {
-            Write-Log "[ERREUR] Service non actif" -Level ERROR
+            Write-Log "[ERREUR] Service non actif (status: $($service.Status))" -Level ERROR
+            
+            # Logs Event Viewer
+            Write-Log "Consultation logs..."
+            Get-EventLog -LogName Application -Source "Zabbix*" -Newest 5 -ErrorAction SilentlyContinue | 
+                ForEach-Object { Write-Log "  $($_.Message)" }
+            
             return $false
         }
         
+        # Vérifier port
+        Start-Sleep 2
         $listening = Get-NetTCPConnection -LocalPort $AGENT_PORT -State Listen -ErrorAction SilentlyContinue
         
         if ($listening) {
@@ -360,7 +332,7 @@ function Start-AndVerify {
         return $true
     }
     catch {
-        Write-Log "Erreur: $_" -Level ERROR
+        Write-Log "Erreur demarrage: $_" -Level ERROR
         return $false
     }
 }
@@ -373,6 +345,7 @@ function Main {
     Write-Log "PSK       : $USE_PSK"
     Write-Log "======================================"
     
+    # Vérifier admin
     $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     
     if (-not $isAdmin) {
@@ -382,56 +355,72 @@ function Main {
     
     $installed = Test-AgentInstalled
     
+    # Mode repair
     if ($MODE -eq "repair") {
         if (-not $installed) {
-            Write-Log "ERREUR: Aucun agent" -Level ERROR
+            Write-Log "ERREUR: Aucun agent installe" -Level ERROR
             exit 1
         }
         
-        Configure-Agent | Out-Null
+        Write-Log "Mode reparation..."
+        
+        Create-CleanConfig | Out-Null
         Configure-PSK | Out-Null
         Configure-Firewall | Out-Null
+        
+        # Réinstaller service
+        Install-Service | Out-Null
         
         if (Start-AndVerify) { exit 0 } else { exit 1 }
     }
     
+    # Mode install
     if ($installed) {
         Write-Log "Agent present, reconfiguration..." -Level WARNING
-        Stop-Service -Name $AGENT_SERVICE -Force -ErrorAction SilentlyContinue
     } else {
+        Write-Log "Nouvelle installation..."
+        
         if (-not (Download-ZabbixMSI)) {
-            Write-Log "Echec telechargement" -Level ERROR
+            Write-Log "Echec telechargement MSI" -Level ERROR
             exit 1
         }
         
         if (-not (Install-ZabbixAgent)) {
-            Write-Log "Echec installation" -Level ERROR
+            Write-Log "Echec installation MSI" -Level ERROR
             exit 1
         }
-        
-        Start-Sleep 5
     }
     
-    if (-not (Configure-Agent)) { exit 1 }
+    # Configuration
+    if (-not (Create-CleanConfig)) { exit 1 }
     if (-not (Configure-PSK)) { exit 1 }
     Configure-Firewall | Out-Null
+    
+    # Installation et démarrage service
+    if (-not (Install-Service)) {
+        Write-Log "Echec installation service" -Level ERROR
+        exit 1
+    }
     
     if (Start-AndVerify) {
         Write-Log "===== INSTALLATION TERMINEE ====="
         Write-Log "Fichier config : $CONFIG_FILE"
         if ($USE_PSK -eq "yes") {
             Write-Log "Chiffrement PSK : ACTIVE"
-            Write-Log "Configurer PSK cote serveur Zabbix !"
+            Write-Log "IMPORTANT: Configurer PSK dans Zabbix !"
         } else {
             Write-Log "Chiffrement PSK : DESACTIVE"
         }
         Write-Log "=================================="
         
+        # Cleanup
         if (Test-Path $MSI_DOWNLOAD_PATH) {
-            Remove-Item $MSI_DOWNLOAD_PATH -Force
+            Remove-Item $MSI_DOWNLOAD_PATH -Force -ErrorAction SilentlyContinue
         }
+        
         exit 0
     } else {
+        Write-Log "Echec demarrage service" -Level ERROR
         exit 1
     }
 }
