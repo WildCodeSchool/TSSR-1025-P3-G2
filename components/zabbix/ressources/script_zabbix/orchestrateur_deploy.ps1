@@ -352,6 +352,7 @@ function Deploy-Windows-SSH {
     }
     
     $remoteScript = "C:\Temp\install_zabbix_agent_windows.ps1"
+    $remoteWrapper = "C:\Temp\run_install.ps1"
     
     Write-Log "Creation repertoire distant..." -Level INFO
     $mkdirCmd = "if not exist C:\Temp mkdir C:\Temp"
@@ -368,25 +369,59 @@ function Deploy-Windows-SSH {
     }
     
     $pskFile = Get-PSKFile -Hostname $Hostname
-    $pskContent = ""
     $usePSK = "no"
+    $pskIdentity = "PSK:${Hostname}"
     
+    # Créer le wrapper script localement
+    $wrapperContent = @"
+`$env:ZABBIX_VERSION = '$Global:ZABBIX_VERSION'
+`$env:ZABBIX_SERVER = '$ZabbixServer'
+`$env:HOSTNAME = '$Hostname'
+`$env:MODE = '$Mode'
+`$env:USE_PSK = '$usePSK'
+"@
+
     if ($pskFile) {
         $pskContent = Get-Content $pskFile -Raw
-        $pskContent = $pskContent -replace "'", "''"
+        $pskContent = $pskContent.Trim()
         $usePSK = "yes"
+        
+        # Ajouter PSK au wrapper
+        $wrapperContent += @"
+
+`$env:USE_PSK = 'yes'
+`$env:PSK_IDENTITY = '$pskIdentity'
+`$env:PSK_CONTENT = '$pskContent'
+"@
         Write-Log "PSK charge pour $Hostname" -Level SUCCESS
     }
     
-    Write-Log "Execution PowerShell a distance..." -Level INFO
+    # Ajouter l'appel au script principal
+    $wrapperContent += @"
+
+& 'C:\Temp\install_zabbix_agent_windows.ps1'
+"@
+
+    # Sauvegarder le wrapper localement
+    $localWrapper = Join-Path $env:TEMP "run_install_${Hostname}.ps1"
+    $wrapperContent | Set-Content -Path $localWrapper -Encoding UTF8
     
-    $remoteExec = "powershell -ExecutionPolicy Bypass -Command `"Set-Variable -Name 'env:ZABBIX_VERSION' -Value '$Global:ZABBIX_VERSION'; Set-Variable -Name 'env:ZABBIX_SERVER' -Value '$ZabbixServer'; Set-Variable -Name 'env:HOSTNAME' -Value '$Hostname'; Set-Variable -Name 'env:MODE' -Value '$Mode'; Set-Variable -Name 'env:USE_PSK' -Value '$usePSK'"
+    Write-Log "Copie wrapper script..." -Level INFO
+    $scpWrapper = @("-i", $Global:SSH_KEY, "-P", $SSHPort, "-o", "StrictHostKeyChecking=no", $localWrapper, "${SSHUser}@${IP}:${remoteWrapper}")
+    $scpW = Start-Process -FilePath "scp" -ArgumentList $scpWrapper -NoNewWindow -Wait -PassThru
     
-    if ($usePSK -eq "yes") {
-        $remoteExec += "; Set-Variable -Name 'env:PSK_CONTENT' -Value '$pskContent'; Set-Variable -Name 'env:PSK_IDENTITY' -Value 'PSK:$Hostname'"
+    if ($scpW.ExitCode -ne 0) {
+        Write-Log "Echec copie wrapper" -Level ERROR
+        return $false
     }
     
-    $remoteExec += "; & '$remoteScript'`""
+    # Supprimer le wrapper local
+    Remove-Item $localWrapper -Force -ErrorAction SilentlyContinue
+    
+    Write-Log "Execution PowerShell a distance..." -Level INFO
+    
+    # Commande simplifiée : juste exécuter le wrapper
+    $remoteExec = "powershell -ExecutionPolicy Bypass -File C:\Temp\run_install.ps1"
     
     $sshExec = @("-i", $Global:SSH_KEY, "-p", $SSHPort, "-o", "StrictHostKeyChecking=no", "${SSHUser}@${IP}", $remoteExec)
     $ssh = Start-Process -FilePath "ssh" -ArgumentList $sshExec -NoNewWindow -Wait -PassThru
@@ -400,7 +435,7 @@ function Deploy-Windows-SSH {
     }
     else {
         Write-Log "Echec deploiement Windows (SSH)" -Level ERROR
-        @{hostname=$Hostname; ip=$IP; status="failed"; method="SSH"} | 
+        @{hostname=$Hostname; ip=$IP; status="failed"; method="SSH"; exit_code=$ssh.ExitCode} | 
             ConvertTo-Json -Compress | Add-Content $Global:REPORT_TEMP
         "," | Add-Content $Global:REPORT_TEMP
         return $false
