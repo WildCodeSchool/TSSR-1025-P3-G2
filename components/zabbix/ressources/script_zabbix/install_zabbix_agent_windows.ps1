@@ -1,13 +1,13 @@
 ################################################################################
 # Script : install_zabbix_agent_windows.ps1
-# Version : 5.0 - PRODUCTION FINALE
+# Version : 5.2 - URL MSI CORRIGÉE
 # Compatible : Windows Server 2008 R2+ / Windows 7+
 # PSK : Gestion manuelle
 ################################################################################
 
 $ErrorActionPreference = "Stop"
 
-$ZABBIX_VERSION = if ($env:ZABBIX_VERSION) { $env:ZABBIX_VERSION } else { "7.4.0" }
+$ZABBIX_VERSION = if ($env:ZABBIX_VERSION) { $env:ZABBIX_VERSION } else { "7.4" }
 $ZABBIX_SERVER = if ($env:ZABBIX_SERVER) { $env:ZABBIX_SERVER } else { "10.20.20.12" }
 $TARGET_HOSTNAME = if ($env:HOSTNAME) { $env:HOSTNAME } else { $env:COMPUTERNAME }
 $MODE = if ($env:MODE) { $env:MODE } else { "install" }
@@ -24,11 +24,15 @@ $PSK_FILE = "$INSTALL_DIR\zabbix_agent2.psk"
 $LOG_FILE = "$INSTALL_DIR\zabbix_agent2.log"
 $BACKUP_DIR = "C:\ZabbixBackups"
 
-$MSI_BASE_URL = "https://cdn.zabbix.com/zabbix/binaries/stable/7.0"
-$MSI_FILENAME = "zabbix_agent2-${ZABBIX_VERSION}-windows-amd64-openssl.msi"
-$MSI_URL = "${MSI_BASE_URL}/${ZABBIX_VERSION}/${MSI_FILENAME}"
-$MSI_DOWNLOAD_PATH = "$env:TEMP\$MSI_FILENAME"
+# URLs MSI Zabbix (versions LTS 7.0)
+$MSI_URLS = @(
+    "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.7/zabbix_agent2-7.0.7-windows-amd64-openssl.msi",
+    "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.6/zabbix_agent2-7.0.6-windows-amd64-openssl.msi",
+    "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.5/zabbix_agent2-7.0.5-windows-amd64-openssl.msi",
+    "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.0/zabbix_agent2-7.0.0-windows-amd64-openssl.msi"
+)
 
+$MSI_DOWNLOAD_PATH = "$env:TEMP\zabbix_agent2.msi"
 $TIMESTAMP = Get-Date -Format "yyyyMMdd_HHmmss"
 
 function Write-Log {
@@ -64,23 +68,36 @@ function Test-AgentInstalled {
 }
 
 function Download-ZabbixMSI {
-    Write-Log "Telechargement depuis: $MSI_URL"
+    Write-Log "Recherche meilleure URL de telechargement..."
     
-    try {
-        $webClient = New-Object System.Net.WebClient
-        $webClient.DownloadFile($MSI_URL, $MSI_DOWNLOAD_PATH)
+    foreach ($url in $MSI_URLS) {
+        Write-Log "Tentative: $url"
         
-        if (-not (Test-Path $MSI_DOWNLOAD_PATH)) {
-            throw "Fichier non cree"
+        try {
+            $webClient = New-Object System.Net.WebClient
+            $webClient.DownloadFile($url, $MSI_DOWNLOAD_PATH)
+            
+            if (Test-Path $MSI_DOWNLOAD_PATH) {
+                $fileSize = (Get-Item $MSI_DOWNLOAD_PATH).Length
+                if ($fileSize -gt 1MB) {
+                    Write-Log "Telechargement reussi ($([math]::Round($fileSize/1MB, 2)) MB)" -Level SUCCESS
+                    Write-Log "URL utilisee: $url" -Level INFO
+                    return $true
+                }
+                else {
+                    Write-Log "Fichier invalide, tentative suivante..." -Level WARNING
+                    Remove-Item $MSI_DOWNLOAD_PATH -Force -ErrorAction SilentlyContinue
+                }
+            }
         }
-        
-        Write-Log "Telechargement reussi" -Level SUCCESS
-        return $true
+        catch {
+            Write-Log "Echec: $($_.Exception.Message)" -Level WARNING
+        }
     }
-    catch {
-        Write-Log "Erreur telechargement: $_" -Level ERROR
-        return $false
-    }
+    
+    Write-Log "Toutes les URLs ont echoue" -Level ERROR
+    Write-Log "Telechargement manuel requis depuis: https://www.zabbix.com/download_agents" -Level INFO
+    return $false
 }
 
 function Install-ZabbixAgent {
@@ -106,6 +123,9 @@ function Install-ZabbixAgent {
         }
         else {
             Write-Log "Erreur installation (code: $($proc.ExitCode))" -Level ERROR
+            if (Test-Path $logPath) {
+                Write-Log "Log: $logPath" -Level INFO
+            }
             return $false
         }
     }
@@ -368,9 +388,9 @@ function Main {
             exit 1
         }
         
-        Configure-Agent
-        Configure-PSK
-        Configure-Firewall
+        Configure-Agent | Out-Null
+        Configure-PSK | Out-Null
+        Configure-Firewall | Out-Null
         
         if (Start-AndVerify) { exit 0 } else { exit 1 }
     }
