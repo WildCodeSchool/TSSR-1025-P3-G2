@@ -22,8 +22,6 @@ Pour garantir la résolution des noms au sein de la forêt **ecotech.local** tou
     - **Domaine** : **ecotech.local**
     - **IP Cibles** : **10.20.20.5** (AD-01) et **10.20.20.6** (AD-02).
 
-> **Note :** Cela permet aux serveurs en DMZ de résoudre les noms des serveurs internes si nécessaire, sans exposer tout le trafic DNS à l'extérieur.
-
 ### 2.2. NAT (Network Address Translation)
 
 Pour permettre aux serveurs de la DMZ (ex: Serveur Web) d'être accessibles depuis l'extérieur, des règles de **Port Forwarding** sont appliquées.
@@ -53,7 +51,7 @@ La DMZ est une zone à risque car elle est exposée. Son accès vers l'interne e
 
 Le serveur Web est autorisé à contacter les serveurs de mise à jour, mais ne peut pas initier de connexion vers le VLAN Admin (VLAN 210).
 
-> **[Capture d'écran : Menu Firewall > Rules (par interface)]**
+> **[Menu Firewall > Rules (par interface)]**
 
 # 4. Accès Distants (OpenVPN)
 
