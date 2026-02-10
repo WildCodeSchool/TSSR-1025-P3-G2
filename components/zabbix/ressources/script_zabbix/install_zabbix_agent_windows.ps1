@@ -7,7 +7,7 @@
 
 $ErrorActionPreference = "Stop"
 
-$ZABBIX_VERSION = if ($env:ZABBIX_VERSION) { $env:ZABBIX_VERSION } else { "7.4.0" }
+$ZABBIX_VERSION = if ($env:ZABBIX_VERSION) { $env:ZABBIX_VERSION } else { "7.4" }
 $ZABBIX_SERVER = if ($env:ZABBIX_SERVER) { $env:ZABBIX_SERVER } else { "10.20.20.12" }
 $TARGET_HOSTNAME = if ($env:HOSTNAME) { $env:HOSTNAME } else { $env:COMPUTERNAME }
 $MODE = if ($env:MODE) { $env:MODE } else { "install" }
@@ -24,11 +24,23 @@ $PSK_FILE = "$INSTALL_DIR\zabbix_agent2.psk"
 $LOG_FILE = "$INSTALL_DIR\zabbix_agent2.log"
 $BACKUP_DIR = "C:\ZabbixBackups"
 
-$MSI_BASE_URL = "https://cdn.zabbix.com/zabbix/binaries/stable/7.0"
-$MSI_FILENAME = "zabbix_agent2-${ZABBIX_VERSION}-windows-amd64-openssl.msi"
-$MSI_URL = "${MSI_BASE_URL}/${ZABBIX_VERSION}/${MSI_FILENAME}"
-$MSI_DOWNLOAD_PATH = "$env:TEMP\$MSI_FILENAME"
+# ✅ CORRECTION URL MSI
+# Déterminer la version complète (ex: 7.4 -> 7.0.7 ou 7.4.0)
+$majorMinor = $ZABBIX_VERSION -replace '\.0$', ''  # 7.4 reste 7.4
 
+# URLs possibles pour Zabbix 7.x
+$MSI_URLS = @(
+    # Essai 1 : Version LTS officielle 7.0.x
+    "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.7/zabbix_agent2-7.0.7-windows-amd64-openssl.msi",
+    
+    # Essai 2 : Dernière version stable connue
+    "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.6/zabbix_agent2-7.0.6-windows-amd64-openssl.msi",
+    
+    # Essai 3 : Version générique
+    "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.0/zabbix_agent2-7.0.0-windows-amd64-openssl.msi"
+)
+
+$MSI_DOWNLOAD_PATH = "$env:TEMP\zabbix_agent2.msi"
 $TIMESTAMP = Get-Date -Format "yyyyMMdd_HHmmss"
 
 function Write-Log {
