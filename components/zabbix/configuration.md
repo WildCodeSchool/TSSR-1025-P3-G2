@@ -355,45 +355,33 @@ Un éditeur s'ouvre avec une grille vide. Vous allez pouvoir ajouter des widgets
 ----
 
 
-| Étape | Explication simple | Commande / Emplacement | Valeur par défaut / recommandée | Valeur à personnaliser (exemples) |
-|------|---------------------|------------------------|----------------------------------|------------------------------------|
-| 1    | Créer un dossier sécurisé pour les certificats sur le serveur Zabbix | `mkdir -p /etc/zabbix/zabbix_ssl` | `/etc/zabbix/zabbix_ssl` | — (gardez ce chemin) |
-| 2    | Donner les droits corrects (seul l’utilisateur zabbix doit pouvoir lire) | `chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl`<br>`chmod 600 /etc/zabbix/zabbix_ssl/*.key` | Propriétaire = zabbix:zabbix<br>Clés = 600 | — |
-| 3a   | Générer la clé privée du serveur | `openssl genrsa -out server.key 2048` | 2048 bits | — |
-| 3b   | Créer la demande de signature (CSR) | `openssl req -new -key server.key -out server.csr -subj "/C=FR/ST=Region/L=Ville/O=Entreprise/CN=votre-serveur-fqdn"` | — | **CN** = zabbix.monentreprise.fr ou IP si pas de DNS |
-| 3c   | Signer le certificat avec votre CA | `openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt` | Validité 365 jours | — |
-| 3d   | (Optionnel) Créer une CA root self-signed si vous n’en avez pas | `openssl req -x509 -newkey rsa:4096 -keyout ca.key -out ca.crt -days 1825 -nodes -subj "/CN=MonEntreprise-CA"` | Validité 5 ans | — |
-| 4    | Placer les fichiers sur le serveur Zabbix | — | `/etc/zabbix/zabbix_ssl/`<br>ca.crt<br>server.crt<br>server.key | — |
-| 5    | Modifier la configuration du serveur Zabbix | Éditez `/etc/zabbix/zabbix_server.conf` | `TLSConnect=unencrypted` par défaut | Ajouter :<br>`TLSConnect=cert`<br>`TLSAccept=cert`<br>`TLSCAFile=/etc/zabbix/zabbix_ssl/ca.crt`<br>`TLSCertFile=/etc/zabbix/zabbix_ssl/server.crt`<br>`TLSKeyFile=/etc/zabbix/zabbix_ssl/server.key` |
-| 6    | Redémarrer le serveur Zabbix | `systemctl restart zabbix-server` | — | — |
-| 7    | Sur chaque machine avec l’agent | `mkdir -p /etc/zabbix/zabbix_ssl`<br>`chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl`<br>`chmod 600 /etc/zabbix/zabbix_ssl/*.key` | — | — |
-| 8    | Copier les fichiers sur l’agent | `scp ca.crt agent.crt agent.key root@ip-agent:/etc/zabbix/zabbix_ssl/` | — | **agent.crt** et **agent.key** : uniques par machine (ou même certificat si vous acceptez) |
-| 9    | Modifier la configuration de l’agent | Éditez `/etc/zabbix/zabbix_agent2.conf` | `TLSConnect=unencrypted` par défaut | Ajouter :<br>`TLSConnect=cert`<br>`TLSAccept=cert`<br>`TLSCAFile=/etc/zabbix/zabbix_ssl/ca.crt`<br>`TLSCertFile=/etc/zabbix/zabbix_ssl/agent.crt`<br>`TLSKeyFile=/etc/zabbix/zabbix_ssl/agent.key` |
-| 10   | Redémarrer l’agent | `systemctl restart zabbix-agent` ou `systemctl restart zabbix-agent2` | — | — |
-| 11   | Dans l’interface web Zabbix | Hôte → onglet Chiffrement | Pas de chiffrement | Choisir **Certificat**<br>Ne pas remplir de PSK |
-| 12   | Vérifier que ça fonctionne | Logs serveur : `tail -f /var/log/zabbix/zabbix_server.log`<br>Logs agent : `tail -f /var/log/zabbix/zabbix_agent2.log` | — | Cherchez "connection accepted" ou "using certificate" |
+**Note importante sur le déploiement des agents avec TLS**  
 
-
-
-![image]()
-
-
-
-
-![image]()
-
-
-
-
-![image]()
+Dans votre infrastructure, les agents Zabbix ont été déployés de manière automatisée via un script d’installation centralisé. C’est la raison pour laquelle vous ne trouverez pas de captures d’écran détaillées de chaque étape manuelle ici.  
+Ce tableau ci-dessous est fourni à titre pédagogique : il décrit précisément comment configurer manuellement un agent Zabbix en mode TLS avec certificats sur une machine Linux (serveur ou agent). Vous pouvez vous en servir pour comprendre le processus, le reproduire sur une nouvelle machine, ou dépanner un agent existant.  
+Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles pour Zabbix 7.0 sur Debian 12.
 
 
 
 
 
-![image]()
-
-
+| Étape | Explication simple                                                       | Commande / Emplacement                                                                                                     | Valeur par défaut / recommandée                               | Valeur à personnaliser (exemples)                                                                                                                                                          |
+| ----- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1     | Créer un dossier sécurisé pour les certificats sur le serveur Zabbix     | mkdir -p /etc/zabbix/zabbix_ssl                                                                                            | /etc/zabbix/zabbix_ssl                                        | — (gardez ce chemin)                                                                                                                                                                       |
+| 2     | Donner les droits corrects (seul l’utilisateur zabbix doit pouvoir lire) | chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl<br>chmod 600 /etc/zabbix/zabbix_ssl/*.key                                    | Propriétaire = zabbix:zabbix<br>Clés = 600                    | —                                                                                                                                                                                          |
+| 3a    | Générer la clé privée du serveur                                         | openssl genrsa -out server.key 2048                                                                                        | 2048 bits                                                     | —                                                                                                                                                                                          |
+| 3b    | Créer la demande de signature (CSR)                                      | openssl req -new -key server.key -out server.csr -subj /C=FR/ST=Region/L=Ville/O=Entreprise/CN=votre-serveur-fqdn          | —                                                             | CN = zabbix.monentreprise.fr ou IP si pas de DNS                                                                                                                                           |
+| 3c    | Signer le certificat avec votre CA                                       | openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt                        | Validité 365 jours                                            | —                                                                                                                                                                                          |
+| 3d    | (Optionnel) Créer une CA root self-signed si vous n’en avez pas          | openssl req -x509 -newkey rsa:4096 -keyout ca.key -out ca.crt -days 1825 -nodes -subj /CN=MonEntreprise-CA                 | Validité 5 ans                                                | —                                                                                                                                                                                          |
+| 4     | Placer les fichiers sur le serveur Zabbix                                | —                                                                                                                          | /etc/zabbix/zabbix_ssl/<br>ca.crt<br>server.crt<br>server.key | —                                                                                                                                                                                          |
+| 5     | Modifier la configuration du serveur Zabbix                              | Éditez /etc/zabbix/zabbix_server.conf                                                                                      | TLSConnect=unencrypted par défaut                             | Ajouter :<br>TLSConnect=cert<br>TLSAccept=cert<br>TLSCAFile=/etc/zabbix/zabbix_ssl/ca.crt<br>TLSCertFile=/etc/zabbix/zabbix_ssl/server.crt<br>TLSKeyFile=/etc/zabbix/zabbix_ssl/server.key |
+| 6     | Redémarrer le serveur Zabbix                                             | systemctl restart zabbix-server                                                                                            | —                                                             | —                                                                                                                                                                                          |
+| 7     | Sur chaque machine avec l’agent                                          | mkdir -p /etc/zabbix/zabbix_ssl<br>chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl<br>chmod 600 /etc/zabbix/zabbix_ssl/*.key | —                                                             | —                                                                                                                                                                                          |
+| 8     | Copier les fichiers sur l’agent                                          | scp ca.crt agent.crt agent.key root@ip-agent:/etc/zabbix/zabbix_ssl/                                                       | —                                                             | agent.crt et agent.key : uniques par machine (ou même certificat si vous acceptez)                                                                                                         |
+| 9     | Modifier la configuration de l’agent                                     | Éditez /etc/zabbix/zabbix_agent2.conf                                                                                      | TLSConnect=unencrypted par défaut                             | Ajouter :<br>TLSConnect=cert<br>TLSAccept=cert<br>TLSCAFile=/etc/zabbix/zabbix_ssl/ca.crt<br>TLSCertFile=/etc/zabbix/zabbix_ssl/agent.crt<br>TLSKeyFile=/etc/zabbix/zabbix_ssl/agent.key   |
+| 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
+| 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
+| 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
 
 
 
