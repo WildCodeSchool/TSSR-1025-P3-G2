@@ -1,0 +1,341 @@
+## Configuration post-installation de l'interface web Zabbix 7.0
+
+
+--
+
+- configuration web niveau serveur zabbix 
+
+- configuration d'une antenne zabbix + certificat TLS
+
+- configuration Vyos ( agent config ) 
+
+- Dashboard
+
+---
+
+## Bienvenue et choix de la langue par défaut
+
+Une fois les services redémarrés, ouvrez votre navigateur et accédez à l'adresse :
+http://IP-de-votre-serveur/zabbix
+
+- Vous arrivez sur l'écran "Welcome to Zabbix 7.0".
+- Sélectionnez la langue par défaut dans la liste déroulante : **English (en_US)** (seule option visible sur vos captures – le français n'apparaît pas car les locales serveur ne sont pas toutes générées ou la traduction n'est pas activée par défaut).
+- Cliquez sur **Next step** (Prochaine étape).
+
+
+### Étape 2 : Vérification des prérequis et connexion à la base de données
+
+- L'assistant vérifie PHP, extensions, etc. → passez si tout est OK.
+- Configurez la connexion DB (comme sur votre capture) :
+  - Type de base : **MySQL**
+  - Hôte : **localhost**
+  - Port : **0** (défaut)
+  - Nom de la base : **zabbix**
+  - Utilisateur : **zabbix**
+  - Mot de passe : **Azerty1*** (ou celui que vous avez défini)
+  - Stockage des identifiants : **Texte brut** (simple pour débuter)
+- Cliquez sur **Prochaine étape**.
+
+### Étape 3 : Paramètres du serveur (Nom, fuseau horaire, thème)
+
+- Nom du serveur Zabbix : **ECO-BDX-EX10** (ou le nom que vous souhaitez, comme sur votre capture)
+- Fuseau horaire par défaut : **Système (UTC+00:00) UTC** (choisissez Europe/Paris si disponible)
+- Thème par défaut : **Sombre** (Dark theme, comme sélectionné sur vos captures)
+- Cliquez sur **Prochaine étape** puis **Installer**.
+
+### Étape 4 : Succès de l'installation
+
+- Message de félicitations : "Félicitations ! Vous avez installé l'interface Zabbix avec succès."
+- Fichier de configuration `conf/zabbix.conf.php` créé.
+- Cliquez sur **Terminé** → vous êtes redirigé vers la page de login.
+
+![image]()
+
+
+### Étape 5 : Connexion initiale et changement du mot de passe Admin
+
+Identifiants par défaut :
+- Nom d'utilisateur : **Admin**
+- Mot de passe : **zabbix** (ou vide si pas changé)
+
+**Attention** :
+- Si vous tapez un mauvais mot de passe plusieurs fois → blocage temporaire ("Le compte est temporairement bloqué").
+- Utilisez le bon mot de passe pour vous connecter.
+
+![image]()
+
+Une fois connecté :
+- Allez dans **Administration → Utilisateurs** (ou directement sur le profil Admin).
+- Cliquez sur **Admin** → onglet **Utilisateur**.
+- Dans la section **Mot de passe** :
+  - Entrez l'ancien mot de passe (si demandé).
+  - Définissez un **nouveau mot de passe fort** (changez-le immédiatement pour la sécurité !).
+  - Confirmez-le deux fois.
+- Sélectionnez éventuellement :
+  - Langue : **Valeur système par défaut** (ou French si disponible après locales)
+  - Fuseau horaire : **Valeur système par défaut (UTC+00:00) UTC**
+  - Thème : **Valeur système par défaut** (ou Sombre)
+- Cliquez sur **Actualiser** (Update).
+
+![image]()
+
+![image]()
+
+### Étape 6 : Création d'un hôte exemple (pour monitorer un serveur)
+
+Allez dans **Configuration → Hôtes** → cliquez sur **Créer un hôte** (Create host).
+
+Exemple basé sur vos captures (hôte secondaire AD) :
+
+- **Nom de l'hôte** : ECO-BDX-EX02
+- **Nom visible** : ECO-BDX-EX02 (Serveur AD secondaire)
+- **Modèles** : Sélectionnez **Windows by Zabbix agent** (ou un template adapté Windows)
+- **Groupes d'hôtes** : Ajoutez **Windows Servers** (ou créez-le si absent)
+- **Interfaces** :
+  - Type : **Agent**
+  - Adresse IP : **10.20.20.6**
+  - Port : **10050** (défaut pour agent Zabbix)
+- **Chiffrement** (onglet Chiffrement) :
+  - Connexion à l'hôte : **PSK**
+  - Identité PSK : **PSK.ECO-BDX-EX02** (exemple)
+  - PSK : **ff1e74b0f166a94829d22deac0d2af2e7d8b d59e c9233bce9045** (générez un vrai PSK fort !)
+- Cliquez sur **Ajouter**.
+
+![image]()
+
+*L'hôte apparaît maintenant dans la liste des hôtes surveillés. Vous pouvez ajouter des items, triggers, etc., via les templates appliqués.
+
+**Astuces rapides :**
+- Changez toujours le mot de passe Admin dès la première connexion.
+- Si le français n'apparaît pas dans les options de langue → revenez en console serveur et relancez `dpkg-reconfigure locales` pour ajouter `fr_FR.UTF-8 UTF-8`, puis redémarrez Apache.
+- Pour plus d'hôtes : installez l'agent Zabbix sur les machines cibles et configurez PSK ou certificat pour la sécurité.
+
+
+----
+
+## Configuration d'un proxy Zabbix avec chiffrement TLS par certificats
+
+Pour distribuer la charge de supervision (ex. : surveiller des sites distants sans ouvrir trop de ports), vous pouvez ajouter un **proxy Zabbix** chiffré en TLS certificats (plus sécurisé que PSK pour certains scénarios).
+
+Vos captures montrent une configuration **active proxy** (ProxyMode=0) avec chiffrement **cert** (TLSConnect=cert / TLSAccept=cert).
+
+### 1. Préparation des certificats (sur le serveur Zabbix principal)
+
+Créez un dossier sécurisé pour les fichiers TLS :
+
+
+    mkdir -p /etc/zabbix/zabbix_ssl
+    cd /etc/zabbix/zabbix_ssl
+![image]()
+
+cd /etc/zabbix/zabbix_ssl
+
+![image]()
+
+
+Changez le propriétaire pour que seul l'utilisateur zabbix puisse lire :
+
+    chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl
+    chmod 600 /etc/zabbix/zabbix_ssl/*.key   # Pour les clés privées
+
+![image]()
+
+Générez les certificats
+
+Créez la clé privée du proxy
+
+    openssl genrsa -out ex11.key 2048
+
+Créez la demande de signature (CSR) avec les infos de votre organisation 
+
+    openssl req -new -key ex11.key -out ex11.csr -subj "/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=ECO-BDX-EX11"
+
+Signez la CSR avec votre CA root (rootCA.crt et rootCA.key déjà existants) 
+
+    openssl x509 -req -in ex11.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out ex11.crt -days 365 -sha256
+
+![image]()
+
+Copiez les fichiers nécessaires vers le proxy distant (ex. via scp, comme sur votre capture) :
+
+    scp rootCA.crt ex11.crt ex11.key root@10.20.20.13:/etc/zabbix/zabbix_ssl/
+
+
+2. Configuration sur le serveur Zabbix principal
+
+Éditez /etc/zabbix/zabbix_server.conf :
+
+    nano /etc/zabbix/zabbix_server.conf
+
+Ajoutez ou modifiez ces lignes :
+
+TLSCAFile=/etc/zabbix/zabbix_ssl/rootCA.crt
+TLSCertFile=/etc/zabbix/zabbix_ssl/ex10.crt     # Cert du serveur
+TLSKeyFile=/etc/zabbix/zabbix_ssl/ex10.key      # Clé du serveur
+
+![image]()
+
+Redémarrez le serveur :
+          
+    systemctl restart zabbix-server
+
+3. Installation et configuration du proxy Zabbix (sur la machine distante)
+
+Installez le paquet proxy (comme sur votre capture) :
+
+    wget https://repo.zabbix.com/zabbix/7.0/debian/pool/main/z/zabbix-release/zabbix-release_7.0-1+debian12_all.deb
+    dpkg -i zabbix-release_7.0-1+debian12_all.deb
+    apt update && apt install zabbix-proxy-sqlite3 -y
+
+Créez le dossier SSL et ajustez les droits (identique au serveur) :
+
+    mkdir -p /etc/zabbix/zabbix_ssl
+    chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl
+
+![image]()
+
+Éditez /etc/zabbix/zabbix_proxy.conf (comme sur votre capture) :
+
+    nano /etc/zabbix/zabbix_proxy.conf
+
+**Paramètres clés configurés :**
+**Hostname=ECO-BDX-EX11**
+**Server=10.20.20.12          # IP du serveur Zabbix principal**
+**DBName=/var/lib/zabbix/zabbix_proxy.db**
+**ProxyMode=0                 # 0 = active (le proxy se connecte au serveur)**
+
+Chiffrement TLS certificats :
+
+    TLSConnect=cert
+    TLSAccept=cert
+    TLSCAFile=/etc/zabbix/zabbix_ssl/rootCA.crt
+    TLSCertFile=/etc/zabbix/zabbix_ssl/ex11.crt
+    TLSKeyFile=/etc/zabbix/zabbix_ssl/ex11.key
+*TLSServerCertIssuer=/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=EcoTech-CA
+TLSServerCertSubject=/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=ECO-BDX-EX10*
+
+![image]()
+
+
+Redémarrez et activez le proxy :
+
+    systemctl restart zabbix-proxy
+    systemctl enable zabbix-proxy
+
+4. Ajout du proxy dans l'interface web Zabbix
+
+Connectez-vous à l'interface web avec Admin.
+Allez dans Administration → Proxies :
+
+![image]()
+
+
+Cliquez sur Créer un proxy en haut à droite
+Nom du proxy : ECO-BDX-EX11 (doit correspondre exactement au Hostname dans zabbix_proxy.conf)
+Mode : Active (car ProxyMode=0)
+Chiffrement : Certificat (ou PSK si vous changez)
+PSK identity et PSK : laissez vide (puisque cert)
+Sauvegardez.
+
+Le proxy apparaît dans la liste. Attendez 1–2 minutes : la colonne État passe à "Actif", Version s'affiche, et Dernière observation se met à jour.
+Vous pouvez maintenant assigner des hôtes à ce proxy (dans Configuration → Hôtes → onglet Proxy).
+Sécurité importante :
+
+Les clés privées (.key) sont très sensibles -> chmod 600 et propriétaire zabbix:zabbix.
+Utilisez une vraie CA ou Let's Encrypt en production.
+
+
+## Configuration de l'agent Zabbix sur VyOS (sans chiffrement)
+
+Cette section explique comment installer et configurer l'agent Zabbix sur un routeur VyOS 
+(version récente comme 1.4 ou 1.5), sans chiffrement TLS/PSK (mode passif ou actif simple).
+L'objectif est de surveiller le routeur VyOS (interfaces, CPU, mémoire, services, etc.) 
+depuis votre serveur Zabbix principal.
+
+Étape 1 : Activer et configurer l'agent Zabbix via CLI VyOS
+
+Connectez-vous en mode configuration :
+
+    configure
+
+Configurez l'agent Zabbix (mode actif, connexion vers le serveur) :
+
+    set service monitoring zabbix-agent server '10.20.20.12'
+    set service monitoring zabbix-agent server-active '10.20.20.12'
+    set service monitoring zabbix-agent host-name 'ECO-BDX-DX03'
+
+
+![image]()
+
+*server : IP du serveur Zabbix (pour mode passif)
+server-active : IP du serveur Zabbix (pour mode actif – recommandé pour VyOS derrière NAT/firewall)
+host-name : Nom exact de l'hôte dans Zabbix (doit correspondre à ce que vous avez créé dans l'interface web)*
+
+Validez et sauvegardez :
+
+    commit
+    save
+
+Vérifier les configurations :
+    
+    show service monitoring zabbix-agent
+
+Vérifiez les processus Zabbix :
+
+    ps aux | grep zabbix
+
+*Vous devriez voir quelque chose comme :* zabbix   292940  0.5  2.2 1249876 226640 ?  Ssl  11:43   
+0:00 /usr/sbin/zabbix_agent2 --config /run/zabbix/zabbix_agent2.conf --foreground
+
+![image]()
+
+Vérifiez les logs pour confirmer que l'agent communique bien :
+
+    tail -f /var/log/zabbix/zabbix_agent2.log | grep zabbix
+
+*Logs typiques (comme sur vos captures) :*
+
+*Chargement des plugins (VFS, Web, etc.)*
+*Version du protocole : 6.0.13 ou supérieure*
+*Hostname : ECO-BDX-DX03*
+
+
+![image]()
+
+
+
+
+
+![image]()
+
+
+
+
+![image]()
+
+
+
+
+![image]()
+
+
+
+
+![image]()
+
+
+
+
+
+![image]()
+
+
+
+
+
+
+
+
+
+
+
