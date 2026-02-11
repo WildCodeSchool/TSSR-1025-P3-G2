@@ -293,6 +293,9 @@ Vérifiez les logs pour confirmer que l'agent communique bien :
 
     tail -f /var/log/zabbix/zabbix_agent2.log | grep zabbix
 
+![image]()
+
+
 *Logs typiques (comme sur vos captures) :*
 
 *Chargement des plugins (VFS, Web, etc.)*
@@ -300,6 +303,88 @@ Vérifiez les logs pour confirmer que l'agent communique bien :
 *Hostname : ECO-BDX-DX03*
 
 
+## Création d'un tableau de bord (Dashboard) dans Zabbix 7.0
+
+Une fois vos hôtes surveillés (serveur principal, proxy, VyOS, etc.), l'étape suivante consiste à visualiser les données de façon claire et personnalisée via un **tableau de bord**.
+
+### Étape 1 : Accéder à la section Tableaux de bord
+
+Connectez-vous à l'interface web Zabbix :
+
+- Allez dans **Surveillance → Tableaux de bord** (ou directement via le menu latéral gauche : **Tableaux de bord**)
+
+- Barre de recherche et filtres (Nom, Afficher, Tous / Créé par moi)
+- Bouton bleu **Créer un tableau de bord** en haut à droite
+- Liste vide ou avec quelques dashboards par défaut/partagés ("À moi" ou "Partagé")
+
+### Étape 2 : Créer un nouveau tableau de bord
+
+Cliquez sur le bouton **Créer un tableau de bord** (Créer un tableau de bord).
+
+Un éditeur s'ouvre avec une grille vide. Vous allez pouvoir ajouter des widgets (graphiques, problèmes, maps, etc.).
+
+**Configuration de base d'un dashboard simple (exemple pour surveiller votre infrastructure)** :
+
+1. **Nom du tableau de bord**  
+   En haut à gauche : cliquez sur "Nouveau tableau de bord" et renommez-le, par exemple :  
+   **Infrastructure ECO-BDX – Vue Globale**
+
+2. **Ajouter des widgets**  
+   Cliquez sur **Ajouter un widget** (bouton bleu en haut à droite ou directement sur la grille vide).
+
+   Exemples de widgets utiles à ajouter :
+
+   - **Graphique classique** ou **Graphique** :  
+     - Sélectionnez un hôte (ex. ECO-BDX-EX10 ou ECO-BDX-DX03)  
+     - Choisissez un item (ex. CPU load, Interface traffic eth0, Memory used)  
+     - Type : Ligne, Barres, etc.
+
+   - **Problèmes** :  
+     Affiche la liste des triggers actifs (problèmes en cours) avec priorité (Info, Warning, Average, High, Disaster)
+
+
+4. **Options globales du dashboard**  
+   - Cliquez sur l'icône roue crantée (Paramètres) en haut à droite  
+   - Définissez :  
+     - Rafraîchissement automatique : 30s ou 1min  
+     - Fuseau horaire : Europe/Paris  
+
+5. **Enregistrer**  
+   Cliquez sur **Enregistrer** (ou **Enregistrer et fermer**) en haut à droite.
+
+----
+
+
+| Étape | Explication simple | Commande / Emplacement | Valeur par défaut / recommandée | Valeur à personnaliser (exemples) |
+|------|---------------------|------------------------|----------------------------------|------------------------------------|
+| 1    | Créer un dossier sécurisé pour les certificats sur le serveur Zabbix | `mkdir -p /etc/zabbix/zabbix_ssl` | `/etc/zabbix/zabbix_ssl` | — (gardez ce chemin) |
+| 2    | Donner les droits corrects (seul l’utilisateur zabbix doit pouvoir lire) | `chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl`<br>`chmod 600 /etc/zabbix/zabbix_ssl/*.key` | Propriétaire = zabbix:zabbix<br>Clés = 600 | — |
+| 3a   | Générer la clé privée du serveur | `openssl genrsa -out server.key 2048` | 2048 bits | — |
+| 3b   | Créer la demande de signature (CSR) | `openssl req -new -key server.key -out server.csr -subj "/C=FR/ST=Region/L=Ville/O=Entreprise/CN=votre-serveur-fqdn"` | — | **CN** = zabbix.monentreprise.fr ou IP si pas de DNS |
+| 3c   | Signer le certificat avec votre CA | `openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt` | Validité 365 jours | — |
+| 3d   | (Optionnel) Créer une CA root self-signed si vous n’en avez pas | `openssl req -x509 -newkey rsa:4096 -keyout ca.key -out ca.crt -days 1825 -nodes -subj "/CN=MonEntreprise-CA"` | Validité 5 ans | — |
+| 4    | Placer les fichiers sur le serveur Zabbix | — | `/etc/zabbix/zabbix_ssl/`<br>ca.crt<br>server.crt<br>server.key | — |
+| 5    | Modifier la configuration du serveur Zabbix | Éditez `/etc/zabbix/zabbix_server.conf` | `TLSConnect=unencrypted` par défaut | Ajouter :<br>`TLSConnect=cert`<br>`TLSAccept=cert`<br>`TLSCAFile=/etc/zabbix/zabbix_ssl/ca.crt`<br>`TLSCertFile=/etc/zabbix/zabbix_ssl/server.crt`<br>`TLSKeyFile=/etc/zabbix/zabbix_ssl/server.key` |
+| 6    | Redémarrer le serveur Zabbix | `systemctl restart zabbix-server` | — | — |
+| 7    | Sur chaque machine avec l’agent | `mkdir -p /etc/zabbix/zabbix_ssl`<br>`chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl`<br>`chmod 600 /etc/zabbix/zabbix_ssl/*.key` | — | — |
+| 8    | Copier les fichiers sur l’agent | `scp ca.crt agent.crt agent.key root@ip-agent:/etc/zabbix/zabbix_ssl/` | — | **agent.crt** et **agent.key** : uniques par machine (ou même certificat si vous acceptez) |
+| 9    | Modifier la configuration de l’agent | Éditez `/etc/zabbix/zabbix_agent2.conf` | `TLSConnect=unencrypted` par défaut | Ajouter :<br>`TLSConnect=cert`<br>`TLSAccept=cert`<br>`TLSCAFile=/etc/zabbix/zabbix_ssl/ca.crt`<br>`TLSCertFile=/etc/zabbix/zabbix_ssl/agent.crt`<br>`TLSKeyFile=/etc/zabbix/zabbix_ssl/agent.key` |
+| 10   | Redémarrer l’agent | `systemctl restart zabbix-agent` ou `systemctl restart zabbix-agent2` | — | — |
+| 11   | Dans l’interface web Zabbix | Hôte → onglet Chiffrement | Pas de chiffrement | Choisir **Certificat**<br>Ne pas remplir de PSK |
+| 12   | Vérifier que ça fonctionne | Logs serveur : `tail -f /var/log/zabbix/zabbix_server.log`<br>Logs agent : `tail -f /var/log/zabbix/zabbix_agent2.log` | — | Cherchez "connection accepted" ou "using certificate" |
+
+
+
+![image]()
+
+
+
+
+![image]()
+
+
+
+
 ![image]()
 
 
@@ -308,26 +393,6 @@ Vérifiez les logs pour confirmer que l'agent communique bien :
 
 ![image]()
 
-
-
-
-![image]()
-
-
-
-
-![image]()
-
-
-
-
-![image]()
-
-
-
-
-
-![image]()
 
 
 
