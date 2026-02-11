@@ -1,53 +1,159 @@
 # Installation simple de Zabbix 7.0 sur Debian 12 (Proxmox LXC)
 
-**Objectif de ce mini-guide**  
-Montrer comment installer **Zabbix 7.0** (logiciel de supervision gratuit et puissant) sur une machine Debian 12 (souvent utilisée dans un conteneur LXC sous Proxmox).
+---
 
-Ce document est fait pour les débutants : on explique **chaque commande** que l’on voit sur les captures d’écran.
+## Objectif : 
+Installer Zabbix 7.0 (logiciel de supervision open-source) sur une machine Debian 12.
+Ce guide est destiné aux débutants : chaque commande est expliquée simplement.
 
-Date des captures : février 2026  
-Version ciblée : **Zabbix 7.0 LTS** (version longue durée – supportée jusqu’en 2029)
-
-## 📋 Prérequis
-
-- Une machine / conteneur **Debian 12 Bookworm** (Proxmox LXC, VM, serveur dédié…)
-- Accès root (ou sudo)
-- Connexion internet
-- Au moins 2 Go de RAM et 10-20 Go de disque (idéalement plus si vous surveillez beaucoup de machines)
-
-## Étapes montrées dans les captures
-
-### 1. Mise à jour du système (le réflexe de base)
-
-```bash
-apt update
+Version ciblée : Zabbix 7.0 LTS
 
 
 
+Étapes d’installation
+### 1. Mise à jour du système
+Rafraîchir la liste des paquets disponibles (toujours la première étape) :
+
+        apt update
+
+![image]()
+
+
+### 2. Installation des outils de base utiles
+text
+
+        apt install wget curl nano gnupg2 -y
+
+![image]()
+
+Explication des outils installés :
+
+
+*gnupg2 : Vérifier les signatures des paquets (sécurité)*
+
+
+### 3. Ajout du dépôt officiel Zabbix 7.0
+
+Téléchargez le paquet qui ajoute le dépôt Zabbix :
+
+    wget https://repo.zabbix.com/zabbix/7.0/debian/pool/main/z/zabbix-release/zabbix-release_7.0-1+debian12_all.deb
+
+![image]()
+
+*Vérifiez toujours sur la page officielle :
+https://www.zabbix.com/download → Debian 12 → onglet « Zabbix 7.0 » → copiez le lien wget exact.*
+
+Installez ensuite ce paquet :
+
+    dpkg -i zabbix-release_7.0-1+debian12_all.deb
+
+![image]()
+
+*Cette commande crée le fichier /etc/apt/sources.list.d/zabbix.list → votre système sait maintenant où trouver les paquets Zabbix récents.*
+
+
+### 4. Installation des paquets Zabbix principaux
+
+Commande principale qui installe presque tout ce dont on a besoin :
+text
+
+    apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server -y
+
+![image]()
+
+
+Rôle de chaque paquet (explications simples) :
+
+*zabbix-server-mysql : Le moteur principal (collecte, stocke et calcule les données)
+zabbix-frontend-php : L’interface web (ce que vous voyez dans le navigateur)
+zabbix-apache-conf : Configuration prête à l’emploi pour Apache + Zabbix
+zabbix-sql-scripts : Fichiers SQL pour créer la structure de la base de données
+zabbix-agent : Petit programme à installer sur les machines que vous voulez surveiller
+mariadb-server : Serveur de base de données (compatible MySQL)*
+
+----
+
+# Installation simple de Zabbix 7.0 sur Debian 12 (Proxmox LXC) – Suite
+
+**(suite de la partie précédente – après installations des paquets Zabbix)**
+
+### 5. Sécurisation et configuration initiale de MariaDB
+
+MariaDB est installé, mais il faut le sécuriser et le préparer.
+
+D'abord, on se connecte en root MariaDB (souvent sans mot de passe au début) :
+
+    mariadb -uroot
+
+![image]()
+
+*Ensuite, dans le prompt MariaDB, on crée :
+
+la base de données zabbix
+l'utilisateur zabbix@localhost
+on lui donne tous les droits sur la base zabbix
+
+    CREATE DATABASE zabbix CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+    CREATE USER 'zabbix'@'localhost' IDENTIFIED BY 'Azerty1*'; # Définissez votre mot de passe à la place d'Azerty1*
+    GRANT ALL PRIVILEGES ON zabbix.* TO 'zabbix'@'localhost';
+    SET GLOBAL log_bin_trust_function_creators = 1;
+
+![image]()
+
+6. Import du schéma initial de Zabbix
+C'est l'étape qui remplit la base avec les tables et données de base de Zabbix :
+
+        zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mariadb --default-character-set=utf8mb4 -uzabbix -p zabbix
+
+![image]()
+
+*Entrez le mot de passe lorsque demandé.
+Cette commande peut prendre 10–60 secondes selon la machine.*
+
+7. Configuration du serveur Zabbix
+Modifiez le fichier de configuration :
+
+        nano /etc/zabbix/zabbix_server.conf
+
+![image]()
+
+Assurez-vous que ces lignes sont présentes et correctement remplies (décommentez si nécessaire) :
+
+    DBHost=localhost
+    DBName=zabbix
+    DBUser=zabbix
+    DBPassword=VotreMotDePasseTresFort
+
+![image]()
+
+*Enregistrez (Ctrl+O → Enter → Ctrl+X).*
 
 
 
+8. Redémarrage et activation des services
+Redémarrez les services pour appliquer les modifications :
+
+        systemctl restart zabbix-server zabbix-agent apache2
+
+![image]()
+
+Activez-les au démarrage automatique :
+
+    systemctl enable zabbix-server zabbix-agent apache2
+
+
+9. Configuration des locales (dpkg-reconfigure locales)
+
+
+        dpkg-reconfigure locales
+
+![image]()
+
+*Écran affiché :
+Si vous voulez que l'interface Zabbix affiche correctement le français (ou d'autres langues) dans le wizard d'installation et dans les menus. Sans locales UTF-8 installées sur le serveur, les langues supplémentaires restent grisées ou ne fonctionnent pas bien.
+Vous cochez une ou plusieurs locales UTF-8 (exemples vus : fr_FR.UTF-8, en_US.UTF-8, etc.). Vous choisissez une locale par défaut (souvent fr_FR.UTF-8 ou en_US.UTF-8)*
+
+**Ceci est important car Zabbix utilise les locales du système pour afficher correctement les traductions (français, dates, etc.) dans l'interface web.**
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-PaquetRôle (en français simple)zabbix-server-mysqlLe cerveau principal de Zabbix (collecte les données)zabbix-frontend-phpL’interface web (ce que tu vois dans ton navigateur)zabbix-apache-confConfiguration Apache pour afficher l’interfacezabbix-sql-scriptsScripts SQL pour créer les tables de la base de donnéeszabbix-agentAgent léger à installer sur les machines que tu veux surveille
