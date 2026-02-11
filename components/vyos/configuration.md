@@ -197,6 +197,7 @@ Cette capture valide le routage statique. Nous devons voir les réseaux connect�
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/9f90ca04b09a19e27be5074ae3093cfaa3c78cdf/components/vyos/ressources/DX04/02_vyos_configuration.jpg.png)
 
+*Note : Présence d'une route statique pour le VLAN 680 `10.80.60.0/24 [1/0] via 10.40.10.1, eth0`, il correspond au réseau VPN présent dans le pare-feu.*
 *Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
 
 ### 4.3 État des interfaces du service dhcp-relay
@@ -289,6 +290,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 ----
+
 
 
 
