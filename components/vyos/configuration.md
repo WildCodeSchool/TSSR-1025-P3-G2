@@ -195,7 +195,7 @@ Commande :
 
 Cette capture valide le routage statique. Nous devons voir les réseaux connectés (C) et surtout la route par défaut (S) vers le Backbone.
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/8cd81d36f4a40859ca4cb481dff096e0142d667a/components/vyos/ressources/DX04/02_vyos_configuration.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/9f90ca04b09a19e27be5074ae3093cfaa3c78cdf/components/vyos/ressources/DX04/02_vyos_configuration.jpg.png)
 
 *Vérification : Présence de la ligne `S>* 0.0.0.0/0 [1/0] via 10.40.20.1, eth0`.*
 
@@ -289,6 +289,7 @@ Cette section illustre l'état du routeur **DX03 (Backbone)** une fois la config
     S>* 10.60.0.0/16 via 10.40.20.2 (Route de retour vers Métiers via AX01).
 
 ----
+
 
 
 
