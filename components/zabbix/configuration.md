@@ -22,6 +22,8 @@ http://IP-de-votre-serveur/zabbix
 - Sélectionnez la langue par défaut dans la liste déroulante : **English (en_US)** (seule option visible sur vos captures – le français n'apparaît pas car les locales serveur ne sont pas toutes générées ou la traduction n'est pas activée par défaut).
 - Cliquez sur **Next step** (Prochaine étape).
 
+![image](components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/01_.jpg)
+
 
 ### Étape 2 : Vérification des prérequis et connexion à la base de données
 
@@ -36,12 +38,18 @@ http://IP-de-votre-serveur/zabbix
   - Stockage des identifiants : **Texte brut** (simple pour débuter)
 - Cliquez sur **Prochaine étape**.
 
+![image]()
+
+
 ### Étape 3 : Paramètres du serveur (Nom, fuseau horaire, thème)
 
 - Nom du serveur Zabbix : **ECO-BDX-EX10** (ou le nom que vous souhaitez, comme sur votre capture)
 - Fuseau horaire par défaut : **Système (UTC+00:00) UTC** (choisissez Europe/Paris si disponible)
 - Thème par défaut : **Sombre** (Dark theme, comme sélectionné sur vos captures)
 - Cliquez sur **Prochaine étape** puis **Installer**.
+
+![image]()
+
 
 ### Étape 4 : Succès de l'installation
 
@@ -382,6 +390,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
