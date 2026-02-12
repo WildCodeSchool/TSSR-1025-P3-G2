@@ -85,7 +85,7 @@ D'abord, on se connecte en root MariaDB (souvent sans mot de passe au début) :
 
     mariadb -uroot
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/87618450e4eafe7941b06ef652863b1db50955bb/components/zabbix/ressources/installation_mariadb/01_.jpg)
 
 *Ensuite, dans le prompt MariaDB, on crée :
 
@@ -154,6 +154,7 @@ Si vous voulez que l'interface Zabbix affiche correctement le français (ou d'au
 Vous cochez une ou plusieurs locales UTF-8 (exemples vus : fr_FR.UTF-8, en_US.UTF-8, etc.). Vous choisissez une locale par défaut (souvent fr_FR.UTF-8 ou en_US.UTF-8)*
 
 **Ceci est important car Zabbix utilise les locales du système pour afficher correctement les traductions (français, dates, etc.) dans l'interface web.**
+
 
 
 
