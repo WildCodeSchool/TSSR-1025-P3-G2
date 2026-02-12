@@ -273,7 +273,7 @@ Configurez l'agent Zabbix (mode actif, connexion vers le serveur) :
     set service monitoring zabbix-agent host-name 'ECO-BDX-DX03'
 
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/68a490ba6efdd8abb05ceea248c2b16f300bdd03/components/zabbix/ressources/configuration_vyos_configuration_agent_zabbix_sur_vyos/01_1.jpg)
 
 *server : IP du serveur Zabbix (pour mode passif)
 server-active : IP du serveur Zabbix (pour mode actif – recommandé pour VyOS derrière NAT/firewall)
@@ -295,7 +295,7 @@ Vérifiez les processus Zabbix :
 *Vous devriez voir quelque chose comme :* zabbix   292940  0.5  2.2 1249876 226640 ?  Ssl  11:43   
 0:00 /usr/sbin/zabbix_agent2 --config /run/zabbix/zabbix_agent2.conf --foreground
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/68a490ba6efdd8abb05ceea248c2b16f300bdd03/components/zabbix/ressources/configuration_vyos_configuration_agent_zabbix_sur_vyos/02_1.jpg)
 
 Vérifiez les logs pour confirmer que l'agent communique bien :
 
@@ -390,6 +390,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
