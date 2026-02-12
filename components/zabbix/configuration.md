@@ -1,15 +1,15 @@
-## Configuration post-installation de l'interface web Zabbix 7.0
+# Configuration post-installation de l'interface web Zabbix 7.0
 
 
 ---
 
-- configuration web niveau serveur zabbix 
+- **Configuration web niveau serveur zabbix **
 
-- configuration d'une antenne zabbix + certificat TLS
+- **Configuration d'une antenne zabbix + certificat TLS**
 
-- configuration Vyos ( agent config ) 
+- **Configuration Vyos ( agent config ) **
 
-- Dashboard
+- **Dashboard**
 
 ---
 
@@ -382,6 +382,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
