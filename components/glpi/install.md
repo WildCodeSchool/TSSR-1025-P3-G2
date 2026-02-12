@@ -26,14 +26,6 @@ Le serveur de base de données est lancé et prêt à recevoir les connexions.
 
 MariaDB 11.8.3 – service actif
 
-### 3. Préparation du dossier web
-
-Suppression du fichier index.html par défaut et ajustement des droits pour l’utilisateur web.
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/d9d7b349eb4764d64be12e01f7ea0861301277ac/components/glpi/ressources/install/06_glpi_install.png)  
-
-Dossiers config, files et marketplace passés en propriété www-data avec droits 775
-
 ## Étapes de l’installation via le navigateur
 
 ### 4. Message temporaire d’accès en écriture
