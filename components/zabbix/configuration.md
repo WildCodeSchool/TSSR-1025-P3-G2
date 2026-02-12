@@ -295,13 +295,12 @@ Vérifiez les processus Zabbix :
 *Vous devriez voir quelque chose comme :* zabbix   292940  0.5  2.2 1249876 226640 ?  Ssl  11:43   
 0:00 /usr/sbin/zabbix_agent2 --config /run/zabbix/zabbix_agent2.conf --foreground
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/68a490ba6efdd8abb05ceea248c2b16f300bdd03/components/zabbix/ressources/configuration_vyos_configuration_agent_zabbix_sur_vyos/02_1.jpg)
 
 Vérifiez les logs pour confirmer que l'agent communique bien :
 
     tail -f /var/log/zabbix/zabbix_agent2.log | grep zabbix
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/68a490ba6efdd8abb05ceea248c2b16f300bdd03/components/zabbix/ressources/configuration_vyos_configuration_agent_zabbix_sur_vyos/02_1.jpg)
 
 
 *Logs typiques (comme sur vos captures) :*
@@ -330,6 +329,8 @@ Connectez-vous à l'interface web Zabbix :
 Cliquez sur le bouton **Créer un tableau de bord** (Créer un tableau de bord).
 
 Un éditeur s'ouvre avec une grille vide. Vous allez pouvoir ajouter des widgets (graphiques, problèmes, maps, etc.).
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/067f2c866d5033037c0c44ce0b6a456cc5c356ad/components/zabbix/ressources/proxy_zabbix_configuration_tls/01_.jpg)
 
 **Configuration de base d'un dashboard simple (exemple pour surveiller votre infrastructure)** :
 
@@ -390,6 +391,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
