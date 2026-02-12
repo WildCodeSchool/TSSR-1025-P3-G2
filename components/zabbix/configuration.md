@@ -22,7 +22,7 @@ http://IP-de-votre-serveur/zabbix
 - Sélectionnez la langue par défaut dans la liste déroulante : **English (en_US)** (seule option visible sur vos captures – le français n'apparaît pas car les locales serveur ne sont pas toutes générées ou la traduction n'est pas activée par défaut).
 - Cliquez sur **Next step** (Prochaine étape).
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/857e6727256a94cf46d8672c9cd361d6a6cb4696/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut)/02_.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/857e6727256a94cf46d8672c9cd361d6a6cb4696/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/02_.jpg)
 
 
 ### Étape 2 : Vérification des prérequis et connexion à la base de données
@@ -390,6 +390,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
