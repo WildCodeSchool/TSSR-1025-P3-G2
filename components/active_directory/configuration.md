@@ -1,7 +1,6 @@
 # Table des matieres :
 
 ## [Automatisation du Déploiement Active Directory](#automatisation-du-deploiement-active-directory)
-
 - [1. Logique du script (Pseudo-code)](#logique-du-script)
 - [2. Quelques points techniques.](#points-techniques)
   - [2.1. Normalisations des Données](#normalisations)
@@ -15,9 +14,18 @@
   - [6. Stratégies de Configuration (GPO Standard)](#6-strategies-confort)
   - [7. Validation du Modèle de Tiering](#7-validation-tiering)
 
+## [Mappage des lecteurs I, J, K](#mappage)
+  - [8. Création des Partages et Sécurisation](#8-creation-des-partages)
+  - [9. Configuration de la GPO de Mappage](#9-configuration-gpo)
+  - [10. Détails des Lecteurs (I, J, K)](#10-details-lecteurs)
+  - [11. Sécurisation et Isolation](#11-securisation)
+
+
 ---
 
+
 # Automatisation du Déploiement Active Directory
+<span id="automatisation-du-deploiement-active-directory"></span>
 
 Ce document détaille le fonctionnement du script Synchro-Ecotech.ps1.  
 IL assure le déploiement automatisé de l'infrastructure (OUs), la création des comptes utilisateurs et la gestion des groupes de sécurité à partir d'un fichier source "Fiche_Personnel.csv"  
@@ -26,7 +34,7 @@ Il respecte la nomenclature établie dans le fichier [naming](/naming.md).
 ---
 
 ## 1. Logique du script (Pseudo-code) :
-<spann id="logique-du-script"><span/>
+<span id="logique-du-script"><span/>
 
 Le script suit une logique séquentielle :
     - Vérification des droits de l'utilsateur (Administrateur uniquement)
@@ -267,14 +275,13 @@ Le script permet de passer du "Fichier_Personnel.csv" à une infrastructure Acti
 ---
 
 # Configuration de la Gouvernance (GPO)
-
 <span id="configuration-gpo"></span>
 
 Cette section détaille la mise en œuvre des politiques de groupe nécessaires à la sécurisation et à l'administration de l'infrastructure `ecotech.local`.
 
 ---
 
-### 7. Structure des Unités d'Organisation (OU)
+### 4. Structure des Unités d'Organisation (OU)
 
 <span id="4-structure-des-ou"></span>
 
@@ -285,7 +292,7 @@ L'arborescence Active Directory a été structurée sur 4 niveaux pour permettre
 
 ---
 
-### 8. Stratégies de Sécurité (GPO de Restriction)
+### 5. Stratégies de Sécurité (GPO de Restriction)
 
 <span id="5-strategies-securite"></span>
 
@@ -315,7 +322,7 @@ La GPO `CR-ADM-001-PowerShellSecurity-v1.0` assure que seuls les scripts autoris
 
 ---
 
-### 9. Stratégies de Configuration (GPO Standard)
+### 6. Stratégies de Configuration (GPO Standard)
 
 <span id="6-strategies-confort"></span>
 
@@ -329,7 +336,7 @@ Au moins 3 GPO standards ont été déployées pour uniformiser l'environnement 
 
 ---
 
-### 10. Validation du Modèle de Tiering
+### 7. Validation du Modèle de Tiering
 
 <span id="7-validation-tiering"></span>
 
@@ -338,6 +345,80 @@ Le respect du modèle de Tiering est assuré par l'isolation de l'OU **GX**. La 
 Toute modification de ces restrictions s'effectue par l'édition directe de l'objet lié :
 
 Cette configuration garantit qu'une compromission sur un poste de travail `BX` ou `CX` ne pourra pas s'étendre aux comptes privilégiés du domaine.
+
+---
+
+## [Mappage des lecteurs I, J, K](#mappage)
+<span id="mappage"></span>
+
+## 8. Création des Partages et Sécurisation
+<span id="8-creation-des-partages"></span>
+
+Pour les lecteurs **I** **J** **K**, nous utilisons PowerShell pour créer une structure dont la visibilité est limitée par l'**Access-Based Enumeration (ABE)**.
+
+### Étape 1 : Création du répertoire local
+
+Nous créons les dossiers racine sur le serveur de fichiers.
+
+```powershell
+New-Item -Path "C:\Prive" -ItemType Directory
+```
+
+### Étape 2 : Partage avec énumération basée sur l'accès
+
+Le paramètre `-FolderEnumerationMode AccessBased` garantit qu'un utilisateur ne verra que son propre dossier dans le partage.
+
+```powershell
+New-SmbShare -Name "Prive$" -Path "C:\Prive" -FullAccess "Administrators", "SYSTEM" -ReadAccess "Users" -FolderEnumerationMode AccessBased
+
+```
+
+## 9. Configuration de la GPO de Mappage
+<span id="9-configuration-gpo"></span>
+
+Le mappage automatique est géré par la GPO.
+
+### Emplacement de la stratégie
+
+La configuration se situe dans : `Configuration utilisateur` > `Préférences` > `Paramètres Windows` > `Drive Maps`.
+
+> Capture d'écran
+
+## 10. Détails des Lecteurs (I, J, K)
+<span id="10-details-lecteurs"></span>
+
+### Configuration du Lecteur K (Département)
+
+Chaque lecteur utilise l'action **Update** pour assurer la persistance de la connexion.
+
+> Capture d'écran
+
+### Ciblage par Groupe (Item-Level Targeting)
+
+Pour respecter la consigne "les autres utilisateurs ne voient pas ce dossier", chaque mappage est filtré par le groupe de sécurité AD correspondant.
+
+> Capture d'écran
+
+---
+
+## 11. Sécurisation et Isolation
+<span id="11-securisation"></span>
+
+### Blocage de l'héritage
+
+Pour les dossiers, l'héritage est désactivé au niveau de l'Unité d'Organisation (OU) ou du dossier pour isoler strictement les flux de données.
+
+> Capture d'écran
+
+### Matrice de correspondance des lecteurs
+
+| Lettre | Dossier | Accès | Visibilité |
+| --- | --- | --- | --- |
+| **I:** | **Privé** | Utilisateur uniquement | Masqué pour les autres (ABE) |
+| **J:** | **Service** | Membres du Service (Sxx) | Masqué pour les autres services |
+| **K:** | **Département** | Membres du Département (Dxx) | Masqué pour les autres départements |
+
+---
 
 <p align="right">
   <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
