@@ -363,6 +363,7 @@ Nous créons les dossiers racine sur le serveur de fichiers.
 ```powershell
 New-Item -Path "C:\Prive" -ItemType Directory
 ```
+![Map](ressources/7_MAPPAGE_4.png)
 
 ### Étape 2 : Partage avec énumération basée sur l'accès
 
@@ -372,6 +373,7 @@ Le paramètre `-FolderEnumerationMode AccessBased` garantit qu'un utilisateur ne
 New-SmbShare -Name "Prive$" -Path "C:\Prive" -FullAccess "Administrators", "SYSTEM" -ReadAccess "Users" -FolderEnumerationMode AccessBased
 
 ```
+![Map](ressources/7_MAPPAGE_5.png)
 
 ## 9. Configuration de la GPO de Mappage
 <span id="9-configuration-gpo"></span>
@@ -382,8 +384,6 @@ Le mappage automatique est géré par la GPO.
 
 La configuration se situe dans : `Configuration utilisateur` > `Préférences` > `Paramètres Windows` > `Drive Maps`.
 
-> Capture d'écran
-
 ## 10. Détails des Lecteurs (I, J, K)
 <span id="10-details-lecteurs"></span>
 
@@ -391,13 +391,13 @@ La configuration se situe dans : `Configuration utilisateur` > `Préférences` >
 
 Chaque lecteur utilise l'action **Update** pour assurer la persistance de la connexion.
 
-> Capture d'écran
+![Map](ressources/7_MAPPAGE_3.png)
 
 ### Ciblage par Groupe (Item-Level Targeting)
 
 Pour respecter la consigne "les autres utilisateurs ne voient pas ce dossier", chaque mappage est filtré par le groupe de sécurité AD correspondant.
 
-> Capture d'écran
+![Map](ressources/7_MAPPAGE_7.png)
 
 ---
 
@@ -408,7 +408,7 @@ Pour respecter la consigne "les autres utilisateurs ne voient pas ce dossier", c
 
 Pour les dossiers, l'héritage est désactivé au niveau de l'Unité d'Organisation (OU) ou du dossier pour isoler strictement les flux de données.
 
-> Capture d'écran
+![Map](ressources/7_MAPPAGE_6.png)
 
 ### Matrice de correspondance des lecteurs
 
