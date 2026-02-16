@@ -1,5 +1,3 @@
-# operations/BACKUP.md
-
 # Procédure de sauvegarde de la base de données Zabbix
 
 ### 1. Sauvegarde quotidienne
