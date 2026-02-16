@@ -130,7 +130,7 @@ Changements post-redémarrage :
 
 
 # Déploiement du Contrôleur de Domaine Secondaire
-<span id="deploiement-controleur-secondaire"><span/>
+<span id="déploiement-du-contrôleur-de-domaine-secondaire"><span/>
 
 Ce document retrace les étapes techniques du déploiement du serveur ECO-BDX-EX02, second contrôleur de domaine de l'infrastructure EcoTech Solutions.  
 Les captures d'écran présentes dans le document permettent d'améliorer la compréhension de l'installation du serveur.
