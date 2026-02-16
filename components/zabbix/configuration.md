@@ -22,13 +22,13 @@ http://IP-de-votre-serveur/zabbix
 - Sélectionnez la langue par défaut dans la liste déroulante : **English (en_US)**.
 - Cliquez sur **Next step** (Prochaine étape).
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/857e6727256a94cf46d8672c9cd361d6a6cb4696/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/02_.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/01_zabbixweb.jpg)
 
 
 ### Étape 2 : Vérification des prérequis et connexion à la base de données
 
 - L'assistant vérifie PHP, extensions, etc. → passez si tout est OK.
-- Configurez la connexion DB (comme sur votre capture) :
+- Configurez la connexion DB (comme sur la capture) :
   - Type de base : **MySQL**
   - Hôte : **localhost**
   - Port : **0** (défaut)
@@ -38,17 +38,17 @@ http://IP-de-votre-serveur/zabbix
   - Stockage des identifiants : **Texte brut** (simple pour débuter)
 - Cliquez sur **Prochaine étape**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/02_zabbixweb.jpg)
 
 
 ### Étape 3 : Paramètres du serveur (Nom, fuseau horaire, thème)
 
-- Nom du serveur Zabbix : **ECO-BDX-EX10** (ou le nom que vous souhaitez, comme sur votre capture)
+- Nom du serveur Zabbix : **ECO-BDX-EX10** (ou le nom que vous souhaitez)
 - Fuseau horaire par défaut : **Système (UTC+00:00) UTC** (choisissez Europe/Paris si disponible)
 - Thème par défaut : **Sombre** 
 - Cliquez sur **Prochaine étape** puis **Installer**.
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/385fca977c81277f365dbe69e5d1f4391d9f64cf/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/03_.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/03_zabbixweb.jpg)
 
 
 ### Étape 4 : Succès de l'installation
@@ -57,7 +57,7 @@ http://IP-de-votre-serveur/zabbix
 - Fichier de configuration `conf/zabbix.conf.php` créé.
 - Cliquez sur **Terminé** → vous êtes redirigé vers la page de login.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/04_zabbixweb.jpg)
 
 
 ### Étape 5 : Connexion initiale et changement du mot de passe Admin
@@ -70,7 +70,7 @@ Identifiants par défaut :
 - Si vous tapez un mauvais mot de passe plusieurs fois → blocage temporaire ("Le compte est temporairement bloqué").
 - Utilisez le bon mot de passe pour vous connecter.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/05_zabbixweb.jpg)
 
 Une fois connecté :
 - Allez dans **Administration → Utilisateurs** (ou directement sur le profil Admin).
@@ -85,9 +85,9 @@ Une fois connecté :
   - Thème : **Valeur système par défaut** (ou Sombre)
 - Cliquez sur **Actualiser** (Update).
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/06_zabbixweb.jpg)
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/07_zabbixweb.jpg)
 
 ### Étape 6 : Création d'un hôte exemple (pour monitorer un serveur)
 
@@ -109,13 +109,15 @@ Exemple basé sur les captures (hôte secondaire AD) :
   - PSK : **ff1e74b0f166a94829d22deac0d2af2e7d8b d59e c9233bce9045** (générez un vrai PSK fort !)
 - Cliquez sur **Ajouter**.
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/11_zabbixweb.jpg)
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/12_zabbixweb.jpg)
 
 *L'hôte apparaît maintenant dans la liste des hôtes surveillés. Vous pouvez ajouter des items, triggers, etc., via les templates appliqués.
 
 **Astuces rapides :**
 - Changez toujours le mot de passe Admin dès la première connexion.
-- Si le français n'apparaît pas dans les options de langue → revenez en console serveur et relancez `dpkg-reconfigure locales` pour ajouter `fr_FR.UTF-8 UTF-8`, puis redémarrez Apache.
+- Si le français n'apparaît pas dans les options de langue → revenez en console serveur et relancez dpkg-reconfigure locales pour ajouter fr_FR.UTF-8 UTF-8, puis redémarrez Apache.
 - Pour plus d'hôtes : installez l'agent Zabbix sur les machines cibles et configurez PSK ou certificat pour la sécurité.
 
 
@@ -132,11 +134,8 @@ Créez un dossier sécurisé pour les fichiers TLS :
 
     mkdir -p /etc/zabbix/zabbix_ssl
     cd /etc/zabbix/zabbix_ssl
-![image]()
 
-cd /etc/zabbix/zabbix_ssl
-
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/03_.jpg)
 
 
 Changez le propriétaire pour que seul l'utilisateur zabbix puisse lire :
@@ -144,7 +143,7 @@ Changez le propriétaire pour que seul l'utilisateur zabbix puisse lire :
     chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl
     chmod 600 /etc/zabbix/zabbix_ssl/*.key   # Pour les clés privées
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/05_.jpg)
 
 Générez les certificats
 
@@ -160,12 +159,13 @@ Signez la CSR avec votre CA root (rootCA.crt et rootCA.key déjà existants)
 
     openssl x509 -req -in ex11.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out ex11.crt -days 365 -sha256
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/04_.jpg)
 
-Copiez les fichiers nécessaires vers le proxy distant (ex. via scp, comme sur votre capture) :
+Copiez les fichiers nécessaires vers le proxy distant (ex. via scp) :
 
     scp rootCA.crt ex11.crt ex11.key root@10.20.20.13:/etc/zabbix/zabbix_ssl/
 
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/08_.jpg)
 
 2. Configuration sur le serveur Zabbix principal
 
@@ -179,7 +179,7 @@ TLSCAFile=/etc/zabbix/zabbix_ssl/rootCA.crt
 TLSCertFile=/etc/zabbix/zabbix_ssl/ex10.crt     # Cert du serveur
 TLSKeyFile=/etc/zabbix/zabbix_ssl/ex10.key      # Clé du serveur
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/10_.jpg)
 
 Redémarrez le serveur :
           
@@ -193,22 +193,27 @@ Installez le paquet proxy (comme sur votre capture) :
     dpkg -i zabbix-release_7.0-1+debian12_all.deb
     apt update && apt install zabbix-proxy-sqlite3 -y
 
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/02_.jpg)
+
 Créez le dossier SSL et ajustez les droits (identique au serveur) :
 
     mkdir -p /etc/zabbix/zabbix_ssl
     chown -R zabbix:zabbix /etc/zabbix/zabbix_ssl
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/07_.jpg)
 
-Éditez /etc/zabbix/zabbix_proxy.conf (comme sur votre capture) :
+Éditez /etc/zabbix/zabbix_proxy.conf :
 
     nano /etc/zabbix/zabbix_proxy.conf
 
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/10_.jpg)
+
 **Paramètres clés configurés :**
-**Hostname=ECO-BDX-EX11**
-**Server=10.20.20.12          # IP du serveur Zabbix principal**
-**DBName=/var/lib/zabbix/zabbix_proxy.db**
-**ProxyMode=0                 # 0 = active (le proxy se connecte au serveur)**
+
+    **Hostname=ECO-BDX-EX11**
+    **Server=10.20.20.12          # IP du serveur Zabbix principal**
+    **DBName=/var/lib/zabbix/zabbix_proxy.db**
+    **ProxyMode=0                 # 0 = active (le proxy se connecte au serveur)**
 
 Chiffrement TLS certificats :
 
@@ -220,7 +225,7 @@ Chiffrement TLS certificats :
 *TLSServerCertIssuer=/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=EcoTech-CA
 TLSServerCertSubject=/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=ECO-BDX-EX10*
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/11_.jpg)
 
 
 Redémarrez et activez le proxy :
@@ -233,7 +238,7 @@ Redémarrez et activez le proxy :
 Connectez-vous à l'interface web avec Admin.
 Allez dans Administration → Proxies :
 
-![image]()
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/01_.jpg)
 
 
 Cliquez sur Créer un proxy en haut à droite
@@ -390,6 +395,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
