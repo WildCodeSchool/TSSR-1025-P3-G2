@@ -1,5 +1,3 @@
-# operations/TROUBLESHOOTING.md
-
 # Résolution des pannes courantes Zabbix
 
 Guide rapide pour diagnostiquer et résoudre les incidents les plus fréquents.
