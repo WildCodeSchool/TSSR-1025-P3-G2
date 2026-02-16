@@ -2,17 +2,17 @@
 
 ### 1. Sauvegarde quotidienne
 
-Commande de sauvegarde :
+**Commande de sauvegarde :**
 
     mysqldump -u zabbix -p'VotreMotDePasseTresFort' --single-transaction --quick zabbix > /backups/zabbix-$(date +%Y-%m-%d).sql
 
 
-Puis compression :
+**Puis compression :**
 
     gzip /backups/zabbix-$(date +%Y-%m-%d).sql
 
 
-Suppression automatique des anciennes sauvegardes :
+**Suppression automatique des anciennes sauvegardes :**
 
     find /backups/zabbix -name "*.sql.gz" -mtime +30 -delete
 
@@ -24,24 +24,24 @@ Suppression automatique des anciennes sauvegardes :
 
 ### 3. Restauration complète
 
-Arrêter les services :
+**Arrêter les services :**
 
     systemctl stop zabbix-server zabbix-agent
 
 
-Restaurer la base :
+**Restaurer la base :**
 
     mysql -u zabbix -p zabbix < /backups/zabbix-2026-02-16.sql
 
 
-Redémarrer les services :
+**Redémarrer les services :**
 
     systemctl start zabbix-server zabbix-agent
 
 
 ### 4. Emplacements et rétention
 
-Dossier de sauvegarde : /backups/zabbix/
+**Dossier de sauvegarde : /backups/zabbix/**
 
 Rétention : 30 jours (automatique)
 
