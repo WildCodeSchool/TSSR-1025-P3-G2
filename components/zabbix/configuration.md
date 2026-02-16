@@ -222,8 +222,8 @@ Chiffrement TLS certificats :
     TLSCAFile=/etc/zabbix/zabbix_ssl/rootCA.crt
     TLSCertFile=/etc/zabbix/zabbix_ssl/ex11.crt
     TLSKeyFile=/etc/zabbix/zabbix_ssl/ex11.key
-*TLSServerCertIssuer=/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=EcoTech-CA
-TLSServerCertSubject=/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=ECO-BDX-EX10*
+    TLSServerCertIssuer=/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=EcoTech-CA
+    TLSServerCertSubject=/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=ECO-BDX-EX10*
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/11_.jpg)
 
@@ -395,6 +395,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
