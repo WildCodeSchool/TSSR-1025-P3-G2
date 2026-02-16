@@ -364,8 +364,9 @@ Un éditeur s'ouvre avec une grille vide. Vous allez pouvoir ajouter des widgets
 
 **Note importante sur le déploiement des agents avec TLS**  
 
-Dans votre infrastructure, les agents Zabbix ont été déployés de manière automatisée via un script d’installation centralisé. C’est la raison pour laquelle vous ne trouverez pas de captures d’écran détaillées de chaque étape manuelle ici.  
-Ce tableau ci-dessous est fourni à titre pédagogique : il décrit précisément comment configurer manuellement un agent Zabbix en mode TLS avec certificats sur une machine Linux (serveur ou agent). Vous pouvez vous en servir pour comprendre le processus, le reproduire sur une nouvelle machine, ou dépanner un agent existant.  
+Dans notre infrastructure, les agents Zabbix ont été déployés de manière automatisée via un script d’installation centralisé. C’est la raison pour laquelle vous ne trouverez pas de captures d’écran détaillées de chaque étape manuelle ici.  
+Ce tableau décrit précisément comment configurer manuellement un agent Zabbix en mode TLS avec certificats sur une machine Linux (serveur ou agent). Vous pouvez vous en servir pour comprendre le processus, le reproduire sur une nouvelle machine, ou dépanner un agent existant.  
+
 Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles pour Zabbix 7.0 sur Debian 12.
 
 
@@ -389,6 +390,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
