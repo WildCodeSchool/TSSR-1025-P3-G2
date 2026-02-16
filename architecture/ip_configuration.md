@@ -167,7 +167,7 @@ Pour maintenir une cohérence d'administration, les serveurs utilisent systémat
 | **ECO-BDX-GX02** | **PC d'administration** | **210**  | 10.20.10.3     | 10.20.10.1          | Poste de pilotage (Management Tier 1) |
 | **ECO-BDX-EX01** | **Windows AD-01**       | **220**  | 10.20.20.5     | 10.20.20.1          | DC Principal (Core) / DNS / DHCP      |
 | **ECO-BDX-EX02** | **Windows AD-02**       | **220**  | 10.20.20.6     | 10.20.20.1          | DC Secondaire (GUI) / DNS / DHCP      |
-| **ECO-BDX-EX03** | **GLPI**                | **220**  | 10.20.20.8     | 10.20.20.1          | Serveur de données Métiers            |
+| **ECO-BDX-EX03** | **GLPI/Logs**           | **220**  | 10.20.20.8     | 10.20.20.1          | Serveur de données Métiers            |
 | **ECO-BDX-EX04** | **FreePBX (VoIP)**      | **670**  | 10.60.70.5     | 10.60.70.1          | IP-PBX Téléphonie                     |
 | **ECO-BDX-EX05** | **Serveur de Fichiers** | **230**  | 10.20.30.5     | 10.20.30.1          | Serveur de données Métiers            |
 | **ECO-BDX-FX01** | **Bareos (Backup)**     | **240**  | 10.20.40.5     | 10.20.40.1          | Orchestrateur de sauvegarde           |
@@ -218,6 +218,7 @@ Tous les scopes utilisent les paramètres suivants, sauf mention contraire :
 
 - **Emplacement du Relais :** Routeur VyOS (Interfaces virtuelles eth1.x)
 - **Configuration :** Sur chaque interface SVI des VLANs 600, 610, 620, 630, 640, 650, 660, 670 et 800, l'adresse de l'assistant (Helper-Address) pointe vers **10.20.20.5 et .6**.
+
 
 
 
