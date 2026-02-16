@@ -10,7 +10,7 @@
     - [2.3. Promotion de la Forêt](#23-promotion-de-la-forêt)
   - [3. Conclusion du déploiement](#3-conclusion-du-déploiement)
 
-##  [Déploiement du Contrôleur de Domaine Secondaire Version GUI](#déploiement-du-contrôleur-de-domaine-principal)
+##  [Déploiement du Contrôleur de Domaine Secondaire Version GUI](#déploiement-du-contrôleur-de-domaine-secondaire)
   - [4. Configuration de l'Hôte](#4-configuration-de-lhôte)
     - [4.1. Nom d'hôte](#41-nom-dhôte-)
     - [4.2. Adressage IPv4 statique DNS](#42-adressage-ipv4-statique-et-dns)
@@ -130,7 +130,7 @@ Changements post-redémarrage :
 
 
 # Déploiement du Contrôleur de Domaine Secondaire
-<span id="deploiement-controleur"><span/>
+<span id="deploiement-controleur-secondaire"><span/>
 
 Ce document retrace les étapes techniques du déploiement du serveur ECO-BDX-EX02, second contrôleur de domaine de l'infrastructure EcoTech Solutions.  
 Les captures d'écran présentes dans le document permettent d'améliorer la compréhension de l'installation du serveur.
