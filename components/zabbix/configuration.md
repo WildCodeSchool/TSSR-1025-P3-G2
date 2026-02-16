@@ -19,7 +19,7 @@ Une fois les services redémarrés, ouvrez votre navigateur et accédez à l'adr
 http://IP-de-votre-serveur/zabbix
 
 - Vous arrivez sur l'écran "Welcome to Zabbix 7.0".
-- Sélectionnez la langue par défaut dans la liste déroulante : **English (en_US)** (seule option visible sur vos captures – le français n'apparaît pas car les locales serveur ne sont pas toutes générées ou la traduction n'est pas activée par défaut).
+- Sélectionnez la langue par défaut dans la liste déroulante : **English (en_US)**.
 - Cliquez sur **Next step** (Prochaine étape).
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/857e6727256a94cf46d8672c9cd361d6a6cb4696/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/02_.jpg)
@@ -45,7 +45,7 @@ http://IP-de-votre-serveur/zabbix
 
 - Nom du serveur Zabbix : **ECO-BDX-EX10** (ou le nom que vous souhaitez, comme sur votre capture)
 - Fuseau horaire par défaut : **Système (UTC+00:00) UTC** (choisissez Europe/Paris si disponible)
-- Thème par défaut : **Sombre** (Dark theme, comme sélectionné sur vos captures)
+- Thème par défaut : **Sombre** 
 - Cliquez sur **Prochaine étape** puis **Installer**.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/385fca977c81277f365dbe69e5d1f4391d9f64cf/components/zabbix/ressources/configuration_web_zabbix_bienvenue_et_choix_de_la_langue_par_defaut/03_.jpg)
@@ -93,7 +93,7 @@ Une fois connecté :
 
 Allez dans **Configuration → Hôtes** → cliquez sur **Créer un hôte** (Create host).
 
-Exemple basé sur vos captures (hôte secondaire AD) :
+Exemple basé sur les captures (hôte secondaire AD) :
 
 - **Nom de l'hôte** : ECO-BDX-EX02
 - **Nom visible** : ECO-BDX-EX02 (Serveur AD secondaire)
@@ -124,8 +124,6 @@ Exemple basé sur vos captures (hôte secondaire AD) :
 ## Configuration d'un proxy Zabbix avec chiffrement TLS par certificats
 
 Pour distribuer la charge de supervision (ex. : surveiller des sites distants sans ouvrir trop de ports), vous pouvez ajouter un **proxy Zabbix** chiffré en TLS certificats (plus sécurisé que PSK pour certains scénarios).
-
-Vos captures montrent une configuration **active proxy** (ProxyMode=0) avec chiffrement **cert** (TLSConnect=cert / TLSAccept=cert).
 
 ### 1. Préparation des certificats (sur le serveur Zabbix principal)
 
@@ -303,7 +301,7 @@ Vérifiez les logs pour confirmer que l'agent communique bien :
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/68a490ba6efdd8abb05ceea248c2b16f300bdd03/components/zabbix/ressources/configuration_vyos_configuration_agent_zabbix_sur_vyos/02_1.jpg)
 
 
-*Logs typiques (comme sur vos captures) :*
+*Logs typiques :*
 
 *Chargement des plugins (VFS, Web, etc.)*
 *Version du protocole : 6.0.13 ou supérieure*
@@ -391,6 +389,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
