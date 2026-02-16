@@ -173,13 +173,13 @@ Copiez les fichiers nécessaires vers le proxy distant (ex. via scp) :
 
     nano /etc/zabbix/zabbix_server.conf
 
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/10_.jpg)
+
 Ajoutez ou modifiez ces lignes :
 
-TLSCAFile=/etc/zabbix/zabbix_ssl/rootCA.crt
-TLSCertFile=/etc/zabbix/zabbix_ssl/ex10.crt     # Cert du serveur
-TLSKeyFile=/etc/zabbix/zabbix_ssl/ex10.key      # Clé du serveur
-
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fbc7ae1e6de0d1b891695be0f2fb3a38aba640e3/components/zabbix/ressources/proxy_zabbix_configuration_tls/10_.jpg)
+    TLSCAFile=/etc/zabbix/zabbix_ssl/rootCA.crt
+    TLSCertFile=/etc/zabbix/zabbix_ssl/ex10.crt     # Cert du serveur
+    TLSKeyFile=/etc/zabbix/zabbix_ssl/ex10.key      # Clé du serveur
 
 Redémarrez le serveur :
           
@@ -395,6 +395,7 @@ Les commandes et chemins indiqués correspondent aux bonnes pratiques actuelles 
 | 10    | Redémarrer l’agent                                                       | systemctl restart zabbix-agent ou systemctl restart zabbix-agent2                                                          | —                                                             | —                                                                                                                                                                                          |
 | 11    | Dans l’interface web Zabbix                                              | Hôte → onglet Chiffrement                                                                                                  | Pas de chiffrement                                            | Choisir Certificat<br>Ne pas remplir de PSK                                                                                                                                                |
 | 12    | Vérifier que ça fonctionne                                               | Logs serveur : tail -f /var/log/zabbix/zabbix_server.log<br>Logs agent : tail -f /var/log/zabbix/zabbix_agent2.log         | —                                                             | Cherchez connection accepted ou using certificate                                                                                                                                          |
+
 
 
 
