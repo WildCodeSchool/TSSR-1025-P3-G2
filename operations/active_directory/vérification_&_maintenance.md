@@ -4,14 +4,15 @@ Ce document couvre la vérification de la réplication entre les DCet les procé
 
 ## Table des matières :
 
-- [1. Vérification de la Réplication]
-    - [1.1. Résumé de réplication (replsummary)]
-    - [1.2. Détail des voisins entrants (showrepl)]
-
-- [2. Procédure de Reprise après Panne]
-    - [2.1. Panne du DC Secondaire (EX02)]
-    - [2.2. Panne du DC Principal (EX01)]
-    - [2.3. Perte totale — Restauration depuis sauvegarde]
+- [Maintenance \& Reprise — Contrôleurs de Domaine EcoTech](#maintenance--reprise--contrôleurs-de-domaine-ecotech)
+- [Table des matières :](#table-des-matières-)
+- [1 : Vérification de la Réplication](#1--vérification-de-la-réplication)
+  - [1.1. Résumé de réplication (replsummary)](#11-résumé-de-réplication-replsummary)
+  - [1.2. Détail des voisins entrants (showrepl)](#12-détail-des-voisins-entrants-showrepl)
+- [2. Procédure de Reprise après Panne](#2-procédure-de-reprise-après-panne)
+  - [2.1. Panne du DC Secondaire (EX02)](#21-panne-du-dc-secondaire-ex02)
+  - [2.2. Panne du DC Principal (EX01)](#22-panne-du-dc-principal-ex01)
+  - [2.3. Perte totale — Restauration depuis sauvegarde](#23-perte-totale--restauration-depuis-sauvegarde)
 
 ## 1 : Vérification de la Réplication
 
