@@ -2,16 +2,11 @@
 
 ## Table des matières :
 
-- [Configuration du Serveur Web Intranet](#configuration-du-serveur-web-intranet)
-  - [Table des matières :](#table-des-matières-)
-  - [1. Configuration Système et SSH](#1-configuration-système-et-ssh)
-    - [Création d'un administrateur dédié](#création-dun-administrateur-dédié)
-  - [2. Hardening Apache (Sécurisation)](#2-hardening-apache-sécurisation)
-  - [3. Déploiement du Portail EcoTech](#3-déploiement-du-portail-ecotech)
-  - [4. Intégration DNS (Active Directory)](#4-intégration-dns-active-directory)
-  - [5. Tests de Validation](#5-tests-de-validation)
-    - [Test Sécurité :](#test-sécurité-)
-    - [Test Accès :](#test-accès-)
+- [1. Configuration Système et SSH](#1-configuration-système-et-ssh)
+- [2. Hardening Apache (Sécurisation)](#2-hardening-apache-sécurisation)
+- [3. Déploiement du Portail EcoTech](#3-déploiement-du-portail-ecotech)
+- [4. Intégration DNS (Active Directory)](#4-intégration-dns-active-directory)
+- [5. Tests de Validation](#5-tests-de-validation)
 
 Ce document décrit la sécurisation du système, le durcissement d'Apache et l'intégration DNS.
 
