@@ -2,7 +2,7 @@
 
 Ce document couvre la vérification de la réplication entre les DCet les procédures de reprise après panne.
 
-### Table des matières :
+## Table des matières :
 
 - [1. Vérification de la Réplication]
     - [1.1. Résumé de réplication (replsummary)]
@@ -13,17 +13,17 @@ Ce document couvre la vérification de la réplication entre les DCet les procé
     - [2.2. Panne du DC Principal (EX01)]
     - [2.3. Perte totale — Restauration depuis sauvegarde]
 
-### 1 : Vérification de la Réplication
+## 1 : Vérification de la Réplication
 
 La réplication entre EX01 et EX02 garantit que toute modification (utilisateur, GPO, mot de passe) est bien synchronisée sur les deux DC. Ces commandes sont à lancer depuis EX01 ou EX02 indifféremment.
 
-#### 1.1. Résumé de réplication (replsummary)
+### 1.1. Résumé de réplication (replsummary)
 
 `powershellrepadmin /replsummary`
 
 - Un résultat fails/total = 0/5 et error = 0 sur les deux DC confirme que la réplication fonctionne correctement.
 
-#### 1.2. Détail des voisins entrants (showrepl)
+### 1.2. Détail des voisins entrants (showrepl)
 
 `powershellrepadmin /showrepl`
 
@@ -38,9 +38,9 @@ DC=ForestDnsZones,DC=ecotech,DC=local
 ```
 
 
-### 2. Procédure de Reprise après Panne
+## 2. Procédure de Reprise après Panne
 
-#### 2.1. Panne du DC Secondaire (EX02)
+### 2.1. Panne du DC Secondaire (EX02)
 
 Cas le plus courant et le moins critique — EX01 continue de fonctionner normalement, les utilisateurs ne voient rien.
 
@@ -173,7 +173,7 @@ powershellntdsutil
 powershellrepadmin /replsummary
 ```
 
-#### 2.2. Panne du DC Principal (EX01)
+### 2.2. Panne du DC Principal (EX01)
 
 Cas plus critique — EX02 prend le relais automatiquement pour l'authentification, mais les rôles FSMO doivent être transférés manuellement.
 
@@ -196,7 +196,7 @@ powershellnetdom query fsmo
 5. Réparer ou redéployer EX01 via installation.md, puis retransférer les rôles FSMO vers EX01 si souhaité
 
 
-#### 2.3. Perte totale — Restauration depuis sauvegarde
+### 2.3. Perte totale — Restauration depuis sauvegarde
 
 Cas extrême : les deux DC sont perdus simultanément. La restauration repose sur la dernière sauvegarde disponible.
 
