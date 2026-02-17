@@ -5,15 +5,14 @@ Cela comprends les certificat : *Racine, Serveur VPN, et Utilisateurs*, les règ
 
 ## Table des matières
 
-- [Certificats et règles VPN](#certificats-et-règles-vpn)
-- [Table des matières](#table-des-matières)
-    - [Phase 1 : Cryptographie](#phase-1--cryptographie)
-    - [Phase 2 : Le Tunnel VPN](#phase-2--le-tunnel-vpn)
-    - [Phase 3 : Les utilisateurs](#phase-3--les-utilisateurs)
-    - [Phase 4 : Exportation de la Connexion](#phase-4--exportation-de-la-connexion)
-    - [Phase 5 : Le client distant](#phase-5--le-client-distant)
-    - [Phase 6 : Règles pour les prestataires](#phase-6--règles-pour-les-prestataires)
-  - [Phase 7 : Sauvegarde de la configuration pfSense](#phase-7--sauvegarde-de-la-configuration-pfsense)
+
+- [Phase 1 : Cryptographie](#phase-1--cryptographie)
+- [Phase 2 : Le Tunnel VPN](#phase-2--le-tunnel-vpn)
+- [Phase 3 : Les utilisateurs](#phase-3--les-utilisateurs)
+- [Phase 4 : Exportation de la Connexion](#phase-4--exportation-de-la-connexion)
+- [Phase 5 : Le client distant](#phase-5--le-client-distant)
+- [Phase 6 : Règles pour les prestataires](#phase-6--règles-pour-les-prestataires)
+- [Phase 7 : Sauvegarde de la configuration pfSense](#phase-7--sauvegarde-de-la-configuration-pfsense)
 
 #### Phase 1 : Cryptographie
 
