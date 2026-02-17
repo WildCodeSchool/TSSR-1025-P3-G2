@@ -76,7 +76,7 @@ Cette commande permet au serveur de récupérer tous les éléments nécessaires
 ### 2.2. DNS Local : 
 <span id="dns"><span/>
 
-Les explications de l'installation se font sur le fichier [Installation du sereur DNS sur le Contrôleur de Domaine Principal Version Core](/components/dns/installation.md)
+Les explications de l'installation se font sur le fichier [Installation du serveur DNS sur le Contrôleur de Domaine Principal Version Core](/components/dns/installation.md)
 
 ---
 
