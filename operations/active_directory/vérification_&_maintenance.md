@@ -4,8 +4,6 @@ Ce document couvre la vérification de la réplication entre les DCet les procé
 
 ## Table des matières :
 
-- [Maintenance \& Reprise — Contrôleurs de Domaine EcoTech](#maintenance--reprise--contrôleurs-de-domaine-ecotech)
-- [Table des matières :](#table-des-matières-)
 - [1 : Vérification de la Réplication](#1--vérification-de-la-réplication)
   - [1.1. Résumé de réplication (replsummary)](#11-résumé-de-réplication-replsummary)
   - [1.2. Détail des voisins entrants (showrepl)](#12-détail-des-voisins-entrants-showrepl)
