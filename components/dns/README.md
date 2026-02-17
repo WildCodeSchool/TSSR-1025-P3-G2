@@ -9,7 +9,7 @@ Le service est déployé de manière redondante sur deux contrôleurs de domaine
 | Serveur | Rôle | Système d'Exploitation | Adresse IP |
 | :--- | :--- | :--- | :--- |
 | **ECO-BDX-EX01** | DC Principal / DNS Primaire | Windows Server 2022 Core | 10.20.20.5 |
-| **DC Secondaire** | DC Secondaire / DNS Secondaire | Windows Server 2022 GUI | 10.20.20.6 |
+| **ECO-BDX-EX02** | DC Secondaire / DNS Secondaire | Windows Server 2022 GUI | 10.20.20.6 |
 
 ## 3. Configuration Technique Clef
 
