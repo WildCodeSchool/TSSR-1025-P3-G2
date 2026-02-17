@@ -4,24 +4,33 @@ pfSense constitue la barrière périmétrique d'**EcoTech Solutions**. Son rôle
 
 # Table des matières :
 
+- [pfSense configuration du pare-feu et du VPN](#pfsense-configuration-du-pare-feu-et-du-vpn)
+- [Table des matières :](#table-des-matières-)
 - [1. Affectation des Interfaces et VLANs](#1-affectation-des-interfaces-et-vlans)
-- [2. Services Réseau de Base](#2-services-réseau-de-base)
-  - [2.1. DNS Resolver (Unbound)](#21-dns-resolver-unbound)
-  - [2.2. NAT (Network Address Translation)](#22-nat-network-address-translation)
-- [3. Règles de Pare-feu (Firewall Rules)](#3-règles-de-pare-feu-firewall-rules)
-  - [3.1. Règles sur l'interface WAN](#31-règles-sur-linterface-wan)
-  - [3.2. Règles sur l'interface DMZ (Sortant)](#32-règles-sur-linterface-dmz-sortant)
+  - [2. Services Réseau de Base](#2-services-réseau-de-base)
+    - [2.1. DNS Resolver (Unbound)](#21-dns-resolver-unbound)
+    - [2.2. NAT (Network Address Translation)](#22-nat-network-address-translation)
+  - [3. Règles de Pare-feu (Firewall Rules)](#3-règles-de-pare-feu-firewall-rules)
+    - [3.1. Règles sur l'interface WAN](#31-règles-sur-linterface-wan)
+    - [3.2. Règles sur l'interface DMZ (Sortant)](#32-règles-sur-linterface-dmz-sortant)
 - [4. Accès Distants (OpenVPN)](#4-accès-distants-openvpn)
   - [4.1. Architecture et Cryptographie (PKI)](#41-architecture-et-cryptographie-pki)
+    - [1. Autorité de Certification](#1-autorité-de-certification)
+    - [2. Certificats Serveur et Utilisateurs](#2-certificats-serveur-et-utilisateurs)
   - [4.2. Configuration du Serveur OpenVPN](#42-configuration-du-serveur-openvpn)
+    - [1. Paramétrage du Tunnel](#1-paramétrage-du-tunnel)
+    - [2. Configuration Réseau et DNS](#2-configuration-réseau-et-dns)
   - [4.3. Gestion des Utilisateurs et Privilèges](#43-gestion-des-utilisateurs-et-privilèges)
+    - [1. Création des utilisateurs](#1-création-des-utilisateurs)
+    - [2. Surcharge Administrateur (CSO)](#2-surcharge-administrateur-cso)
   - [4.4. Déploiement Client et Export](#44-déploiement-client-et-export)
   - [4.5. Stratégie de Sécurité (Pare-feu)](#45-stratégie-de-sécurité-pare-feu)
   - [4.6. Validation fonctionnelle](#46-validation-fonctionnelle)
 - [5. Journalisation et Monitoring (Log Management)](#5-journalisation-et-monitoring-log-management)
 - [6. Supervision sur pfSense](#6-supervision-sur-pfsense)
   - [6.1. Configuration de l'affichage](#61-configuration-de-laffichage)
-  - [6.2. Sélection des Widgets (Indicateurs)](#62-sélection-des-widgets-indicateurs)
+    - [1. Nettoyage et Mise en page](#1-nettoyage-et-mise-en-page)
+    - [6.2. Sélection des Widgets (Indicateurs)](#62-sélection-des-widgets-indicateurs)
   - [6.3. Organisation du Tableau de Bord](#63-organisation-du-tableau-de-bord)
   - [6.4. Validation fonctionnelle](#64-validation-fonctionnelle)
 
@@ -145,24 +154,23 @@ La gestion des droits ne se fait pas par groupe, mais par une distinction techni
 ### 1. Création des utilisateurs
 
 
-Les comptes sont créés dans le **User Manager** local de pfSense.
+Les comptes sont créés manuellement dans le **User Manager** local de pfSense.
 
 * **Exemple Prestataire :** `zara_fernandez` (Certificat créé, IP dynamique).
-* **Exemple Admin :** `ecotech_admin` (Certificat créé, IP statique).
 
 ### 2. Surcharge Administrateur (CSO)
 
-Pour permettre à l'administrateur d'avoir tous les droits sans créer de faille de sécurité pour les prestataires, nous utilisons un **Client Specific Override**.
+Pour permettre les tests de la connection VPN, nous utilisons un **Client Specific Override**.
 
 * **Menu :** VPN > OpenVPN > Client Specific Overrides.
-* **Cible (Common Name) :** `ecotech_admin`
+* **Cible (Common Name) :** `ecotech_test`
 * **Configuration forcée :**
 
 ``` markdown
 IPv4 Tunnel Network : 10.60.80.200/24
 ```
 
-* **Objectif :** L'administrateur récupérera *toujours* l'IP `10.60.80.200`, ce qui servira d'identifiant pour le pare-feu.
+* **Objectif :** L'utilistaeur test récupérera *toujours* l'IP `10.60.80.200`, ce qui servira d'identifiant pour le pare-feu.
 
 ---
 
@@ -186,11 +194,11 @@ Le filtrage est strict et suit le principe du moindre privilège. Les règles so
 
 | Ordre | Action | Source | Destination | Port | Description |
 | --- | --- | --- | --- | --- | --- |
-| **1** | ✅ **Pass** | `10.60.80.200` (Admin) | Any | Any | **FULL ACCESS ADMIN** (Le "God Mode" pour la maintenance). |
-| **2** | ✅ **Pass** | `10.60.80.0/24` | `10.20.20.5` (AD) | Any | **Auth & DNS** (Vital pour l'ouverture de session). |
-| **3** | ✅ **Pass** | `10.60.80.0/24` | `10.20.20.10` (Fichiers) | TCP 445 | **Accès SMB** (Partages réseaux uniquement). |
-| **4** | ✅ **Pass** | `10.60.80.0/24` | `10.20.20.7` (Web) | 80/443 | **Intranet** (Consultation Web). |
-| **5** | ✅ **Pass** | `10.60.80.0/24` | Any (WAN) | 80/443 | **Internet** (Navigation Web sécurisée via le tunnel). |
+| **1** | ✅ **Pass** | `10.60.80.200` (Test) | Any | Any | **FULL ACCESS TEST** (Règle temporaire). |
+| **2** | ✅ **Pass** | `10.60.80.0/24` | `IP_AD_DNS_DHCP` | `PORTS_ADDS` | **Auth & DNS** (Vital pour l'ouverture de session). |
+| **3** | ✅ **Pass** | `10.60.80.0/24` | `10.20.30.5` (Fichiers) | `PORT_SMB` | **Accès SMB** (Partages réseaux uniquement). |
+| **4** | ✅ **Pass** | `10.60.80.0/24` | `10.20.20.7` (Web) | `PORTS_WEB` | **Intranet** (Consultation Web). |
+| **5** | ✅ **Pass** | `10.60.80.0/24` | Any (WAN) | `PORTS_WEB` | **Internet** (Navigation Web sécurisée via le tunnel). |
 | **6** | 🚫 **Block** | Any | Any | Any | **Deny All** (Tout le reste est interdit). |
 
 ---
@@ -200,7 +208,7 @@ Le filtrage est strict et suit le principe du moindre privilège. Les règles so
 
 Les tests suivants valident la conformité de l'installation :
 
-1. **Test Administrateur :**
+1. **Test Super-Utilisateur :**
 * Connexion VPN établie.
 * Vérification IP : `ipconfig` retourne bien `10.60.80.200`.
 * Accès complet à l'infrastructure (Ping serveurs, accès Firewall).
@@ -211,7 +219,9 @@ Les tests suivants valident la conformité de l'installation :
 * Accès Intranet `http://10.20.20.7` : **OK**.
 * Tentative de Ping vers un poste client : **ÉCHEC** (Bloqué par la règle finale).
 
-La solution est opérationnelle et sécurisée.
+La solution est opérationnelle et sécurisée.  
+
+*Apres les tests de configuration, l'utilisateur Test avec le "FULL ACCES" a été supprimé pour ne pas laisser une potentielle faille de sécurité sur notre réseau VPN*
 
 # 5. Journalisation et Monitoring (Log Management)
 
@@ -256,7 +266,7 @@ Les widgets ont été disposés logiquement pour séparer l'état du système (H
 | --- | --- |
 | 1. System Information | 1. Interfaces |
 | 2. Thermal Sensors | 2. Gateways |
-| 3. Services Status | 3. OpenVPN |
+|(3. Services Status)| 3. OpenVPN |
 |             | 4. Traffic Graphs |
 
 ## 6.4. Validation fonctionnelle

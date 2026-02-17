@@ -1,12 +1,9 @@
-# Table des matieres :
+# Configuration du serveur DNS sur le Contrôleur de Domaine Principal Version Core.
 
-## [Configuration du sereur DNS sur le Contrôleur de Domaine Principal Version Core](#domaine-principal)
+## Table des matieres :
+
 - [1. Configuration des Forwarders](#configuration-forwarders)
 - [2. Sécurisation](#securisation)
-## [Configuration du serveur DNS sur le Contrôleur de Domaine Secondaire Version GUI](#domaine-secondaire)
-
-# Configuration du serveur DNS sur le Contrôleur de Domaine Principal Version Core.
-<span id="domaine-principal"><span/>
 
 ## 1. Configuration des Forwarders.
 <span id="configuration-forwarders"><span/>
