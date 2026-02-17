@@ -2,14 +2,14 @@
 
 ## Table des matieres :
 
-- [1. Installation du DNS](#installation-DNS)
-- [2. Installation du DNS sur ECO-BDX-EX02]
+- [1. Installation du DNS sur ECO-BDX-EX01](#installation-DNS-EX01)
+- [2. Installation du DNS sur ECO-BDX-EX02](#installation-DNS-EX02)
 
 Ce document retrace les étapes techniques de l'installation du rôle du DNS sur le serveur ECO-BDX-EX01 et ECO-BDX-EX02, premier et second contrôleur de domaine de l'infrastructure EcoTech Solutions.
 Les captures d'écran présentes dans le document permettent d'améliorer la compréhension de l'installation du serveur.
 
 ## 1. Installation du DNS sur ECO-BDX-EX01. (Core)
-<span id="intsallation-DNS"><span/>
+<span id="installation-DNS-EX01"><span/>
 
 La configuration du DNS se fait avec l'adresse `172.0.0.1` car il a le rôle principale et l'adresse `10.20.20.6` correspond au serveur AD secondaire :
 
@@ -19,6 +19,24 @@ La configuration du DNS se fait avec l'adresse `172.0.0.1` car il a le rôle pri
 ![IP_config](ressources/1_config_IP_DNS.png)
 
 ## 2. Installation du DNS sur ECO-BDX-EX02. (GUI)
-<span id="domaine-secondaire"><span/>
+<span id="installation-DNS-EX02"><span/>
 
 Contrairement à la version Core, l'installation s'effectue via l'ajout du rôle DNS via server manager.
+
+Ajout du rôle DNS
+
+![dns](ressources/2_config_dns_ex02_6.png)
+
+Ensuite selectionner le serveur 
+
+![dns](ressources/2_config_dns_ex02_5.png)
+
+Selectionner le rôle à ajouter en cochant la case, ici le DNS
+
+![dns](ressources/2_config_dns_ex02_3.png)
+
+Installation du rôle
+
+![dns](ressources/2_config_dns_ex02_4.png)
+
+Une fois l'installation terminée le rôle DNS s'affiche dans la liste à gauche sur server manager
