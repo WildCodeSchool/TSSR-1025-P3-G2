@@ -19,7 +19,7 @@ hostnamectl set-hostname mail.ecotech-solutions.com
 # Modifier le fichier /etc/hosts
 nano /etc/hosts
 
-Vérifiez avec la commande hostname -f. Elle doit retourner mail.ecotech-soltutions.com.
+Vérifiez avec la commande hostname -f. Elle doit retourner mail.ecotech-solutions.com.
 
 3. Téléchargement d'iRedMail
 
