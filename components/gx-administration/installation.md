@@ -66,7 +66,7 @@ La suite **Microsoft Sysinternals** est utilisée pour le dépannage avancé du 
 
 ```powershell
 # Installation silencieuse de l'ensemble des outils (Process Explorer, TcpView, PsExec, etc.)
-winget install --id Microsoft.Sysinternals --scopemachine --accept-package-agreements
+winget install --id Microsoft.Sysinternals --scope machine --accept-package-agreements
 ```
 
 * **Outils clés utilisés pour l'administration EcoTech** :
