@@ -153,8 +153,3 @@ winget install --id Trippy.Trippy --scope machine --accept-package-agreements
 ```powershell
 winget install --id Git.Git --scope machine --accept-package-agreements
 ```
-
-
-```PowerShell
-Rename-Computer -ComputerName "oldname1" -NewName "newname1"
-```
