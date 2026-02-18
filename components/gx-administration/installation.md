@@ -66,7 +66,7 @@ La suite **Microsoft Sysinternals** est utilisée pour le dépannage avancé du 
 
 ```powershell
 # Installation silencieuse de l'ensemble des outils (Process Explorer, TcpView, PsExec, etc.)
-winget install --id Microsoft.Sysinternals --scope machine --accept-package-agreements
+winget install -e --id Microsoft.Sysinternals.Suite --scope machine --accept-package-agreements
 ```
 
 * **Outils clés utilisés pour l'administration EcoTech** :
@@ -74,43 +74,6 @@ winget install --id Microsoft.Sysinternals --scope machine --accept-package-agre
 * **Autoruns** : Gestion des services et programmes au démarrage.
 * **PsExec** : Exécution de commandes à distance sur les serveurs de l'infrastructure.
 * **TCPView** : Visualisation en temps réel des connexions réseau actives sur le poste.
-
-## 2.4. Finalisation de l'installation Sysinternals
-
-Pour que les outils soient immédiatement opérationnels pour tous les administrateurs, nous automatisons l'acceptation de la licence via le registre et configurons les variables d'environnement.
-
-```powershell
-Write-Host "Configuration de la suite Sysinternals..." -ForegroundColor Cyan
-
-# 1. ACCEPTATION AUTOMATIQUE DE LA LICENCE (EULA)
-# Ajoute une clé de registre pour l'utilisateur actuel et configure le défaut 
-# pour les nouveaux profils afin d'éviter la fenêtre contextuelle à chaque outil.
-
-$RegistryPath = "HKCU:\Software\Sysinternals"
-if (!(Test-Path $RegistryPath)) { New-Item -Path $RegistryPath -Force }
-
-# Liste des outils principaux pour valider l'EULA (ou clé globale selon version)
-Set-ItemProperty -Path $RegistryPath -Name "EulaAccepted" -Value 1
-
-
-# 2. AJOUT DES OUTILS AU PATH SYSTÈME
-# Permet de lancer "procexp" ou "tcpview" depuis n'importe quel terminal.
-# Par défaut, Winget installe Sysinternals dans : 
-# C:\Program Files\Common Files\Microsoft Shared\Sysinternals
-
-$SysInternalsPath = "C:\Program Files\Common Files\Microsoft Shared\Sysinternals"
-
-if (Test-Path $SysInternalsPath) {
-    $CurrentPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
-    if ($CurrentPath -notlike "*$SysInternalsPath*") {
-        [Environment]::SetEnvironmentVariable("Path", $CurrentPath + ";" + $SysInternalsPath, "Machine")
-        Write-Host "Dossier Sysinternals ajouté au PATH système." -ForegroundColor Green
-    }
-} else {
-    Write-Warning "Chemin Sysinternals non trouvé. Vérifiez l'emplacement d'installation de Winget."
-}
-
-```
 
 ### Pourquoi ces manipulations sont-elles obligatoires ?
 
