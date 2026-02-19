@@ -1,14 +1,14 @@
 
 # Guide d'Installation iRedMail
 
-Ce guide détaille l'installation d'un serveur de mail complet utilisant le script iRedMail sur un système Linux vierge.
+Ce guide détaille l'installation d'un serveur de mail complet utilisant le script iRedMail sur un système Linux Debian.
 
 ## 1. Prérequis Système
 * **OS :** Debian.
-* **RAM :** 2 Go minimum.
-* **Réseau :** Port 25 (SMTP) ouvert.
+* **RAM :** 2 Go minimum.  
+* Ports TCP ouverts : **25 (SMTP), 465 (SMTPS), 587 (submission), 993 (IMAPS), 995 (POP3S), 80/443 (web admin & webmail)**
 
-## 2. Configuration du Hostname (Crucial)
+## 2. Configuration du Hostname
 Le nom d'hôte de votre serveur doit être un nom de domaine pleinement qualifié (FQDN). 
 Exemple : `mail.ecotech-solutions.com`.
 
@@ -18,6 +18,12 @@ hostnamectl set-hostname mail.ecotech-solutions.com
 
 # Modifier le fichier /etc/hosts
 nano /etc/hosts
+
+127.0.0.1   localhost
+127.0.1.1   mail.ecotech-solutions.com mail
+
+# Votre IP publique + FQDN
+10.50.0.7    mail.ecotech-solutions.com mail
 
 Vérifiez avec la commande hostname -f. Elle doit retourner mail.ecotech-solutions.com.
 
@@ -33,9 +39,8 @@ apt install wget tar bzip2 -y
 wget https://github.com/iredmail/iRedMail/archive/refs/tags/1.7.4.tar.gz
 
 # Extraire le fichier et préparer l'installation
-
 tar xvf 1.7.4.tar.gz
-cd iRedMail-1.7.1/
+cd iRedMail-1.7.4/
 
 4. Lancement de l'installateur
 
