@@ -4,32 +4,31 @@ Dans ce fichier se trouve les étapes de la configuration du serveur Bastion. De
 
 ## Tables des matière :
 
-- [1. Création de la VLAN 520](#1-création-de-la-vlan-520)
-- [2. Configuration des interfaces sur le cluster pfSense](#2-configuration-des-interfaces-sur-le-cluster-pfsense)
-- [3. Création de la VIP CARP](#3-création-de-la-vip-carp)
-- [4. Création des règles de pare-feu](#4-création-des-règles-de-pare-feu)
-- [5. Validation de la configuration](#5-validation-de-la-configuration)
-- [6. Synthèse de l'architecture](#6-synthèse-de-larchitecture)
+- [Configuration du Serveur Bastion - Apache Guacamole](#configuration-du-serveur-bastion---apache-guacamole)
+  - [Tables des matière :](#tables-des-matière-)
+  - [1. Rentrée de la VLAN 520 sue le réseau](#1-rentrée-de-la-vlan-520-sue-le-réseau)
+    - [1.2. Configuration des interfaces sur le cluster pfSense](#12-configuration-des-interfaces-sur-le-cluster-pfsense)
+      - [Ajout et configuration des interfaces BASTION](#ajout-et-configuration-des-interfaces-bastion)
+    - [1.3. Création de la VIP CARP](#13-création-de-la-vip-carp)
+      - [Configuration de la VIP CARP sur les deux pare-feu](#configuration-de-la-vip-carp-sur-les-deux-pare-feu)
+    - [1.4. Création des règles de pare-feu](#14-création-des-règles-de-pare-feu)
+    - [1.5. Validation de la configuration](#15-validation-de-la-configuration)
+    - [1.6. Synthèse de l'architecture](#16-synthèse-de-larchitecture)
+  - [2. Routage inter-VLAN vers le serveur Bastion](#2-routage-inter-vlan-vers-le-serveur-bastion)
+    - [2.1. Vérification de la connectivité](#21-vérification-de-la-connectivité)
+    - [2.2. Analyse du chemin réseau](#22-analyse-du-chemin-réseau)
+    - [2.3. Explication du routage](#23-explication-du-routage)
+    - [2.4. Bonne pratique vs implémentation](#24-bonne-pratique-vs-implémentation)
+    - [2.5. Validation technique](#25-validation-technique)
+  - [3. Matrice de routage du réseau Bastion](#3-matrice-de-routage-du-réseau-bastion)
 
-## 1. Création de la VLAN 520
+## 1. Rentrée de la VLAN 520 sue le réseau
 
-Le serveur bastion nécessite un réseau isolé pour respecter le principe de séparation des responsabilités. Le VLAN 520 a été créé spécifiquement pour héberger cette infrastructure d'administration sécurisée.
-
-Caractéristiques du VLAN 520 :
-
-- Réseau : 10.50.20.0/28
-- Passerelle : 10.50.20.1 (VIP CARP haute disponibilité)
-- Usage : Administration sécurisée des serveurs
-
-Ce réseau est distinct de la DMZ publique (VLAN 500) pour éviter qu'une compromission des services exposés à Internet n'impacte les accès d'administration.
-
----
-
-## 2. Configuration des interfaces sur le cluster pfSense
+### 1.2. Configuration des interfaces sur le cluster pfSense
 
 Le bastion étant un point d'accès critique, il bénéficie de la haute disponibilité du cluster pfSense (DX01 et DX02).
 
-### Ajout et configuration des interfaces BASTION
+#### Ajout et configuration des interfaces BASTION
 
 Dans l'interface web de pfSense, accéder à : 
   - Interfaces 
@@ -49,11 +48,11 @@ Sauvegarder et appliquer les changements sur chaque pare-feu. Les deux pare-feu 
 
 --- 
 
-## 3. Création de la VIP CARP
+### 1.3. Création de la VIP CARP
 
 La VIP (Virtual IP) CARP permet aux deux pare-feu de partager une adresse IP virtuelle qui bascule automatiquement en cas de panne.
 
-### Configuration de la VIP CARP sur les deux pare-feu
+#### Configuration de la VIP CARP sur les deux pare-feu
 
 Dans l'interface web de pfSense, accéder à :
   - Firewall
@@ -76,7 +75,7 @@ Note importante : Grâce à la synchronisation XMLRPC, la VIP est automatiquemen
 
 ---
 
-## 4. Création des règles de pare-feu
+### 1.4. Création des règles de pare-feu
 
 Par défaut, pfSense bloque tout trafic sur une nouvelle interface. Il est nécessaire de créer des règles explicites pour autoriser les flux légitimes.
 
@@ -95,7 +94,7 @@ Par défaut, pfSense bloque tout trafic sur une nouvelle interface. Il est néce
   - *Destination : `any`*
   - *Description : `Test Bastion`*
 
-## 5. Validation de la configuration
+### 1.5. Validation de la configuration
 
 Une fois la configuration appliquée, les tests suivants s'effectuent sur le serveur Bastion et attestent une bonne configuration :
 
@@ -118,7 +117,7 @@ Résultats attendus :
 ✅ Ping vers la passerelle : succès
 ✅ Ping vers Internet : succès
 
-## 6. Synthèse de l'architecture
+### 1.6. Synthèse de l'architecture
 
 | Équipement | Interface| IP | Rôle |
 | --- | --- | --- | --- |
@@ -126,3 +125,87 @@ Résultats attendus :
 | pfSense DX02 | BASTION | 10.50.20.4/28 | Pare-feu backup |
 | VIP CARP | BASTION | 10.50.20.1/28 | Passerelle virtuelle HA |
 | Serveur Bastion | eth0 | 10.50.20.5/28 | Serveur Guacamole |
+
+## 2. Routage inter-VLAN vers le serveur Bastion
+
+### 2.1. Vérification de la connectivité
+
+Une fois l'infrastructure réseau du bastion configurée sur pfSense, des tests de connectivité ont été effectués depuis différents VLANs de l'infrastructure.
+
+**Test depuis le serveur Active Directory (VLAN 220) :**
+```bash
+ping 10.50.20.5
+traceroute 10.50.20.5
+```
+
+**Résultat :** La connectivité fonctionne dans les deux sens, avec un chemin de routage passant par VyOS puis pfSense.
+
+### 2.2. Analyse du chemin réseau
+
+Le traceroute révèle le cheminement suivant :
+```
+1  10.20.20.1      (VyOS - passerelle VLAN 220)
+2  10.40.10.1      (VyOS - interface transit)
+3  10.40.0.3       (pfSense DX01 - interface LAN)
+4  10.50.20.5      (Serveur Bastion)
+```
+
+### 2.3. Explication du routage
+
+Le routeur VyOS utilise sa **route par défaut** (`0.0.0.0/0`) pointant vers pfSense pour acheminer le trafic vers le réseau `10.50.20.0/28`.
+
+**Flux aller (VLAN interne → Bastion) :**
+
+1. Un serveur du VLAN 220 envoie un paquet vers `10.50.20.5`.
+2. VyOS consulte sa table de routage et ne trouve pas de route spécifique pour `10.50.20.0/28`.
+3. VyOS applique la **route par défaut** et transmet le paquet à pfSense.
+4. pfSense connaît le réseau `10.50.20.0/28` car il possède une interface directement connectée.
+5. pfSense transmet le paquet au serveur bastion.
+
+**Flux retour (Bastion → VLAN interne) :**
+
+1. Le bastion répond en envoyant le paquet vers sa passerelle `10.50.20.1` (VIP CARP pfSense).
+2. pfSense connaît les réseaux internes `10.20.0.0/16` via le routeur VyOS.
+3. pfSense transmet le paquet à VyOS.
+4. VyOS route le paquet vers le VLAN de destination.
+
+### 2.4. Bonne pratique vs implémentation
+
+**Bonne pratique recommandée :**
+
+Ajouter une route statique explicite sur VyOS :
+```
+set protocols static route 10.50.20.0/28 next-hop 10.40.0.1
+```
+
+**Avantages d'une route spécifique :**
+- Clarté architecturale (documentation du réseau plus lisible)
+- Performance légèrement supérieure (route directe prioritaire sur route par défaut)
+- Résilience (maintien de la connectivité même si la route par défaut change)
+
+**Implémentation actuelle :**
+
+Dans notre cas, la route par défaut suffit car :
+- pfSense est le seul point de sortie du réseau interne
+- La route par défaut pointe déjà vers pfSense
+- Aucune modification de cette route n'est prévue
+
+La connectivité est donc assurée sans configuration supplémentaire sur VyOS.
+
+### 2.5. Validation technique
+
+**Commande de vérification sur VyOS :**
+```bash
+show ip route 10.50.20.5
+```
+
+**Résultat obtenu :** Le routage s'effectue via la route par défaut (`0.0.0.0/0`) vers pfSense.
+
+---
+
+## 3. Matrice de routage du réseau Bastion
+
+| Source | Destination | Routeur 1 (VyOS) | Routeur 2 (pfSense) | Résultat |
+|--------|-------------|------------------|---------------------|----------|
+| VLAN 220 (10.20.20.x) | Bastion (10.50.20.5) | Route par défaut → pfSense | Interface connectée → Bastion | ✅ Fonctionne |
+| Bastion (10.50.20.5) | VLAN 220 (10.20.20.x) | Interface connectée | Route transit → VyOS | ✅ Fonctionne |
