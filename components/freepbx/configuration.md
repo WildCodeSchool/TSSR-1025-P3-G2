@@ -1,80 +1,94 @@
 # FreePBX - Phase 2 : Configuration
 
-**Version du système :** FreePBX 16.0.33 (Sangoma Linux 7)  
-**Date de réalisation :** Février 2026  
-**Objectif :** Guide complet de la configuration post-installation du serveur FreePBX.
+---
 
-Bonjour,
 
-Ce fichier vous guide étape par étape dans la **phase de configuration** de votre serveur FreePBX (après la fin de l’installation). Toutes les captures d’écran sont incluses pour que vous puissiez suivre visuellement chaque action.
+Ce fichier vous guide étape par étape dans la **phase de configuration** de votre serveur FreePBX, une fois l’installation terminée.  
+Toutes les captures d’écran sont incluses pour que vous puissiez suivre visuellement chaque action.
+
+Les étapes sont présentées dans l’ordre chronologique réel des actions que vous effectuerez.
 
 ---
 
-### Étape 1 : Configuration des réseaux dans le Firewall
-Allez dans **Connectivity → Firewall → Networks** et vérifiez/ajoutez vos réseaux locaux.
+### Étape 1 : Accès au Firewall depuis le Dashboard
+Depuis le tableau de bord principal, cliquez sur **Connectivity** puis sur **Firewall**.
 
-![Configuration des réseaux Firewall](Capture d’écran 2026-02-18 164555.jpg)
+![Accès au Firewall depuis le Dashboard](03_configuration_freepbx.jpg)
 
-Ajoutez ou modifiez les zones :
-- 10.20.10.2/32 → **Trusted (Excluded from Firewall)**
-- 10.20.28.0/24 → **Local**
-- 10.60.0.0/24 → **Trusted**
+Vous arrivez sur la section Firewall. Notez les avertissements éventuels (weak secrets, bad destinations, etc.).
 
-Cliquez sur **Save**.
+### Étape 2 : Page principale du Firewall et Responsive Firewall
+Vérifiez que le **Responsive Firewall** est activé (il l’est par défaut après le wizard initial).
 
-### Étape 2 : Vérification du Responsive Firewall
-Retournez sur l’onglet principal du Firewall pour confirmer que le Responsive Firewall est bien activé.
+![Page principale Firewall - Responsive Firewall activé](04_configuration_freepbx.jpg)
 
-![Responsive Firewall activé](Capture d’écran 2026-02-18 164506.jpg)
+Le message vert confirme que les endpoints SIP sont automatiquement autorisés après enregistrement.  
+Vous pouvez ici relancer le wizard si nécessaire ou désactiver le firewall (déconseillé).
 
-Aucune action supplémentaire n’est nécessaire pour les pairs SIP (ils sont autorisés automatiquement après enregistrement).
+### Étape 3 : Configuration des réseaux dans le Firewall
+Allez dans l’onglet **Networks** et configurez vos réseaux locaux.
 
-### Étape 3 : Accès à la création d’extensions
-Allez dans **Applications → Extensions** puis cliquez sur **+ Add Extension → Add New SIP [chan_pjsip] Extension**.
+![Configuration des réseaux dans le Firewall](05_configuration_freepbx.jpg)
 
-![Menu création d’extensions](Capture d’écran 2026-02-18 141017.jpg)
+Exemples de configuration typique :
+- `10.20.10.2/32` → **Trusted (Excluded from Firewall)**
+- `10.60.28.0/24` → **Trusted**
+- Ajoutez vos autres subnets selon vos besoins.
 
-### Étape 4 : Liste des extensions créées
-Vous voyez maintenant vos deux extensions :
+Cliquez sur **Save** pour appliquer.
 
-![Liste des extensions](Capture d’écran 2026-02-18 141034.jpg)
+### Étape 4 : Accès à la gestion des Extensions
+Retournez dans le menu principal : cliquez sur **Applications** puis sur **Extensions**.
 
-- 1000 → Poste1
-- 1001 → Poste2
+![Accès à la section Extensions](06_configuration_freepbx.jpg)
 
-### Étape 5 : Configuration détaillée d’une extension
-Modifiez l’extension (ex. 1000 ou 1001). Attention : le mot de passe (Secret) doit être fort (ici il est faible « 1000 »).
+### Étape 5 : Liste des extensions et création d’une nouvelle extension
+Vous voyez la liste des extensions existantes (ici 1000 et 1001).  
+Cliquez sur **+ Add Extension** → **Add New SIP [chan_pjsip] Extension**.
 
-![Édition d’extension PJSIP](Capture d’écran 2026-02-18 164528.jpg)
+![Liste des extensions + menu d'ajout](07_configuration_freepbx.jpg)
 
-Renseignez le Display Name, le Secret, puis cliquez sur **Submit** et **Apply Config**.
+### Étape 6 : Formulaire de création d’une extension PJSIP
+Remplissez les champs de la nouvelle extension (exemple avec l’extension 1003) :
 
-### Étape 6 : Configuration du softphone 3CXPhone
-Sur votre poste Windows, ouvrez 3CXPhone et ajoutez un compte SIP :
+![Formulaire d'ajout d'extension PJSIP](08_configuration_freepbx.jpg)
 
-![Configuration compte 3CXPhone](Capture d’écran 2026-02-18 162606.jpg)
+Points importants :
+- **User Extension** : numéro de poste (ex. 1003)
+- **Display Name** : nom affiché (ex. "Nom1")
+- **Secret** : mot de passe SIP (évitez les mots de passe faibles comme « 1234 » – utilisez un mot de passe complexe !)
+- Cliquez sur **Submit** puis sur **Apply Config** (bouton rouge en haut à droite).
 
-- Extension : 1000 (ou 1001)
-- Password : celui défini dans FreePBX
-- IP du PBX : `10.60.70.5`
-- Cochez « I am in the office - local IP »
+### Étape 7 : Configuration du softphone 3CXPhone (côté client Windows)
+Sur votre poste de travail, ouvrez **3CXPhone** et créez/ajoutez un compte SIP.
 
-### Étape 7 : Vérification des softphones connectés
-Les deux postes sont maintenant enregistrés et affichent « Connected ».
+![Configuration du compte dans 3CXPhone](01_configuration_freepbx.jpg)
 
-![Softphones connectés](Capture d’écran 2026-02-18 165132.jpg)
+Paramètres recommandés :
+- Extension et Password : ceux définis dans FreePBX
+- IP du serveur : `10.60.70.5`
+- Cochez **I am in the office - local IP**
 
-Vous pouvez désormais passer des appels internes entre Poste1 et Poste2.
+Cliquez sur **OK**.
+
+### Étape 8 : Vérification finale – Softphones connectés
+Une fois les extensions enregistrées, vos softphones doivent afficher **Connected**.
+
+![Softphones connectés et opérationnels](02_configuration_freepbx.jpg)
+
+Vous pouvez maintenant passer des appels internes entre les postes (composez simplement le numéro de l’autre extension).
 
 ---
 
 ## Prochaines étapes recommandées
-Une fois ces étapes terminées, vous pouvez poursuivre avec :
+Une fois cette configuration terminée, poursuivez avec :
 1. Création de trunks SIP externes
 2. Configuration des routes sortantes et entrantes
-3. Mise en place d’un IVR
-4. Renforcement de la sécurité (mots de passe forts, Fail2Ban, activation officielle du système)
+3. Mise en place d’un IVR (menu vocal)
+4. Renforcement de la sécurité (mots de passe forts, Fail2Ban, activation du Deployment ID)
 
-N’hésitez pas à consulter la documentation officielle FreePBX ou à ouvrir une issue sur ce dépôt si vous rencontrez un problème.
+**Astuce** : Après chaque modification importante, cliquez toujours sur le bouton rouge **Apply Config** en haut à droite.
+
+N’hésitez pas à consulter la documentation officielle FreePBX ou à ouvrir une issue sur ce dépôt si vous avez une question.
 
 Bonne configuration !
