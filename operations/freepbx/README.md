@@ -1,5 +1,3 @@
-# README.md
-
 # Projet FreePBX - Système de Téléphonie VoIP
 
 Ce dépôt contient l’ensemble de la documentation opérationnelle de votre serveur **FreePBX**.  
@@ -31,5 +29,6 @@ Le serveur est accessible à l’adresse : **http://10.60.70.5/admin**
 1. Consultez **INSTALLATION.md** si vous souhaitez reproduire l’installation depuis zéro.  
 2. Consultez **CONFIGURATION.md** pour reproduire la configuration actuelle.  
 3. Consultez **backup.md**, **monitoring.md** et **troubleshooting.md** pour les opérations courantes.
+
 
 
