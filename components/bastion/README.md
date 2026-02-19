@@ -5,12 +5,10 @@
 
 ## Table des matières
 
-- [Serveur Bastion — Apache Guacamole](#serveur-bastion--apache-guacamole)
-  - [Table des matières](#table-des-matières)
-  - [1. Rôle du service](#1-rôle-du-service)
-  - [2. Position dans l'architecture](#2-position-dans-larchitecture)
-  - [3. Prérequis](#3-prérequis)
-  - [4. Fonctionnalités](#4-fonctionnalités)
+- [1. Rôle du service](#1-rôle-du-service)
+- [2. Position dans l'architecture](#2-position-dans-larchitecture)
+- [3. Prérequis](#3-prérequis)
+- [4. Fonctionnalités](#4-fonctionnalités)
 
 ## 1. Rôle du service
 
