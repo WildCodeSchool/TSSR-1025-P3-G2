@@ -4,23 +4,19 @@ Dans ce fichier se trouve les étapes de la configuration du serveur Bastion. De
 
 ## Tables des matière :
 
-- [Configuration du Serveur Bastion - Apache Guacamole](#configuration-du-serveur-bastion---apache-guacamole)
-  - [Tables des matière :](#tables-des-matière-)
-  - [1. Rentrée de la VLAN 520 sue le réseau](#1-rentrée-de-la-vlan-520-sue-le-réseau)
-    - [1.2. Configuration des interfaces sur le cluster pfSense](#12-configuration-des-interfaces-sur-le-cluster-pfsense)
-      - [Ajout et configuration des interfaces BASTION](#ajout-et-configuration-des-interfaces-bastion)
-    - [1.3. Création de la VIP CARP](#13-création-de-la-vip-carp)
-      - [Configuration de la VIP CARP sur les deux pare-feu](#configuration-de-la-vip-carp-sur-les-deux-pare-feu)
-    - [1.4. Création des règles de pare-feu](#14-création-des-règles-de-pare-feu)
-    - [1.5. Validation de la configuration](#15-validation-de-la-configuration)
-    - [1.6. Synthèse de l'architecture](#16-synthèse-de-larchitecture)
-  - [2. Routage inter-VLAN vers le serveur Bastion](#2-routage-inter-vlan-vers-le-serveur-bastion)
-    - [2.1. Vérification de la connectivité](#21-vérification-de-la-connectivité)
-    - [2.2. Analyse du chemin réseau](#22-analyse-du-chemin-réseau)
-    - [2.3. Explication du routage](#23-explication-du-routage)
-    - [2.4. Bonne pratique vs implémentation](#24-bonne-pratique-vs-implémentation)
-    - [2.5. Validation technique](#25-validation-technique)
-  - [3. Matrice de routage du réseau Bastion](#3-matrice-de-routage-du-réseau-bastion)
+- [1. Rentrée de la VLAN 520 sue le réseau](#1-rentrée-de-la-vlan-520-sue-le-réseau)
+  - [1.2. Configuration des interfaces sur le cluster pfSense](#12-configuration-des-interfaces-sur-le-cluster-pfsense)
+  - [1.3. Création de la VIP CARP](#13-création-de-la-vip-carp)     
+  - [1.4. Création des règles de pare-feu](#14-création-des-règles-de-pare-feu)
+  - [1.5. Validation de la configuration](#15-validation-de-la-configuration)
+  - [1.6. Synthèse de l'architecture](#16-synthèse-de-larchitecture)
+- [2. Routage inter-VLAN vers le serveur Bastion](#2-routage-inter-vlan-vers-le-serveur-bastion)
+  - [2.1. Vérification de la connectivité](#21-vérification-de-la-connectivité)
+  - [2.2. Analyse du chemin réseau](#22-analyse-du-chemin-réseau)
+  - [2.3. Explication du routage](#23-explication-du-routage)
+  - [2.4. Bonne pratique vs implémentation](#24-bonne-pratique-vs-implémentation)
+  - [2.5. Validation technique](#25-validation-technique)
+- [3. Matrice de routage du réseau Bastion](#3-matrice-de-routage-du-réseau-bastion)
 
 ## 1. Rentrée de la VLAN 520 sue le réseau
 
