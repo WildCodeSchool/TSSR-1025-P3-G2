@@ -4,16 +4,12 @@ Dans ce fichier se trouve les étapes de la configuration du serveur Bastion. De
 
 ## Tables des matière :
 
-- [Configuration du Serveur Bastion - Apache Guacamole](#configuration-du-serveur-bastion---apache-guacamole)
-  - [Tables des matière :](#tables-des-matière-)
-  - [1. Création de la VLAN 520](#1-création-de-la-vlan-520)
-  - [2. Configuration des interfaces sur le cluster pfSense](#2-configuration-des-interfaces-sur-le-cluster-pfsense)
-    - [Ajout et configuration des interfaces BASTION](#ajout-et-configuration-des-interfaces-bastion)
-  - [3. Création de la VIP CARP](#3-création-de-la-vip-carp)
-    - [Configuration de la VIP CARP sur les deux pare-feu](#configuration-de-la-vip-carp-sur-les-deux-pare-feu)
-  - [4. Création des règles de pare-feu](#4-création-des-règles-de-pare-feu)
-  - [5. Validation de la configuration](#5-validation-de-la-configuration)
-  - [6. Synthèse de l'architecture](#6-synthèse-de-larchitecture)
+- [1. Création de la VLAN 520](#1-création-de-la-vlan-520)
+- [2. Configuration des interfaces sur le cluster pfSense](#2-configuration-des-interfaces-sur-le-cluster-pfsense)
+- [3. Création de la VIP CARP](#3-création-de-la-vip-carp)
+- [4. Création des règles de pare-feu](#4-création-des-règles-de-pare-feu)
+- [5. Validation de la configuration](#5-validation-de-la-configuration)
+- [6. Synthèse de l'architecture](#6-synthèse-de-larchitecture)
 
 ## 1. Création de la VLAN 520
 
