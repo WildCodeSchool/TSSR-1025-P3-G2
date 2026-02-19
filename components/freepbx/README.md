@@ -1,9 +1,7 @@
 # Projet FreePBX - Système de Téléphonie VoIP
 ----
 
-Bonjour,
-
-Ce dépôt contient toute la documentation nécessaire pour comprendre, reproduire et utiliser le serveur **FreePBX** que j’ai installé et configuré pour mon projet de téléphonie VoIP.
+**Ce dépôt contient toute la documentation nécessaire pour comprendre, reproduire et utiliser le serveur **FreePBX** que j’ai installé et configuré pour mon projet de téléphonie VoIP.**
 
 Le serveur permet actuellement :
 - La gestion de deux postes internes (Poste1 et Poste2)
