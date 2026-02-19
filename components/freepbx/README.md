@@ -22,7 +22,7 @@ Le serveur permet actuellement :
 
 ### Postes configurés (Extensions)
 
-| Extension | Nom      | Type   | Statut          | Softphone utilisé |
+| Extension | Nom      | MACHINE   | Statut          | Softphone utilisé |
 |-----------|----------|--------|-----------------|-------------------|
-| **1000**  | Poste1   | PJSIP  | Connecté        | 3CXPhone          |
-| **1001**  | Poste2   | PJSIP  | Connecté        | 3CXPhone          |
+| **1000**  | Poste1   | ECO-BDX-GX01  | Connecté        | 3CXPhone          |
+| **1001**  | Poste2   | ECO-BDX-CX01  | Connecté        | 3CXPhone          |
