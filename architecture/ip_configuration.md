@@ -23,7 +23,7 @@ Cette organisation du **2ème octet** permet d'identifier visuellement la foncti
 |------------|------------------------|-------------|-----------------|
 | **20** | Infrastructure | 200-299 | Cœur technique (Proxmox, AD, Fichiers, Backup) |
 | **40** | Transit | 400-499 | Réseaux point-à-point (pfSense ↔ VyOS) |
-| **50** | Bordure | 500-599 | Services exposés (DMZ, VPN) |
+| **50** | Bordure | 500-599 | Services exposés (DMZ, Bastion) |
 | **60** | Métiers | 600-799 | Utilisateurs et départements |
 | **80** | Mobilité | 800-899 | WiFi et accès sans-fil |
 | **99** | Sécurité | 999 | Quarantaine et isolation |
@@ -31,7 +31,7 @@ Cette organisation du **2ème octet** permet d'identifier visuellement la foncti
 **Logique de mémorisation :**
 - Une IP en **10.20.x.x** → Infrastructure critique
 - Une IP en **10.60.x.x** → Poste utilisateur métier
-- Une IP en **10.50.x.x** → Service de bordure (DMZ/VPN)
+- Une IP en **10.50.x.x** → Service de bordure (DMZ/Bastion)
 
 ## 1.3. Plan d'Adressage Détaillé par Niveau de Sécurité (Tiering)
 
@@ -60,6 +60,7 @@ Les VLANs sont organisés en 3 niveaux de confiance.
 | **230** | Fichiers | 10.**20**.30.0/28 | Infrastructure | Serveur de fichiers métier | Partages SMB départementaux |
 | **240** | Backup | 10.**20**.40.0/29 | Infrastructure | Orchestration sauvegarde | Bareos (vers VLAN 250) |
 | **500** | DMZ | 10.**50**.0.0/28 | Bordure | Zone exposée Internet | Proxy Squid, Serveur Web |
+| **520** | Administration | 10.**50**.20.0/28 | Bordure | Zone d'administration isolée | Serveur Bastion |
 
 ---
 
@@ -129,12 +130,16 @@ Cette section détaille l'adressage statique des interfaces pour chaque équipem
 | **DX01** | LAN | vmbr510 | 10.40.0.3/29 | Membre 1 (VHID 1, Skew 0) |
 | **DX02** | LAN | vmbr510 | 10.40.0.4/29 | Membre 2 (VHID 1, Skew 100) |
 | | | | | |
-| **VIP (CARP)** | DMZ | vmbr511 | **10.50.0.1/29** | IP virtuelle cluster |
-| **DX01** | DMZ | vmbr511 | 10.50.0.3/29 | Membre 1 (VHID 2, Skew 0) |
-| **DX02** | DMZ | vmbr511 | 10.50.0.4/29 | Membre 2 (VHID 2, Skew 100) |
+| **VIP (CARP)** | DMZ | vmbr511 | **10.50.0.1/28** | IP virtuelle cluster |
+| **DX01** | DMZ | vmbr511 | 10.50.0.3/29 | Membre 1 (VHID *, Skew 0) |
+| **DX02** | DMZ | vmbr511 | 10.50.0.4/29 | Membre 2 (VHID *, Skew 100) |
 | | | | | |
 | **DX01** | SYNC | vmbr514 | 10.10.10.1/29 | Synchronisation pfsync |
 | **DX02** | SYNC | vmbr514 | 10.10.10.2/29 | Synchronisation pfsync |
+| | | | | |
+| **VIP (CARP)** | Administration | vmbr515 | **10.50.20.1/28** | IP virtuelle cluster |
+| **DX01** | DMZ | vmbr511 | 10.50.0.3/29 | Membre 1 (VHID 2, Skew 0) |
+| **DX02** | DMZ | vmbr511 | 10.50.0.4/29 | Membre 2 (VHID 2, Skew 100) |
 
 ### Caractéristiques de haute disponibilité
 
@@ -175,6 +180,7 @@ Pour maintenir une cohérence d'administration, les serveurs utilisent systémat
 | **ECO-BDX-EX07** | **Web (LAN)**           | **220**  | 10.20.20.7     | 10.20.20.1          | Serveur Web Interne                   |
 | **ECO-BDX-EX08** | **Web (DMZ)**           | **500**  | 10.50.0.6      | 10.50.0.1           | Site EcoTech                          |
 | **ECO-BDX-EX09** | **Proxy (DMZ)**         | **500**  | 10.50.0.5      | 10.50.0.1           | Sortie Web                            |
+| **ECO-BDX-EX15** | **Bastion**             | **520**  | 10.50.20.5     | 10.50.20.1          | Administration                        |
 
 ## 2.3. Récapitulatif de la hiérarchie des hôtes (Convention .x)
 

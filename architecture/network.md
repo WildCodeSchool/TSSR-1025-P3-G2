@@ -88,8 +88,9 @@ L'infrastructure est segmentée en **17 VLANs** distincts, chacun répondant à 
 |              | **230**  | Serveur de Fichiers | **Haute**     | Données critiques de l'entreprise.        |
 |              | **240**  | Sauvegarde (Bareos) | **Haute**     | Orchestration du backup.                  |
 |              | **250**  | Stockage L2 (iSCSI) | **Critique**  | **Non-routé**. Flux brut Baie <-> Bareos. |
-| **BORDURE**  |          | DMZ (Web/Proxy)     | **Moyenne**   | Services exposés. Zone tampon.            |
-|              |          | VPN Partenaires     | **Moyenne**   | Accès distants sécurisés.                 |
+| **BORDURE**  | **500**  | DMZ (Web/Proxy)     | **Moyenne**   | Services exposés. Zone tampon.            |
+|              | **520**  | Admin Isolé         | **Moyenne**   | Accès distants aux serveurs.              |
+|              | **680**  | VPN Partenaires     | **Moyenne**   | Accès distants sécurisés.                 |
 | **METIERS**  | **600**  | Direction           | **Haute**     | Données sensibles (paie, contrats).       |
 |              | **610**  | DSI                 | **Haute**     | Cœur de métier                            |
 |              | **620**  | DRH                 | **Moyenne**   | Postes utilisateurs standards.            |
