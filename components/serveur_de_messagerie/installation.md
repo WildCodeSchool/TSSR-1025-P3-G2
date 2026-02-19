@@ -6,7 +6,7 @@ Ce guide détaille l'installation d'un serveur de mail complet utilisant le scri
 ## 1. Prérequis Système
 * **OS :** Debian.
 * **RAM :** 2 Go minimum.  
-* Ports TCP ouverts : **25 (SMTP), 465 (SMTPS), 587 (submission), 993 (IMAPS), 995 (POP3S), 80/443 (web admin & webmail)**
+* **Ports TCP ouverts :** 25 (SMTP), 465 (SMTPS), 587 (submission), 993 (IMAPS), 995 (POP3S), 80/443 (web admin & webmail)
 
 ## 2. Configuration du Hostname
 Le nom d'hôte de votre serveur doit être un nom de domaine pleinement qualifié (FQDN). 
@@ -59,7 +59,7 @@ bash iRedMail.sh
 
     Password : Définissez le mot de passe de l'administrateur SQL.
 
-    First Domain : Entrez votre domaine principal (ex: votre-domaine.com).
+    First Domain : Entrez votre domaine principal.
 
     Admin Password : Définissez le mot de passe pour postmaster@votre-domaine.com.
 
