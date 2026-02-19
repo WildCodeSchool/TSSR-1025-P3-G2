@@ -13,14 +13,14 @@ Les étapes sont présentées dans l’ordre chronologique réel des actions que
 ### Étape 1 : Accès au Firewall depuis le Dashboard
 Depuis le tableau de bord principal, cliquez sur **Connectivity** puis sur **Firewall**.
 
-![Accès au Firewall depuis le Dashboard](03_configuration_freepbx.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/24391a8bc866ef6143271173677e8a9a0d557879/components/freepbx/ressources/configuration/03_configuration_freepbx.jpg)
 
 Vous arrivez sur la section Firewall. Notez les avertissements éventuels (weak secrets, bad destinations, etc.).
 
 ### Étape 2 : Page principale du Firewall et Responsive Firewall
 Vérifiez que le **Responsive Firewall** est activé (il l’est par défaut après le wizard initial).
 
-![Page principale Firewall - Responsive Firewall activé](04_configuration_freepbx.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/24391a8bc866ef6143271173677e8a9a0d557879/components/freepbx/ressources/configuration/04_configuration_freepbx.jpg)
 
 Le message vert confirme que les endpoints SIP sont automatiquement autorisés après enregistrement.  
 Vous pouvez ici relancer le wizard si nécessaire ou désactiver le firewall (déconseillé).
@@ -28,30 +28,32 @@ Vous pouvez ici relancer le wizard si nécessaire ou désactiver le firewall (d�
 ### Étape 3 : Configuration des réseaux dans le Firewall
 Allez dans l’onglet **Networks** et configurez vos réseaux locaux.
 
-![Configuration des réseaux dans le Firewall](05_configuration_freepbx.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/24391a8bc866ef6143271173677e8a9a0d557879/components/freepbx/ressources/configuration/05_configuration_freepbx.jpg)
 
 Exemples de configuration typique :
-- `10.20.10.2/32` → **Trusted (Excluded from Firewall)**
-- `10.60.28.0/24` → **Trusted**
-- Ajoutez vos autres subnets selon vos besoins.
+- *Première adresse IP* → **Trusted (Excluded from Firewall)**
+- *deuxième adresse IP* → **Trusted**
+- Ajoutez vos autres subnets selon vos besoins !
+
+
 
 Cliquez sur **Save** pour appliquer.
 
 ### Étape 4 : Accès à la gestion des Extensions
 Retournez dans le menu principal : cliquez sur **Applications** puis sur **Extensions**.
 
-![Accès à la section Extensions](06_configuration_freepbx.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/24391a8bc866ef6143271173677e8a9a0d557879/components/freepbx/ressources/configuration/06_configuration_freepbx.jpg)
 
 ### Étape 5 : Liste des extensions et création d’une nouvelle extension
 Vous voyez la liste des extensions existantes (ici 1000 et 1001).  
 Cliquez sur **+ Add Extension** → **Add New SIP [chan_pjsip] Extension**.
 
-![Liste des extensions + menu d'ajout](07_configuration_freepbx.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/24391a8bc866ef6143271173677e8a9a0d557879/components/freepbx/ressources/configuration/07_configuration_freepbx.jpg)
 
 ### Étape 6 : Formulaire de création d’une extension PJSIP
 Remplissez les champs de la nouvelle extension (exemple avec l’extension 1003) :
 
-![Formulaire d'ajout d'extension PJSIP](08_configuration_freepbx.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/24391a8bc866ef6143271173677e8a9a0d557879/components/freepbx/ressources/configuration/08_configuration_freepbx.jpg)
 
 Points importants :
 - **User Extension** : numéro de poste (ex. 1003)
@@ -62,7 +64,7 @@ Points importants :
 ### Étape 7 : Configuration du softphone 3CXPhone (côté client Windows)
 Sur votre poste de travail, ouvrez **3CXPhone** et créez/ajoutez un compte SIP.
 
-![Configuration du compte dans 3CXPhone](01_configuration_freepbx.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/24391a8bc866ef6143271173677e8a9a0d557879/components/freepbx/ressources/configuration/01_configuration_freepbx.jpg)
 
 Paramètres recommandés :
 - Extension et Password : ceux définis dans FreePBX
@@ -74,7 +76,7 @@ Cliquez sur **OK**.
 ### Étape 8 : Vérification finale – Softphones connectés
 Une fois les extensions enregistrées, vos softphones doivent afficher **Connected**.
 
-![Softphones connectés et opérationnels](02_configuration_freepbx.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/24391a8bc866ef6143271173677e8a9a0d557879/components/freepbx/ressources/configuration/02_configuration_freepbx.jpg)
 
 Vous pouvez maintenant passer des appels internes entre les postes (composez simplement le numéro de l’autre extension).
 
