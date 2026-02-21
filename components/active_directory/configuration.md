@@ -471,11 +471,11 @@ Afin de répartir les rôles FSMO de manière optimale, vous avez configuré le 
 
 ### Configuration du troisième DC
 
-Afin de compléter l’infrastructure Active Directory avec un troisième contrôleur de domaine, vous avez procédé à la promotion du serveur en contrôleur de domaine additionnel dans le domaine existant ecotech.local.
+*Afin de compléter l’infrastructure Active Directory avec un troisième contrôleur de domaine, vous avez procédé à la promotion du serveur en contrôleur de domaine additionnel dans le domaine existant ecotech.local.*
 
-Voici les étapes réalisées dans l’ordre chronologique :
+#### Voici les étapes réalisées dans l’ordre chronologique :
 
-1. **Installation de la fonctionnalité Active Directory Domain Services**  
+##### 1. **Installation de la fonctionnalité Active Directory Domain Services**  
    Vous avez tout d’abord vérifié la disponibilité de la fonctionnalité à l’aide de la commande :  
 
        Get-WindowsFeature AD-Domain-Services
@@ -490,7 +490,7 @@ Voici les étapes réalisées dans l’ordre chronologique :
    L’installation s’est terminée avec succès.
 
 
-2. **Lancement de la promotion en contrôleur de domaine**
+##### 2. **Lancement de la promotion en contrôleur de domaine**
 Vous avez exécuté la commande suivante pour promouvoir le serveur :
         
         Install-ADDSDomainController -DomainName "ecotech.local" -Credential (Get-Credential)
