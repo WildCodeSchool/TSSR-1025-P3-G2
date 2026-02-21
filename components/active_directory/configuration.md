@@ -422,6 +422,10 @@ Pour les dossiers, l'héritage est désactivé au niveau de l'Unité d'Organisat
 
 ---
 
-<p align="right">
-  <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
-</p>
+## 12.Partage des rôles FSMO
+
+#### Configuration des rôles FSMO
+
+Dans cette section, nous présentons la répartition des rôles FSMO au sein de notre infrastructure Active Directory, composée de trois contrôleurs de domaine : deux en mode Server Core et un en mode GUI. Ces cinq rôles — Schema Master, Domain Naming Master, RID Master, PDC Emulator et Infrastructure Master — ont été répartis de manière stratégique entre nos DC afin d'assurer une gestion optimale du domaine, une meilleure tolérance aux pannes et un équilibrage cohérent des responsabilités.
+
+
