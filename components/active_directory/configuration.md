@@ -422,10 +422,112 @@ Pour les dossiers, l'héritage est désactivé au niveau de l'Unité d'Organisat
 
 ---
 
-## 12.Partage des rôles FSMO
+## 12. Partage des rôles FSMO
 
 #### Configuration des rôles FSMO
 
 Dans cette section, nous présentons la répartition des rôles FSMO au sein de notre infrastructure Active Directory, composée de trois contrôleurs de domaine : deux en mode Server Core et un en mode GUI. Ces cinq rôles — Schema Master, Domain Naming Master, RID Master, PDC Emulator et Infrastructure Master — ont été répartis de manière stratégique entre nos DC afin d'assurer une gestion optimale du domaine, une meilleure tolérance aux pannes et un équilibrage cohérent des responsabilités.
 
+### Configuration du deuxième DC
 
+Afin de répartir les rôles FSMO de manière optimale, vous avez configuré le deuxième contrôleur de domaine (ECO-BDX-EX02) via l’interface graphique. Voici les étapes réalisées dans l’ordre chronologique :
+
+1. **Ouverture de la console de gestion**  
+   Vous avez lancé la console **Active Directory Users and Computers**.  
+   Vous avez ensuite développé le domaine ecotech.local afin d’accéder aux options de gestion.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/0c0df4525965237c4510240f45d0152d992e18e8/components/active_directory/ressources/dc02/01_config_addc02.jpg)
+
+2. **Accès à la fenêtre Operations Masters**  
+   Vous avez fait un clic droit sur le domaine ecotech.local, puis sélectionné **Operations Masters** dans le menu contextuel.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/0c0df4525965237c4510240f45d0152d992e18e8/components/active_directory/ressources/dc02/02_config_addc02.jpg)
+
+
+3. **Transfert du rôle PDC Emulator**  
+   Dans l’onglet **PDC**, le rôle était initialement détenu par ECO-BDX-EX01.ecotech.local.  
+   Vous avez cliqué sur le bouton **Change…**, sélectionné le serveur ECO-BDX-EX02.ecotech.local et confirmé le transfert.  
+   La fenêtre a ensuite affiché le rôle **PDC Emulator** comme actif sur ECO-BDX-EX02.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/0c0df4525965237c4510240f45d0152d992e18e8/components/active_directory/ressources/dc02/04_config_addc02.jpg)
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/0c0df4525965237c4510240f45d0152d992e18e8/components/active_directory/ressources/dc02/05_config_addc02.jpg)
+
+
+4. **Vérification et transfert du rôle RID Master**  
+   Vous avez basculé sur l’onglet **RID**.  
+   Vous avez transféré le rôle **RID Master** vers ECO-BDX-EX02.ecotech.local en utilisant le même bouton **Change…**.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/0c0df4525965237c4510240f45d0152d992e18e8/components/active_directory/ressources/dc02/03_config_addc02.jpg)
+
+5. **Validation de la nouvelle répartition**  
+   Vous avez ouvert une console Windows PowerShell en tant qu’administrateur et exécuté la commande suivante :  
+   
+       netdom query fsmo
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/0c0df4525965237c4510240f45d0152d992e18e8/components/active_directory/ressources/dc02/06_config_addc02.jpg)
+
+
+### Configuration du troisième DC
+
+### Configuration du troisième DC
+
+Afin de compléter l’infrastructure Active Directory avec un troisième contrôleur de domaine, vous avez procédé à la promotion du serveur en contrôleur de domaine additionnel dans le domaine existant ecotech.local.
+
+Voici les étapes réalisées dans l’ordre chronologique :
+
+1. **Installation de la fonctionnalité Active Directory Domain Services**  
+   Vous avez tout d’abord vérifié la disponibilité de la fonctionnalité à l’aide de la commande :  
+
+       Get-WindowsFeature AD-Domain-Services
+
+   Puis vous l’avez installée avec les outils de gestion grâce à la commande :
+
+       Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/4098839158b0b1e6c051e0516bb0da9c16ec65cc/components/active_directory/ressources/dc03/01_config_add03.jpg)
+
+
+   L’installation s’est terminée avec succès.
+
+
+2. **Lancement de la promotion en contrôleur de domaine**
+Vous avez exécuté la commande suivante pour promouvoir le serveur :
+        
+        Install-ADDSDomainController -DomainName "ecotech.local" -Credential (Get-Credential)
+
+*La fenêtre « Windows PowerShell credential request » est apparue. Vous avez saisi les identifiants du compte Administrator du domaine ecotech.local.*
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/4098839158b0b1e6c051e0516bb0da9c16ec65cc/components/active_directory/ressources/dc03/02_config_add03.jpg)
+
+
+- Définition du mot de passe SafeModeAdministratorPassword
+- Vous avez saisi puis confirmé le mot de passe SafeModeAdministratorPassword qui sera utilisé en cas de restauration du contrôleur de domaine.
+- Confirmation de l’opération
+- Le système vous a demandé de confirmer le lancement de l’opération. Vous avez répondu Y pour poursuivre.
+
+
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/4098839158b0b1e6c051e0516bb0da9c16ec65cc/components/active_directory/ressources/dc03/03_config_add03.jpg)
+
+
+- Exécution de l’installation
+- Le processus Install-ADDSDomainController s’est lancé. Il a effectué avec succès :
+- La détermination de la source de réplication DC
+- La validation de l’environnement et des entrées utilisateur
+- Tous les tests ont été complétés avec succès
+- L’installation du nouveau contrôleur de domaine et la configuration des services Active Directory Domain Services ont alors commencé.
+- Les deux avertissements standards (compatibilité des algorithmes de chiffrement avec Windows NT 4.0 et délégation DNS) sont apparus ; ils sont attendus et n’ont pas impacté le déroulement de l’opération.
+
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/4098839158b0b1e6c051e0516bb0da9c16ec65cc/components/active_directory/ressources/dc03/04_config_add03.jpg)
+
+
+
+
+
+
+
+
+
+
+Cette troisième promotion a permis d’obtenir une infrastructure Active Directory composée de trois contrôleurs de domaine, offrant une meilleure tolérance aux pannes et une répartition équilibrée des rôles FSMO.
