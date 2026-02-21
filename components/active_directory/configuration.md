@@ -20,6 +20,8 @@
   - [10. Détails des Lecteurs (I, J, K)](#10-details-lecteurs)
   - [11. Sécurisation et Isolation](#11-securisation)
 
+## [Partage des rôles FSMO](#partage-des-rôles-fsmo)
+ - [12. Partage FSMO](#12-partage-fsmo)
 
 ---
 
