@@ -422,14 +422,16 @@ Pour les dossiers, l'héritage est désactivé au niveau de l'Unité d'Organisat
 
 ---
 
-## 12. Partage des rôles FSMO
 
-#### Configuration des rôles FSMO
+
+## 12. Partage des rôles FSMO
+---
+### Configuration des rôles FSMO
 
 Dans cette section, nous présentons la répartition des rôles FSMO au sein de notre infrastructure Active Directory, composée de trois contrôleurs de domaine : deux en mode Server Core et un en mode GUI. Ces cinq rôles — Schema Master, Domain Naming Master, RID Master, PDC Emulator et Infrastructure Master — ont été répartis de manière stratégique entre nos DC afin d'assurer une gestion optimale du domaine, une meilleure tolérance aux pannes et un équilibrage cohérent des responsabilités.
 
-### Configuration du deuxième DC
-
+### A] Configuration du deuxième DC
+---
 Afin de répartir les rôles FSMO de manière optimale, vous avez configuré le deuxième contrôleur de domaine (ECO-BDX-EX02) via l’interface graphique. Voici les étapes réalisées dans l’ordre chronologique :
 
 1. **Ouverture de la console de gestion**  
@@ -467,16 +469,15 @@ Afin de répartir les rôles FSMO de manière optimale, vous avez configuré le 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/0c0df4525965237c4510240f45d0152d992e18e8/components/active_directory/ressources/dc02/06_config_addc02.jpg)
 
 
-### Configuration du troisième DC
-
-### Configuration du troisième DC
-
+### B] Configuration du troisième DC
+---
 *Afin de compléter l’infrastructure Active Directory avec un troisième contrôleur de domaine, vous avez procédé à la promotion du serveur en contrôleur de domaine additionnel dans le domaine existant ecotech.local.*
 
 #### Voici les étapes réalisées dans l’ordre chronologique :
 
 ##### 1. **Installation de la fonctionnalité Active Directory Domain Services**  
-   Vous avez tout d’abord vérifié la disponibilité de la fonctionnalité à l’aide de la commande :  
+   
+Vous avez tout d’abord vérifié la disponibilité de la fonctionnalité à l’aide de la commande :  
 
        Get-WindowsFeature AD-Domain-Services
 
