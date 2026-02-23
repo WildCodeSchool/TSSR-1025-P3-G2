@@ -16,17 +16,24 @@ Ce document décrit les étapes essentielles après l'installation et le redéma
     - [2.3. Monitoring Netdata](#23-monitoring-netdata)
 
 ## [Gestion des utilisateurs et administrateurs](#gestion-des-utilisateurs-et-administrateurs)
-  - [3. Connexion administrateur global initial](#4-connexion-administrateur-global-initial)
-  - [4. Gestion des domaines](#5-gestion-des-domaines)
-    - [4.1. Ajouter un nouveau domaine](#51-ajouter-un-nouveau-domaine)
-  - [5. Création et gestion des utilisateurs](#6-création-et-gestion-des-utilisateurs)
-    - [5.1. Créer un nouvel utilisateur / boîte mail](#61-créer-un-nouvel-utilisateur--boîte-mail)
-    - [5.2. Changer un mot de passe utilisateur](#62-changer-un-mot-de-passe-utilisateur)
-  - [6. Différence Global Admin vs Domain Admin](#7-différence-global-admin-vs-domain-admin)
-  - [7. Bonnes pratiques et résumé des accès](#8-bonnes-pratiques-et-résumé-des-accès)
-    - [7.1. Bonnes pratiques rapides](#81-bonnes-pratiques-rapides)
-    - [7.2. Résumé des accès](#82-résumé-des-accès)
-
+  - [3. Connexion administrateur global initial](#3-connexion-administrateur-global-initial)
+  - [4. Gestion des domaines](#4-gestion-des-domaines)
+    - [4.1. Ajouter un nouveau domaine](#41-ajouter-un-nouveau-domaine)
+  - [5. Création et gestion des utilisateurs](#5-création-et-gestion-des-utilisateurs)
+    - [5.1. Créer un nouvel utilisateur / boîte mail](#51-créer-un-nouvel-utilisateur--boîte-mail)
+    - [5.2. Changer un mot de passe utilisateur](#52-changer-un-mot-de-passe-utilisateur)
+  - [6. Différence Global Admin vs Domain Admin](#6-différence-global-admin-vs-domain-admin)
+  - [7. Bonnes pratiques et résumé des accès](#7-bonnes-pratiques-et-résumé-des-accès)
+    - [7.1. Bonnes pratiques rapides](#71-bonnes-pratiques-rapides)
+    - [7.2. Résumé des accès](#72-résumé-des-accès)
+  - [8. Configuration du client Thunderbird](#8-configuration-du-client-thunderbird)
+    - [8.1. Paramètres de connexion recommandés](#81-paramètres-de-connexion-recommandés)
+    - [8.2. Étapes de configuration](#82-étapes-de-configuration)
+    - [8.3. Gestion des certificats (Exception de sécurité)](#83-gestion-des-certificats-exception-de-sécurité)
+  - [9. Synchronisation et Connexion LDAP](#9-synchronisation-et-connexion-ldap)
+    - [9.1. Pourquoi utiliser LDAP ?](#91-pourquoi-utiliser-ldap)
+    - [9.2. Paramètres de liaison (Bind)](#92-paramètres-de-liaison-bind)
+    - [9.3. Test de connectivité en ligne de commande](#93-test-de-connectivité-en-ligne-de-commande)
 ---
 
 ## <span id="vérifications-et-accès-de-base"></span>Vérifications et accès de base
@@ -79,15 +86,15 @@ https://10.50.0.7/netdata/
 
 ## <span id="gestion-des-utilisateurs-et-administrateurs"></span>Gestion des utilisateurs et administrateurs
 
-### <span id="3-connexion-administrateur-global-initial"></span>4. Connexion administrateur global initial
+### <span id="3-connexion-administrateur-global-initial"></span>3. Connexion administrateur global initial
 
 - **URL** : https://10.50.0.7/iredadmin/
 - **Identifiant** : `postmaster@ecotech-solutions.com` (ou le domaine choisi à l’installation)
 - **Mot de passe** : celui défini pendant l’installation (voir `iRedMail.tips`)
 
-### <span id="4-gestion-des-domaines"></span>5. Gestion des domaines
+### <span id="4-gestion-des-domaines"></span>4. Gestion des domaines
 
-#### <span id="41-ajouter-un-nouveau-domaine"></span>5.1. Ajouter un nouveau domaine
+#### <span id="41-ajouter-un-nouveau-domaine"></span>4.1. Ajouter un nouveau domaine
 
 1. Connectez-vous en tant que global admin
 2. Cliquez sur **Add** → **Domain**
@@ -100,9 +107,9 @@ https://10.50.0.7/netdata/
 
 → Le domaine doit exister **avant** de créer des boîtes mail.
 
-### <span id="5-création-et-gestion-des-utilisateurs"></span>6. Création et gestion des utilisateurs
+### <span id="5-création-et-gestion-des-utilisateurs"></span>5. Création et gestion des utilisateurs
 
-#### <span id="51-créer-un-nouvel-utilisateur--boîte-mail"></span>6.1. Créer un nouvel utilisateur / boîte mail
+#### <span id="51-créer-un-nouvel-utilisateur--boîte-mail"></span>5.1. Créer un nouvel utilisateur / boîte mail
 
 1. Dans iRedAdmin → **Add** → **User**
 2. Remplissez :
@@ -113,12 +120,12 @@ https://10.50.0.7/netdata/
    - Options avancées : forwarding, auto-réponse… (facultatif)
 3. **Save** / **Ajouter**
 
-#### <span id="52-changer-un-mot-de-passe-utilisateur"></span>6.2. Changer un mot de passe utilisateur
+#### <span id="52-changer-un-mot-de-passe-utilisateur"></span>5.2. Changer un mot de passe utilisateur
 
 - Via iRedAdmin : Users → sélectionnez l’utilisateur → changez le mot de passe
 - Via Roundcube (par l’utilisateur lui-même) : Settings → Password
 
-### <span id="6-différence-global-admin-vs-domain-admin"></span>7. Différence Global Admin vs Domain Admin
+### <span id="6-différence-global-admin-vs-domain-admin"></span>6. Différence Global Admin vs Domain Admin
 
 | Type                   | iRedMail open source (gratuit) | Droits typiques                              |
 |------------------------|--------------------------------|----------------------------------------------|
@@ -132,21 +139,86 @@ Pour créer un second **Global Admin** :
 3. Cochez **Global Admin**
 4. Sauvegardez
 
-### <span id="7-bonnes-pratiques-et-résumé-des-accès"></span>8. Bonnes pratiques et résumé des accès
+### <span id="7-bonnes-pratiques-et-résumé-des-accès"></span>7. Bonnes pratiques et résumé des accès
 
-#### <span id="71-bonnes-pratiques-rapides"></span>8.1. Bonnes pratiques rapides
+#### <span id="71-bonnes-pratiques-rapides"></span>7.1. Bonnes pratiques rapides
 
 - Ne partagez **jamais** les accès root MySQL/MariaDB ou root système
 - Créez immédiatement un second compte global admin
 - Utilisez des quotas raisonnables au début (2–5 Go par utilisateur)
 - Surveillez `/var/log/mail.log` et l’interface Netdata
 
-#### <span id="72-résumé-des-accès"></span>8.2. Résumé des accès
+#### <span id="72-résumé-des-accès"></span>7.2. Résumé des accès
 
 | Usage                        | URL                              | Identifiant exemple                      | Qui peut s'y connecter ?   |
 |------------------------------|----------------------------------|------------------------------------------|----------------------------|
 | Administration globale       | https://10.50.0.7/iredadmin/     | postmaster@ecotech-solutions.com         | Global admins              |
 | Webmail (lecture/écriture)   | https://10.50.0.7/mail/          | jean@ecotech-solutions.com               | Tous les utilisateurs      |
 | Monitoring système           | https://10.50.0.7/netdata/       | —                                        | —                          |
-  
-Documentation officielle : https://docs.iredmail.org/
+
+### <span id="8-configuration-du-client-thunderbird"></span>8. Configuration du client Thunderbird
+
+#### <span id="81-paramètres-de-connexion-recommandés"></span>8.1. Paramètres de connexion recommandés
+
+Pour garantir une sécurité maximale entre Thunderbird et votre serveur iRedMail, utilisez les paramètres suivants :
+
+| Paramètre | Configuration IMAP (Réception) | Configuration SMTP (Envoi) |
+| :--- | :--- | :--- |
+| **Nom d'hôte** | `10.50.0.7` (ou votre FQDN) | `10.50.0.7` (ou votre FQDN) |
+| **Port** | **993** | **587** |
+| **Sécurité de la connexion** | **SSL/TLS** | **STARTTLS** |
+| **Méthode d'authentification** | Mot de passe normal | Mot de passe normal |
+| **Identifiant** | Votre adresse email complète | Votre adresse email complète |
+
+#### <span id="82-étapes-de-configuration"></span>8.2. Étapes de configuration
+
+    Ouvrez Thunderbird et allez dans Paramètres des comptes -> Gestion des comptes -> Ajouter un compte de messagerie.
+
+    Saisissez votre nom, votre adresse email complète (ex: jean@ecotech-solutions.com) et votre mot de passe.
+
+    Cliquez sur Configuration manuelle.
+
+    Remplissez les champs avec les valeurs du tableau ci-dessus.
+
+    Cliquez sur Tester. Si les paramètres sont corrects, le bouton "Terminé" deviendra cliquable.
+
+#### <span id="83-gestion-des-certificats-exception-de-sécurité"></span>8.3. Gestion des certificats (Exception de sécurité)
+
+Lors de la première connexion, Thunderbird affichera probablement une alerte : "Ajout d'une exception de sécurité".
+
+    Pourquoi ? iRedMail génère par défaut des certificats auto-signés. Thunderbird ne connaît pas l'autorité qui a délivré ce certificat.
+
+    Action : 1. Vérifiez que l'adresse affichée correspond bien à votre serveur (10.50.0.7).
+    2. Cochez "Conserver cette exception de façon permanente".
+    3. Cliquez sur "Confirmer l'exception de sécurité".
+
+### <span id="9-synchronisation-et-connexion-ldap"></span>9. Synchronisation et Connexion LDAP
+
+#### <span id="91-pourquoi-utiliser-ldap"></span>9.1. Pourquoi utiliser LDAP ?
+
+L'utilisation de LDAP permet de centraliser la gestion des utilisateurs. Au lieu de créer les comptes manuellement dans l'interface iRedAdmin, le serveur de messagerie interroge directement votre annuaire (ex: Active Directory sur ECO-BDX-EX02) pour vérifier les identifiants et les adresses email.
+
+#### <span id="92-paramètres-de-liaison-bind"></span>9.2. Paramètres de liaison (Bind)
+
+Pour que iRedMail puisse lire les utilisateurs de votre domaine ecotech.local, les fichiers de configuration (notamment /etc/dovecot/dovecot-ldap.conf.ext) doivent utiliser les paramètres suivants :
+
+| Paramètre                | Valeur à configurer                              |
+| :---                     | :---                                             |
+| **Serveur LDAP (hosts)** | `10.20.20.6`                                     |
+| **LDAP Port**            | `389` (ou `636` pour LDAPS)                      |
+| **Base DN**              | `dc=ecotech,dc=local`                            |
+| **Bind DN (Admin)**      | `cn=Administrateur,cn=Users,dc=ecotech,dc=local` |
+| **Filtre de recherche**  | `(&(objectClass=user)(mail=%u))`                 |
+
+#### <span id="93-test-de-connectivité-en-ligne-de-commande"></span>9.3. Test de connectivité en ligne de commande
+
+Avant de modifier les fichiers de configuration, vérifiez que votre serveur Debian (iRedMail) peut communiquer avec le contrôleur de domaine Windows.
+
+Installez les outils LDAP si nécessaire :
+
+``` bash
+apt-get install ldap-utils
+
+ldapsearch -x -h 10.20.20.6 -D "Administrateur@ecotech.local" -W -b "dc=ecotech,dc=local" "(sAMAccountName=jean)"
+
+```
