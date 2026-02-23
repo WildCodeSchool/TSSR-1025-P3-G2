@@ -878,12 +878,6 @@ docker compose pull
 docker compose up -d
 ```
 
----
-
-**La prochaine étape consiste à configurer l'authentification LDAP/Active Directory pour permettre aux utilisateurs du domaine `ecotech.local` de se connecter au bastion avec leurs identifiants centralisés.**
-
----
-
 <p align="right">
   <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
 </p>
