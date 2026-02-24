@@ -523,7 +523,41 @@ Vous avez exécuté la commande suivante pour promouvoir le serveur :
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/4098839158b0b1e6c051e0516bb0da9c16ec65cc/components/active_directory/ressources/dc03/04_config_add03.jpg)
 
 
+### Répartition finale des rôles FSMO sur le troisième DC
 
+Transfert du rôle Infrastructure Master
+La commande suivante a été exécutée pour déplacer le rôle vers le nouveau contrôleur de domaine :
+
+    Move-ADDirectoryServerOperationMasterRole -Identity "ECO-BDX-EX17" -OperationMasterRole InfrastructureMaster
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a709cd8f3f5ccf49f287c50ae815f5bfd271faba/components/active_directory/ressources/dc03/Capture%20d%E2%80%99%C3%A9cran%202026-02-21%20205828.jpg)
+
+Vérification de la nouvelle répartition des rôles FSMO
+
+La commande suivante a été lancée pour confirmer la localisation actuelle de tous les rôles :
+
+    netdom query fsmoLe résultat affiche la répartition finale :
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/a709cd8f3f5ccf49f287c50ae815f5bfd271faba/components/active_directory/ressources/dc03/Capture%20d%E2%80%99%C3%A9cran%202026-02-21%20205854.jpg)
+
+##### **Résumé**
+
+| Serveur | Rôle FSMO |
+|---|---|
+| ECO-BDX-EX01.ecotech.local | Schema Master |
+| ECO-BDX-EX01.ecotech.local | Domain Naming Master |
+| ECO-BDX-EX02.ecotech.local | PDC Emulator |
+| ECO-BDX-EX02.ecotech.local | RID Pool Manager |
+| ECO-BDX-EX17.ecotech.local | Infrastructure Master |
+
+
+###### Cette configuration finale répartit les cinq rôles FSMO de manière équilibrée entre les trois contrôleurs de domaine :
+
+- ECO-BDX-EX01 héberge les rôles globaux du domaine et de la forêt (Schema Master et Domain Naming Master),
+- ECO-BDX-EX02 gère les rôles liés aux opérations quotidiennes du domaine (PDC Emulator et RID Master),
+- ECO-BDX-EX17 prend en charge le rôle Infrastructure Master, souvent recommandé sur un DC qui n’est pas Global Catalog si des environnements multi-domaines existent (ici, domaine unique, donc placement flexible).
+
+**Cette répartition assure une haute disponibilité, un équilibrage de charge et une meilleure tolérance aux pannes au sein de l’infrastructure Active Directory ecotech.local.**
 
 
 
