@@ -1,211 +1,328 @@
-# Configuration du Serveur Bastion - Apache Guacamole
+# Configuration Applicative de Guacamole
 
-Dans ce fichier se trouve les étapes de la configuration du serveur Bastion. De la configuration de son réseau dédié à la configuration du serveur en lui même.
-
-## Tables des matières :
-
-- [Configuration du Serveur Bastion - Apache Guacamole](#configuration-du-serveur-bastion---apache-guacamole)
-  - [Tables des matières :](#tables-des-matières-)
-  - [1. Rentrée de la VLAN 520 sue le réseau](#1-rentrée-de-la-vlan-520-sue-le-réseau)
-    - [1.2. Configuration des interfaces sur le cluster pfSense](#12-configuration-des-interfaces-sur-le-cluster-pfsense)
-      - [Ajout et configuration des interfaces BASTION](#ajout-et-configuration-des-interfaces-bastion)
-    - [1.3. Création de la VIP CARP](#13-création-de-la-vip-carp)
-      - [Configuration de la VIP CARP sur les deux pare-feu](#configuration-de-la-vip-carp-sur-les-deux-pare-feu)
-    - [1.4. Création des règles de pare-feu](#14-création-des-règles-de-pare-feu)
-    - [1.5. Validation de la configuration](#15-validation-de-la-configuration)
-    - [1.6. Synthèse de l'architecture](#16-synthèse-de-larchitecture)
-  - [2. Routage inter-VLAN vers le serveur Bastion](#2-routage-inter-vlan-vers-le-serveur-bastion)
-    - [2.1. Vérification de la connectivité](#21-vérification-de-la-connectivité)
-    - [2.2. Analyse du chemin réseau](#22-analyse-du-chemin-réseau)
-    - [2.3. Explication du routage](#23-explication-du-routage)
-    - [2.4. Bonne pratique vs implémentation](#24-bonne-pratique-vs-implémentation)
-    - [2.5. Validation technique](#25-validation-technique)
-  - [3. Matrice de routage du réseau Bastion](#3-matrice-de-routage-du-réseau-bastion)
-
-## 1. Rentrée de la VLAN 520 sue le réseau
-
-### 1.2. Configuration des interfaces sur le cluster pfSense
-
-Le bastion étant un point d'accès critique, il bénéficie de la haute disponibilité du cluster pfSense (DX01 et DX02).
-
-#### Ajout et configuration des interfaces BASTION
-
-Dans l'interface web de pfSense, accéder à : 
-  - Interfaces 
-    -  Assignments 
-  
-Puis ajouter la nouvelle interface réseau disponible.
-
-| Paramètre | Valeur DX01 | Valeur DX02 |
-| --- | --- | --- |
-| Enable | ✅ Activé | ✅ Activé | 
-| Description | BASTION | BASTION | 
-| IPv4 Configuration Type | Static IPv4 | Static IPv4 |
-| IPv4 Address | 10.50.20.3 / 28 | 10.50.20.4 / 28 |
-| IPv6 Configuration Type | None | None |
-
-Sauvegarder et appliquer les changements sur chaque pare-feu. Les deux pare-feu possèdent désormais une interface dédiée sur le réseau du bastion, avec des IPs physiques distinctes.
-
---- 
-
-### 1.3. Création de la VIP CARP
-
-La VIP (Virtual IP) CARP permet aux deux pare-feu de partager une adresse IP virtuelle qui bascule automatiquement en cas de panne.
-
-#### Configuration de la VIP CARP sur les deux pare-feu
-
-Dans l'interface web de pfSense, accéder à :
-  - Firewall
-    - Virtual IPs
- 
-créer ou éditer la VIP CARP avec les paramètres suivants :
-
-| Paramètre | Valeur commune | Valeur DX01 | Valeur DX02 |
-| --- | --- | --- | --- |
-| Type | CARP | - | - | 
-| Interface | BASTION | - | - |
-| Address | 10.50.20.1 / 28 | - | - |
-| Virtual IP Password | Azerty1* | - | - |
-| VHID Group | 2 | - | - | 
-| Advertising Frequency - Base | 1 | - | - |
-| Advertising Frequency - Skew | - | 0 (MASTER) | 100 (BACKUP) |
-| Description| VIP CARP Bastion Gateway | - | - |
-
-Note importante : Grâce à la synchronisation XMLRPC, la VIP est automatiquement créée sur DX02 après sa configuration sur DX01. Seul le paramètre Skew doit être ajusté manuellement sur DX02 pour établir la priorité (BACKUP).
+Ce document décrit la configuration applicative d'Apache Guacamole : gestion des utilisateurs, des groupes, des connexions et des permissions.
 
 ---
 
-### 1.4. Création des règles de pare-feu
+## Table des matières
 
-Par défaut, pfSense bloque tout trafic sur une nouvelle interface. Il est nécessaire de créer des règles explicites pour autoriser les flux légitimes.
-
-*⚠️ Cette règle ne sert que pour la phase de configuration.*
-
-*Dans l'interface web de pfSense, accéder à :*
-  - *Firewall*
-    - *Rules*
-      - *BASTION*
-
-*Créer une première règle pour valider la connectivité :*
-
-  - *Action : `Pass`*
-  - *Protocol : `Any`*
-  - *Sources : `10.50.20.5` (IP Bastion)*
-  - *Destination : `any`*
-  - *Description : `Test Bastion`*
-
-### 1.5. Validation de la configuration
-
-Une fois la configuration appliquée, les tests suivants s'effectuent sur le serveur Bastion et attestent une bonne configuration :
-
-``` Bash
-# Vérification de l'IP et de la route par défaut
-ip addr show
-ip route show
-
-# Test de la passerelle (VIP CARP)
-ping 10.50.20.1
-
-# Test de sortie vers Internet
-ping 8.8.8.8
-```
-
-Résultats attendus :
-
-✅ IP du serveur : 10.50.20.5/28
-✅ Passerelle par défaut : 10.50.20.1
-✅ Ping vers la passerelle : succès
-✅ Ping vers Internet : succès
-
-### 1.6. Synthèse de l'architecture
-
-| Équipement | Interface| IP | Rôle |
-| --- | --- | --- | --- |
-| pfSense DX01 | BASTION | 10.50.20.3/28 | Pare-feu principal |
-| pfSense DX02 | BASTION | 10.50.20.4/28 | Pare-feu backup |
-| VIP CARP | BASTION | 10.50.20.1/28 | Passerelle virtuelle HA |
-| Serveur Bastion | eth0 | 10.50.20.5/28 | Serveur Guacamole |
-
-## 2. Routage inter-VLAN vers le serveur Bastion
-
-### 2.1. Vérification de la connectivité
-
-Une fois l'infrastructure réseau du bastion configurée sur pfSense, des tests de connectivité ont été effectués depuis différents VLANs de l'infrastructure.
-
-**Test depuis le serveur Active Directory (VLAN 220) :**
-```bash
-ping 10.50.20.5
-traceroute 10.50.20.5
-```
-
-**Résultat :** La connectivité fonctionne dans les deux sens, avec un chemin de routage passant par VyOS puis pfSense.
-
-### 2.2. Analyse du chemin réseau
-
-Le traceroute révèle le cheminement suivant :
-```
-1  10.20.20.1      (VyOS - passerelle VLAN 220)
-2  10.40.10.1      (VyOS - interface transit)
-3  10.40.0.3       (pfSense DX01 - interface LAN)
-4  10.50.20.5      (Serveur Bastion)
-```
-
-### 2.3. Explication du routage
-
-Le routeur VyOS utilise sa **route par défaut** (`0.0.0.0/0`) pointant vers pfSense pour acheminer le trafic vers le réseau `10.50.20.0/28`.
-
-**Flux aller (VLAN interne → Bastion) :**
-
-1. Un serveur du VLAN 220 envoie un paquet vers `10.50.20.5`.
-2. VyOS consulte sa table de routage et ne trouve pas de route spécifique pour `10.50.20.0/28`.
-3. VyOS applique la **route par défaut** et transmet le paquet à pfSense.
-4. pfSense connaît le réseau `10.50.20.0/28` car il possède une interface directement connectée.
-5. pfSense transmet le paquet au serveur bastion.
-
-**Flux retour (Bastion → VLAN interne) :**
-
-1. Le bastion répond en envoyant le paquet vers sa passerelle `10.50.20.1` (VIP CARP pfSense).
-2. pfSense connaît les réseaux internes `10.20.0.0/16` via le routeur VyOS.
-3. pfSense transmet le paquet à VyOS.
-4. VyOS route le paquet vers le VLAN de destination.
-
-### 2.4. Bonne pratique vs implémentation
-
-**Bonne pratique recommandée :**
-
-Ajouter une route statique explicite sur VyOS :
-```
-set protocols static route 10.50.20.0/28 next-hop 10.40.0.1
-```
-
-**Avantages d'une route spécifique :**
-- Clarté architecturale (documentation du réseau plus lisible)
-- Performance légèrement supérieure (route directe prioritaire sur route par défaut)
-- Résilience (maintien de la connectivité même si la route par défaut change)
-
-**Implémentation actuelle :**
-
-Dans notre cas, la route par défaut suffit car :
-- pfSense est le seul point de sortie du réseau interne
-- La route par défaut pointe déjà vers pfSense
-- Aucune modification de cette route n'est prévue
-
-La connectivité est donc assurée sans configuration supplémentaire sur VyOS.
-
-### 2.5. Validation technique
-
-**Commande de vérification sur VyOS :**
-```bash
-show ip route 10.50.20.5
-```
-
-**Résultat obtenu :** Le routage s'effectue via la route par défaut (`0.0.0.0/0`) vers pfSense.
+- [Configuration Applicative de Guacamole](#configuration-applicative-de-guacamole)
+  - [Table des matières](#table-des-matières)
+  - [1. Première connexion et sécurisation](#1-première-connexion-et-sécurisation)
+    - [1.1. Connexion initiale](#11-connexion-initiale)
+    - [1.2. Changement du mot de passe administrateur](#12-changement-du-mot-de-passe-administrateur)
+  - [2. Architecture des groupes et permissions](#2-architecture-des-groupes-et-permissions)
+  - [3. Création des groupes de connexions](#3-création-des-groupes-de-connexions)
+    - [3.1. Groupe "Windows"](#31-groupe-windows)
+    - [3.2. Autres groupes selon infrastructure](#32-autres-groupes-selon-infrastructure)
+  - [4. Création des groupes d'utilisateurs](#4-création-des-groupes-dutilisateurs)
+    - [4.1. Groupe "Admins-Windows"](#41-groupe-admins-windows)
+    - [4.2. Autres groupes selon besoins](#42-autres-groupes-selon-besoins)
+  - [5. Configuration des connexions](#5-configuration-des-connexions)
+    - [5.1. Connexion RDP vers le serveur Active Directory](#51-connexion-rdp-vers-le-serveur-active-directory)
+    - [5.2. Connexion SSH vers un serveur Linux](#52-connexion-ssh-vers-un-serveur-linux)
+    - [5.3. Protocole VNC (non configuré)](#53-protocole-vnc-non-configuré)
+  - [6. Attribution des permissions](#6-attribution-des-permissions)
+    - [6.1. Méthode 1 : Permissions sur les groupes de connexions](#61-méthode-1--permissions-sur-les-groupes-de-connexions)
+    - [6.2. Méthode 2 : Permissions sur les connexions individuelles](#62-méthode-2--permissions-sur-les-connexions-individuelles)
+  - [7. Création d'utilisateurs](#7-création-dutilisateurs)
+    - [7.1. Utilisateur administrateur](#71-utilisateur-administrateur)
+    - [7.2. Utilisateur standard](#72-utilisateur-standard)
+  - [8. Tests de validation](#8-tests-de-validation)
+    - [8.1. Test de connexion RDP](#81-test-de-connexion-rdp)
+    - [8.2. Test de connexion SSH](#82-test-de-connexion-ssh)
+    - [8.3. Test des permissions](#83-test-des-permissions)
+  - [9. Architecture finale des permissions](#9-architecture-finale-des-permissions)
 
 ---
 
-## 3. Matrice de routage du réseau Bastion
+## 1. Première connexion et sécurisation
 
-| Source | Destination | Routeur 1 (VyOS) | Routeur 2 (pfSense) | Résultat |
-|--------|-------------|------------------|---------------------|----------|
-| VLAN 220 (10.20.20.x) | Bastion (10.50.20.5) | Route par défaut → pfSense | Interface connectée → Bastion | ✅ Fonctionne |
-| Bastion (10.50.20.5) | VLAN 220 (10.20.20.x) | Interface connectée | Route transit → VyOS | ✅ Fonctionne |
+### 1.1. Connexion initiale
+
+Accéder à `https://bastion.ecotech.local/guacamole`
+
+**Identifiants par défaut :**
+- Username : `guacadmin`
+- Password : `guacadmin`
+
+---
+
+### 1.2. Changement du mot de passe administrateur
+
+**⚠️ Sécurité critique :** Ne jamais laisser les identifiants par défaut en production.
+
+1. Cliquer sur **guacadmin** (en haut à droite) → **Settings**
+2. Menu de gauche : **Users**
+3. Cliquer sur **guacadmin**
+4. Section **Change Password** :
+   - Old password : `guacadmin`
+   - New password : `[Mot_de_passe_fort]`
+   - Confirm password : `[Mot_de_passe_fort]`
+5. Cliquer sur **Save**
+
+**Déconnexion automatique.** Se reconnecter avec le nouveau mot de passe.
+
+---
+
+## 2. Architecture des groupes et permissions
+
+Pour gérer efficacement les accès, une structure hiérarchique a été mise en place avec :
+- **Groupes d'utilisateurs** : Définissent QUI peut accéder
+- **Groupes de connexions** : Définissent À QUOI on peut accéder
+- **Permissions** : Lient les deux ensemble
+
+Cette approche suit le principe RBAC (Role-Based Access Control) couramment utilisé dans les environnements d'entreprise.
+
+---
+
+## 3. Création des groupes de connexions
+
+Les groupes de connexions permettent d'organiser logiquement les serveurs par type ou fonction.
+
+### 3.1. Groupe "Windows"
+
+1. **Settings** → **Connection Groups**
+2. **New Connection Group**
+3. Remplir :
+   - Group name : `Windows`
+   - Type : `Organizational`
+4. **Save**
+
+---
+
+### 3.2. Autres groupes selon infrastructure
+
+Répéter le processus pour créer d'autres groupes selon les besoins :
+- `Linux` : Serveurs Linux
+- `Web` : Serveurs web
+- `Bases de données` : Serveurs de bases de données
+- Etc.
+
+---
+
+## 4. Création des groupes d'utilisateurs
+
+Les groupes d'utilisateurs permettent d'attribuer des permissions à plusieurs utilisateurs simultanément.
+
+### 4.1. Groupe "Admins-Windows"
+
+1. **Settings** → **User Groups**
+2. **New User Group**
+3. Remplir :
+   - Group name : `Admins-Windows`
+4. **Permissions** : Laisser toutes les cases décochées (les permissions seront attribuées via les connexions)
+5. **Save**
+
+---
+
+### 4.2. Autres groupes selon besoins
+
+Créer d'autres groupes selon l'organisation :
+- `Admins-Linux` : Administrateurs serveurs Linux
+- `Admins-T0` : Administrateurs Tier 0 (privilèges maximaux)
+- `Admins-T1` : Administrateurs Tier 1 (serveurs applicatifs)
+- `Support` : Équipe de support utilisateurs
+
+---
+
+## 5. Configuration des connexions
+
+### 5.1. Connexion RDP vers le serveur Active Directory
+
+1. **Settings** → **Connections**
+2. **New Connection**
+3. **Edit Connection** :
+   - Name : `ECO-BDX-EX01` (ou nom descriptif)
+   - Location : `Windows`
+   - Protocol : `RDP`
+
+4. **Parameters → Network** :
+   - Hostname : `10.20.20.5`
+   - Port : `3389`
+
+5. **Parameters → Authentication** :
+   - Username : `Administrateur`
+   - Password : `[Mot_de_passe_AD]`
+   - Domain : `ECOTECH`
+   - Security mode : `Any`
+   - Ignore server certificate : ✅ Coché
+
+6. **Save**
+
+---
+
+### 5.2. Connexion SSH vers un serveur Linux
+
+1. **Settings** → **Connections**
+2. **New Connection**
+3. **Edit Connection** :
+   - Name : `ECO-BDX-EX07` (ou nom descriptif)
+   - Location : `Linux` (ou autre groupe)
+   - Protocol : `SSH`
+
+4. **Parameters → Network** :
+   - Hostname : `10.20.20.7`
+   - Port : `22` (ou port personnalisé comme 22222)
+
+5. **Parameters → Authentication** :
+   - Username : `root` ou utilisateur approprié
+   - Password : `[Mot_de_passe]`
+
+6. **Save**
+
+**Note :** Les connexions SSH peuvent également utiliser l'authentification par clé privée au lieu du mot de passe pour une sécurité renforcée.
+
+---
+
+### 5.3. Protocole VNC (non configuré)
+
+**Décision technique :**
+
+Le protocole VNC (Virtual Network Computing) n'a pas été configuré sur le bastion pour les raisons suivantes :
+
+**Analyse du besoin :**
+- Les serveurs Windows sont administrés via RDP (protocole natif Microsoft, chiffré par TLS)
+- Les serveurs Linux sont administrés en ligne de commande via SSH (protocole sécurisé)
+- Aucun serveur de l'infrastructure ne nécessite d'accès graphique distant via VNC
+
+**Justification :**
+- Principe de simplicité : ne pas configurer de protocoles inutilisés
+- Principe du moindre privilège : réduire la surface d'attaque
+- VNC n'offre pas de chiffrement natif (contrairement à RDP et SSH)
+
+**Évolution future :**
+
+Si l'infrastructure devait accueillir des serveurs Linux avec interface graphique (ex: hyperviseurs Proxmox, outils de monitoring graphiques), VNC pourrait être activé en :
+1. Créant une connexion VNC dans Guacamole (protocole VNC, port 5900)
+2. Ajoutant une règle pfSense BASTION → Serveurs:5900-5910 (TCP)
+3. Installant et sécurisant un serveur VNC (TigerVNC, TightVNC) sur les serveurs cibles
+
+---
+
+## 6. Attribution des permissions
+
+### 6.1. Méthode 1 : Permissions sur les groupes de connexions
+
+Cette méthode permet de donner accès à toutes les connexions d'un groupe en une seule opération.
+
+1. **Settings** → **Connection Groups**
+2. Cliquer sur le groupe (ex: `Windows`)
+3. Onglet **Permissions**
+4. Section **User Groups** :
+   - Chercher `Admins-Windows`
+   - Cocher **Read**
+5. **Save**
+
+**Résultat :** Tous les membres du groupe `Admins-Windows` peuvent maintenant accéder à toutes les connexions dans le groupe `Windows`.
+
+---
+
+### 6.2. Méthode 2 : Permissions sur les connexions individuelles
+
+Pour un contrôle plus granulaire :
+
+1. **Settings** → **Connections**
+2. Cliquer sur une connexion
+3. Onglet **Permissions**
+4. Section **Users** ou **User Groups** :
+   - Ajouter les utilisateurs/groupes autorisés
+   - Cocher **Read**
+5. **Save**
+
+---
+
+## 7. Création d'utilisateurs
+
+### 7.1. Utilisateur administrateur
+
+1. **Settings** → **Users**
+2. **New User**
+3. Remplir :
+   - Username : `admin-infra` (ou nom approprié)
+   - Password : `[Mot_de_passe_fort]`
+4. **Permissions** : Cocher selon les besoins
+   - Administer system : Pour les administrateurs complets
+   - Create new connections : Pour permettre l'ajout de serveurs
+5. Onglet **Groups** :
+   - Member of : Ajouter aux groupes appropriés (ex: `Admins-Windows`)
+6. **Save**
+
+---
+
+### 7.2. Utilisateur standard
+
+Même processus, mais sans les permissions d'administration système.
+
+**Exemple pour un technicien de support :**
+1. **Settings** → **Users**
+2. **New User**
+3. Remplir :
+   - Username : `technicien1`
+   - Password : `[Mot_de_passe_fort]`
+4. **Permissions** : Ne rien cocher (héritage des groupes uniquement)
+5. Onglet **Groups** :
+   - Member of : Ajouter au groupe `Support`
+6. **Save**
+
+---
+
+## 8. Tests de validation
+
+### 8.1. Test de connexion RDP
+
+1. Depuis la page d'accueil de Guacamole
+2. Cliquer sur une connexion RDP (ex: `ECO-BDX-EX01`)
+3. Le bureau Windows devrait s'afficher dans le navigateur
+4. Vérifier la fonctionnalité clavier/souris
+
+---
+
+### 8.2. Test de connexion SSH
+
+1. Cliquer sur une connexion SSH (ex: `ECO-BDX-EX07`)
+2. Un terminal devrait s'afficher
+3. Tester quelques commandes
+
+---
+
+### 8.3. Test des permissions
+
+1. Se déconnecter
+2. Se connecter avec un utilisateur du groupe `Admins-Windows`
+3. Vérifier qu'il ne voit que les connexions Windows
+4. Vérifier qu'il ne peut pas accéder aux connexions d'autres groupes
+
+---
+
+## 9. Architecture finale des permissions
+
+```
+GROUPES D'UTILISATEURS
+│
+├─ Admins-Windows
+│   └─ Accès : Groupe "Windows" (Read)
+│       └─ Connexions visibles :
+│           ├─ ECO-BDX-EX01 (AD Server RDP)
+│           └─ [Autres serveurs Windows...]
+│
+├─ Admins-Linux
+│   └─ Accès : Groupe "Linux" (Read)
+│       └─ Connexions visibles :
+│           ├─ ECO-BDX-EX07 (SSH)
+│           └─ [Autres serveurs Linux...]
+│
+└─ Support
+    └─ Accès : Groupe "Support" (Read)
+        └─ Connexions visibles :
+            └─ [Serveurs de support uniquement...]
+
+FLUX DE PERMISSIONS :
+Utilisateur → Membre de → Groupe d'utilisateurs → Accès à → Groupe de connexions → Contient → Connexions
+```
+
+---
+
+<p align="right">
+  <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
+</p>
