@@ -1,11 +1,7 @@
-# Partie A : Configuration du serveur WSUS ECO-BDX-EX16
-
----
+# Configuration du serveur WSUS ECO-BDX-EX16
 
 Cette **Partie A** présente de façon complète et ordonnée toute la configuration réalisée directement sur le serveur Windows Server Update Services (WSUS) nommé **ECO-BDX-EX16**.  
 Chaque étape est illustrée par les captures d’écran correspondantes. Les explications indiquent clairement ce qui a été fait et pourquoi ce choix est pertinent dans un environnement d’entreprise.
-
----
 
 ## 1. État initial de la console WSUS
 
@@ -14,16 +10,12 @@ Chaque étape est illustrée par les captures d’écran correspondantes. Les ex
 La console s’ouvre sur une vue vide avec le statut « Idle » et le message indiquant qu’aucune synchronisation n’a encore eu lieu.  
 C’est le point de départ classique d’une installation fraîche. L’administrateur lance alors l’assistant de configuration pour définir tous les paramètres de base.
 
----
-
 ## 2. Lancement de l’assistant de configuration
 
 ![Lancement de l’assistant](Capture d’écran 2026-02-21 164332.jpg)
 
 L’administrateur clique sur **Options** puis sur le lien « WSUS Server Configuration Wizard ».  
 Cet assistant officiel permet de configurer les réglages essentiels de manière guidée et fiable.
-
----
 
 ## 3. Pages initiales de l’assistant
 
@@ -38,8 +30,6 @@ Ce programme permet à Microsoft de collecter des statistiques anonymes pour am�
 ![Start Connecting](Capture d’écran 2026-02-21 164551.jpg)
 
 Le choix « Synchronize from Microsoft Update » est sélectionné (connexion directe). Aucun proxy n’est configuré car l’accès internet est direct. Le bouton « Start Connecting » lance la récupération des métadonnées depuis Microsoft.
-
----
 
 ## 4. Choix des langues, produits et classifications
 
@@ -60,8 +50,6 @@ Le serveur peut ainsi distribuer les mises à jour à l’ensemble du parc poste
 Seules les catégories **Critical Updates** et **Security Updates** sont activées.  
 Ce choix priorise la sécurité et évite le téléchargement de mises à jour optionnelles inutiles.
 
----
-
 ## 5. Planning de synchronisation et fin de l’assistant
 
 ![Set Sync Schedule](Capture d’écran 2026-02-21 173100.jpg)  
@@ -71,8 +59,6 @@ Ce choix priorise la sécurité et évite le téléchargement de mises à jour o
 La synchronisation est configurée en mode automatique (une fois par jour). La case « Begin initial synchronization » est cochée.  
 L’assistant se termine et la première synchronisation se lance automatiquement.
 
----
-
 ## 6. Première synchronisation en cours
 
 ![Synchronisation démarrée](Capture d’écran 2026-02-21 173731.jpg)  
@@ -80,8 +66,6 @@ L’assistant se termine et la première synchronisation se lance automatiquemen
 
 Le statut passe à « Synchronizing… » puis « Running… ».  
 Cette phase correspond au téléchargement réel des mises à jour depuis Microsoft Update.
-
----
 
 ## 7. Configuration manuelle via le menu Options
 
@@ -104,8 +88,6 @@ La section **Update Files and Languages** est ouverte. Seules les langues **Engl
 Les groupes d’ordinateurs **Clients**, **DC** et **Servers** sont créés.  
 Cette organisation permet de définir des règles différentes selon le type de machine.
 
----
-
 ## Conclusion de la Partie A
 
 Le serveur WSUS ECO-BDX-EX16 est maintenant entièrement configuré côté serveur :  
@@ -117,17 +99,11 @@ Le serveur WSUS ECO-BDX-EX16 est maintenant entièrement configuré côté serve
 
 Cette configuration optimise l’espace disque, la sécurité et la maintenance du serveur.  
 
----
-
-# Partie B : Configuration des GPO Client pour le serveur WSUS ECO-BDX-EX16
-
----
+# Configuration des GPO Client pour le serveur WSUS ECO-BDX-EX16
 
 Cette **Partie B** se concentre exclusivement sur la configuration des stratégies de groupe (GPO) côté client.  
 L’objectif est de faire en sorte que tous les ordinateurs du domaine se connectent automatiquement au serveur WSUS **ECO-BDX-EX16**, s’assignent au bon groupe et appliquent les mises à jour selon un planning défini.  
 Chaque capture d’écran est expliquée pour que les étudiants puissent reproduire ces étapes et que le professeur dispose d’un support visuel clair et pédagogique.
-
----
 
 ## 1. Pointage vers le serveur WSUS intranet
 
@@ -140,8 +116,6 @@ http://ECO-BDX16.ecotech.local:8530
 **Rôle de cette stratégie** : elle indique à tous les ordinateurs Windows du domaine d’utiliser le serveur WSUS interne au lieu de se connecter directement à Microsoft Update sur internet.  
 C’est l’étape fondamentale pour centraliser les mises à jour.
 
----
-
 ## 2. Activation du client-side targeting (assignation au groupe)
 
 ![Enable client-side targeting](Capture d’écran 2026-02-23 222411.jpg)
@@ -151,8 +125,6 @@ Le champ **Target group name for this computer** contient la valeur **Clients**.
 
 **Rôle de cette stratégie** : elle permet à chaque ordinateur client de s’identifier automatiquement auprès du WSUS en indiquant dans quel groupe il doit être placé (ici le groupe « Clients » créé sur le serveur WSUS).  
 Cela facilite l’application de règles spécifiques par groupe (approbations, délais, etc.).
-
----
 
 ## 3. Configuration des mises à jour automatiques
 
@@ -166,21 +138,11 @@ Paramètres sélectionnés :
 **Rôle de cette stratégie** : elle force les ordinateurs à télécharger automatiquement les mises à jour approuvées par le WSUS et à les installer selon un planning fixe (chaque jour à 3h du matin).  
 Ce réglage garantit une application régulière, silencieuse et sans intervention des utilisateurs.
 
----
-
-# Partie B (suite) : Configuration des GPO Client pour le groupe DC
+# Configuration des GPO Client pour le groupe DC
 
 **Guide pédagogique – Configuration côté client uniquement (serveurs Domain Controllers)**  
-*Documentation GitHub – À l’attention des étudiants et du professeur*
-
----
-
-Cette section complète la **Partie B** en se concentrant sur la configuration des stratégies de groupe (GPO) spécifiques aux **Domain Controllers** (groupe DC).  
-L’objectif reste le même que pour les postes clients : diriger les serveurs vers le WSUS interne, les assigner au groupe correspondant sur le serveur WSUS, et définir un planning d’installation adapté aux contraintes des contrôleurs de domaine.
 
 Les captures montrent les réglages appliqués pour les DC, qui diffèrent légèrement de ceux des postes clients classiques.
-
----
 
 ## 1. Pointage vers le serveur WSUS intranet (identique pour tous)
 
@@ -190,9 +152,7 @@ La stratégie **Specify intranet Microsoft update service location** est activé
 Les deux champs (update service et statistics server) pointent vers :  
 http://ECO-BDX-EX16.ecotech.local:8530  
 
-**Rôle** : tous les ordinateurs du domaine, y compris les Domain Controllers, utilisent le serveur WSUS local au lieu de Microsoft Update sur internet.
-
----
+**Rôle** : tous les ordinateurs du domaine, y compris les Domain Controllers, utilisent le serveur WSUS local au lieu de Microsoft Update sur internet.  
 
 ## 2. Activation du client-side targeting pour les DC
 
@@ -202,9 +162,7 @@ La stratégie **Enable client-side targeting** est mise sur **Enabled**.
 Le champ **Target group name for this computer** contient la valeur **DC**.  
 
 **Rôle** : cette stratégie permet aux Domain Controllers de s’identifier automatiquement auprès du WSUS en indiquant qu’ils appartiennent au groupe **DC** (créé précédemment sur le serveur WSUS).  
-Cela permet d’appliquer des règles spécifiques aux contrôleurs de domaine (approbations plus strictes, planning différent, etc.).
-
----
+Cela permet d’appliquer des règles spécifiques aux contrôleurs de domaine (approbations plus strictes, planning différent, etc.).  
 
 ## 3. Configuration des mises à jour automatiques pour les DC
 
@@ -225,9 +183,7 @@ L’option 3 offre un contrôle plus strict : les administrateurs sont informés
 - Pas de case cochée pour « Install during automatic maintenance » (pas d’installation forcée).  
 - Pas de planning fixe d’installation automatique (contrairement aux postes clients qui utilisent l’option 4 à 03:00).  
 
----
-
-## Conclusion de la Partie B (suite – DC)
+## Conclusion (suite – DC)
 
 Pour les **Domain Controllers**, les trois stratégies clés sont :  
 - Pointage vers le serveur WSUS intranet (http://ECO-BDX-EX16.ecotech.local:8530)  
@@ -241,19 +197,12 @@ Ce réglage est adapté aux serveurs critiques : il garantit que les mises à jo
 2. Forcer la mise à jour des stratégies sur un DC test (gpupdate /force)  
 3. Vérifier dans la console WSUS que les DC apparaissent dans le groupe **DC** et rapportent leur statut
 
----
-
-# Partie B (suite) : Configuration des GPO Client pour le groupe Serveurs
-
----
-
+# Configuration des GPO Client pour le groupe Serveurs
 
 Cette section poursuit la **Partie B** en présentant les stratégies de groupe (GPO) appliquées spécifiquement aux **serveurs généraux** (groupe **Serveurs** sur le WSUS).  
 L’approche reste cohérente avec les précédentes configurations (pointage WSUS + targeting), mais le planning d’installation est adapté aux serveurs non critiques (contrairement aux Domain Controllers).
 
 Les captures montrent les réglages finaux pour ce groupe.
-
----
 
 ## 1. Pointage vers le serveur WSUS intranet (identique pour tous les groupes)
 
@@ -265,8 +214,6 @@ http://ECO-BDX-EX16.ecotech.local:8530
 
 **Rôle** : tous les serveurs du domaine utilisent le serveur WSUS interne au lieu de se connecter directement à Microsoft Update sur internet.
 
----
-
 ## 2. Activation du client-side targeting pour les serveurs
 
 ![Enable client-side targeting pour Serveurs](Capture d’écran 2026-02-23 205555.jpg)
@@ -276,8 +223,6 @@ Le champ **Target group name for this computer** contient la valeur **Serveurs**
 
 **Rôle** : cette stratégie permet aux serveurs généraux de s’identifier automatiquement auprès du WSUS en indiquant qu’ils appartiennent au groupe **Serveurs**.  
 Cela permet d’appliquer des règles d’approbation et de planning spécifiques à ce type de machines (différentes de celles des postes clients ou des DC).
-
----
 
 ## 3. Configuration des mises à jour automatiques pour les serveurs
 
@@ -298,8 +243,6 @@ Les administrateurs peuvent planifier l’installation pendant une fenêtre de m
 - Postes clients → Option 4 (installation automatique à 03:00)  
 - Domain Controllers → Option 3 (notification stricte)  
 - Serveurs généraux → Option 3 (contrôle humain conservé)
-
----
 
 ## Conclusion de la Partie B (complète)
 
