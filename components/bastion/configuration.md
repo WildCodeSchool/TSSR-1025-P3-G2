@@ -6,8 +6,6 @@ Ce document décrit la configuration applicative d'Apache Guacamole : gestion de
 
 ## Table des matières
 
-- [Configuration Applicative de Guacamole](#configuration-applicative-de-guacamole)
-  - [Table des matières](#table-des-matières)
   - [1. Première connexion et sécurisation](#1-première-connexion-et-sécurisation)
     - [1.1. Connexion initiale](#11-connexion-initiale)
     - [1.2. Changement du mot de passe administrateur](#12-changement-du-mot-de-passe-administrateur)
