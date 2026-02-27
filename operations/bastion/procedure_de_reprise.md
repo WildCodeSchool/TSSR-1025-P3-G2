@@ -6,14 +6,10 @@ Ce document décrit les procédures de reprise après incident, du simple redém
 
 ## Table des matières
 
-- [Procédures de Reprise — Serveur Bastion](#procédures-de-reprise--serveur-bastion)
-  - [Table des matières](#table-des-matières)
-  - [1. Redémarrage des conteneurs](#1-redémarrage-des-conteneurs)
-    - [Redémarrage simple](#redémarrage-simple)
-  - [2. Reconstruction complète de la stack](#2-reconstruction-complète-de-la-stack)
-  - [3. Restauration depuis sauvegarde](#3-restauration-depuis-sauvegarde)
-    - [Restauration base de données](#restauration-base-de-données)
-  - [4. Migration vers un nouveau serveur](#4-migration-vers-un-nouveau-serveur)
+- [1. Redémarrage des conteneurs](#1-redémarrage-des-conteneurs)
+- [2. Reconstruction complète de la stack](#2-reconstruction-complète-de-la-stack)
+- [3. Restauration depuis sauvegarde](#3-restauration-depuis-sauvegarde)
+- [4. Migration vers un nouveau serveur](#4-migration-vers-un-nouveau-serveur)
 
 ---
 
