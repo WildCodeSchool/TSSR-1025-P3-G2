@@ -4,13 +4,13 @@
 Dans le cadre de la refonte de l'infrastructure d'EcoTechSolutions et de la volonté de souveraineté numérique, la mise en place d’un serveur de messagerie électronique autonome est devenue stratégique.  
 L’objectif est de sortir de la dépendance aux solutions SaaS externes (Google Workspace, Microsoft 365, ProtonMail, etc.) tout en garantissant confidentialité, contrôle total des données et résilience.
 
-**iRedMail** agit comme la **plateforme de messagerie unifiée** de l’organisation : il gère l’envoi, la réception, le stockage et l’accès sécurisé aux emails professionnels, avec une interface d’administration centralisée et un webmail moderne.
+**iRedMail** agit comme la **plateforme de messagerie** de l’organisation : il gère l’envoi, la réception, le stockage et l’accès sécurisé aux emails professionnels, avec une interface d’administration centralisée et un webmail.
 
 ## Objectifs Stratégiques
 
-L’implémentation de ce service répond à cinq besoins majeurs :
+L’implémentation de ce service répond à cinq besoins :
 
-1. **Souveraineté et Confidentialité**  
+1. **Confidentialité**  
    Toutes les données email restent sur nos infrastructures, sans transit par des tiers.
 
 2. **Disponibilité et Fiabilité**  
@@ -24,17 +24,17 @@ L’implémentation de ce service répond à cinq besoins majeurs :
 
 ## Architecture Technique
 
-### La Stack Technologique
+### Les ressources
 
-- **Moteur de Messagerie** : iRedMail 1.7.4 (open source)  
-- **Système d’Exploitation** : Debian 12 (Bookworm)  
+- **Moteur de Messagerie** : iRedMail 1.7.4  
+- **Système d’Exploitation** : Debian 12 
 - **Serveur SMTP** : Postfix  
 - **Serveur IMAP/POP3** : Dovecot  
 - **Serveur Web & Webmail** : Nginx + Roundcube  
-- **Interface d’Administration** : iRedAdmin (open source)  
+- **Interface d’Administration** : iRedAdmin  
 - **Anti-spam / Antivirus** : SpamAssassin + ClamAV + Amavis  
-- **Monitoring** : Netdata (temps réel)  
-- **Protection** : Fail2Ban (anti-bruteforce)  
+- **Monitoring** : Netdata  
+- **Protection** : Fail2Ban 
 - **Base de Données** : MariaDB  
 
 ### Périmètre Fonctionnel
@@ -42,7 +42,7 @@ L’implémentation de ce service répond à cinq besoins majeurs :
 Le serveur gère :
 
 - Boîtes mail individuelles, alias, listes de diffusion  
-- Webmail responsive (Roundcube)    
+- Webmail (Roundcube)    
 - Filtrage anti-spam et antivirus en temps réel  
 - Quotas par utilisateur / domaine  
 - Monitoring système et applicatif intégré
