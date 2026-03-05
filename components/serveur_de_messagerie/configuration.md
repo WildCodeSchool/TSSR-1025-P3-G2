@@ -68,19 +68,19 @@ cat /root/iRedMail-1.7.4/iRedMail.tips
 Testez ces adresses dans un navigateur (remplacez `10.50.0.7` par votre IP publique ou FQDN) :
 
 #### <span id="21-webmail-roundcube"></span>2.1. Webmail Roundcube
-https://10.50.0.7/mail/  
+"https://10.50.0.7/mail/" ou "https://mail.ecotech-solutions.com/mail/"
 Identifiant exemple : `postmaster@ecotech-solutions.com`
 
 ![iRedMail](ressources/01_roundcube_mail.png)
 
 #### <span id="22-interface-admin-iredadmin"></span>2.2. Interface admin iRedAdmin
-https://10.50.0.7/iredadmin/  
+https://10.50.0.7/iredadmin/ ou "https://mail.ecotech-solutions.com/iredadmin/"  
 Identifiant exemple : `postmaster@ecotech-solutions.com`
 
 ![iRedMail](ressources/02_iredmail.png)
 
 #### <span id="23-monitoring-netdata"></span>2.3. Monitoring Netdata
-https://10.50.0.7/netdata/
+https://10.50.0.7/netdata/ ou "https://mail.ecotech-solutions.com/netdata/"
 
 ![iRedMail](ressources/03_netdata.png)
 
