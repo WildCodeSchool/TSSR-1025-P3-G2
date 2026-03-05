@@ -69,20 +69,22 @@ Testez ces adresses dans un navigateur (remplacez `10.50.0.7` par votre IP publi
 
 #### <span id="21-webmail-roundcube"></span>2.1. Webmail Roundcube
 "https://10.50.0.7/mail/" ou "https://mail.ecotech-solutions.com/mail/"
-Identifiant exemple : `postmaster@ecotech-solutions.com`
+
+Identifiant : `postmaster@ecotech-solutions.com`
 
 ![iRedMail](ressources/01_roundcube_mail.png)
 
 #### <span id="22-interface-admin-iredadmin"></span>2.2. Interface admin iRedAdmin
-https://10.50.0.7/iredadmin/ ou "https://mail.ecotech-solutions.com/iredadmin/"  
-Identifiant exemple : `postmaster@ecotech-solutions.com`
+"https://10.50.0.7/iredadmin/" ou "https://mail.ecotech-solutions.com/iredadmin/"
+
+Identifiant : `postmaster@ecotech-solutions.com`
 
 ![iRedMail](ressources/02_iredmail.png)
 
 #### <span id="23-monitoring-netdata"></span>2.3. Monitoring Netdata
-https://10.50.0.7/netdata/ ou "https://mail.ecotech-solutions.com/netdata/"
+"https://10.50.0.7/netdata/" ou "https://mail.ecotech-solutions.com/netdata/"
 
-![iRedMail](ressources/03_netdata.png)
+Identifiant : `postmaster@ecotech-solutions.com`
 
 ## <span id="gestion-des-utilisateurs-et-administrateurs"></span>Gestion des utilisateurs et administrateurs
 
@@ -150,11 +152,11 @@ Pour créer un second **Global Admin** :
 
 #### <span id="72-résumé-des-accès"></span>7.2. Résumé des accès
 
-| Usage                        | URL                              | Identifiant exemple                      | Qui peut s'y connecter ?   |
-|------------------------------|----------------------------------|------------------------------------------|----------------------------|
-| Administration globale       | https://10.50.0.7/iredadmin/     | postmaster@ecotech-solutions.com         | Global admins              |
-| Webmail (lecture/écriture)   | https://10.50.0.7/mail/          | jean@ecotech-solutions.com               | Tous les utilisateurs      |
-| Monitoring système           | https://10.50.0.7/netdata/       | —                                        | —                          |
+| Usage                        | URL                                                                           | Identifiant exemple                      | Qui peut s'y connecter ?   |
+|------------------------------|-------------------------------------------------------------------------------|------------------------------------------|----------------------------|
+| Administration globale       | https://10.50.0.7/iredadmin/ ou https://mail.ecotech-solutions.com/iredadmin/ | postmaster@ecotech-solutions.com         | Global admins              |
+| Webmail (lecture/écriture)   | https://10.50.0.7/mail/ ou https://mail.ecotech-solutions.com/mail/           | jean@ecotech-solutions.com               | Tous les utilisateurs      |
+| Monitoring système           | https://10.50.0.7/netdata/ ou https://mail.ecotech-solutions.com/netdata/     | —                                        | —                          |
 
 ### <span id="8-configuration-du-client-thunderbird"></span>8. Configuration du client Thunderbird
 
