@@ -6,7 +6,7 @@ Ce guide détaille l'installation d'un serveur de mail complet utilisant le scri
 ## 1. Prérequis Système
 * **OS :** Debian.
 * **RAM :** 2 Go minimum.  
-* **Ports TCP ouverts :** 25 (SMTP), 465 (SMTPS), 587 (submission), 993 (IMAPS), 995 (POP3S), 80/443 (web admin & webmail)
+* **Ports TCP ouverts :** 25 (SMTP), 465 (SMTPS), 993 (IMAPS), 143 (IMAP), 80/443 (web admin & webmail)
 
 ## 2. Configuration du Hostname
 Le nom d'hôte de votre serveur doit être un nom de domaine pleinement qualifié (FQDN). 
