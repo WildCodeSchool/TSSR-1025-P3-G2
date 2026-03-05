@@ -48,8 +48,8 @@ Connectez-vous en root et exécutez :
 # État des services principaux
 systemctl status postfix dovecot nginx mariadb fail2ban
 
-# Ports en écoute (25, 465, 587, 993, 995, 80, 443)
-ss -ltn | grep -E ':25|:465|:587|:993|:995|:80|:443'
+# Ports en écoute (25, 465, 993, 143, 80, 443)
+ss -ltn | grep -E ':25|:465|:993|:143|:80|:443'
 ```
 
 #### <span id="12-fichier-iredmailtips"></span>1.2. Fichier iRedMail.tips
@@ -208,17 +208,7 @@ Pour que iRedMail puisse lire les utilisateurs de votre domaine ecotech.local, l
 | **LDAP Port**            | `389` (ou `636` pour LDAPS)                      |
 | **Base DN**              | `dc=ecotech,dc=local`                            |
 | **Bind DN (Admin)**      | `cn=Administrateur,cn=Users,dc=ecotech,dc=local` |
-| **Filtre de recherche**  | `(&(objectClass=user)(mail=%u))`                 |
 
 #### <span id="93-test-de-connectivité-en-ligne-de-commande"></span>9.3. Test de connectivité en ligne de commande
 
 Avant de modifier les fichiers de configuration, vérifiez que votre serveur Debian (iRedMail) peut communiquer avec le contrôleur de domaine Windows.
-
-Installez les outils LDAP si nécessaire :
-
-``` bash
-apt-get install ldap-utils
-
-ldapsearch -x -h 10.20.20.6 -D "Administrateur@ecotech.local" -W -b "dc=ecotech,dc=local" "(sAMAccountName=jean)"
-
-```
