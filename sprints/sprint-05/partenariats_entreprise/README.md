@@ -12,13 +12,12 @@ L'objectif principal de ce sprint était d'établir une relation de confiance en
 - Active Directory Domain Services
 - Kerberos
 - DNS (Redirecteurs conditionnels)
-- pfSense (Pare-feu)
 - Relations de confiance Active Directory
 - Méthode AGDLP
 
 ## Réalisations techniques
 
-- Ouverture des flux firewall sur pfSense (collaboration avec Matthias)
+- Ouverture des flux firewall sur pfSense (collaboration avec billu.lan)
 - Configuration des redirecteurs conditionnels DNS entre les deux domaines
 - Création d'une approbation de forêt bidirectionnelle entre ecotech.local et billu.lan
 - Sécurisation via l'authentification sélective
@@ -29,5 +28,6 @@ L'objectif principal de ce sprint était d'établir une relation de confiance en
 ## Documentation détaillée
 
 Pour voir la configuration étape par étape avec captures d'écran, consultez la documentation détaillée dans le fichier configuration.md
+
 
 
