@@ -1,4 +1,4 @@
-# Sprint 4 - Partenariat Inter-Entreprises
+# Sprint 5 - Partenariat Inter-Entreprises
 
 ## Contexte et Objectifs
 
@@ -29,4 +29,5 @@ L'objectif principal de ce sprint était d'établir une relation de confiance en
 ## Documentation détaillée
 
 Pour voir la configuration étape par étape avec captures d'écran, consultez la documentation détaillée dans le fichier configuration.md
+
 
