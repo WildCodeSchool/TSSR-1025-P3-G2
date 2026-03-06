@@ -322,19 +322,45 @@ La GPO `CR-ADM-001-PowerShellSecurity-v1.0` assure que seuls les scripts autoris
 
 ![Etape 4](ressources/6_GPO_ECO_BDX_EX02_6.png)
 
+#### 5.1 Politique de restriction horaire d’accès
+<span id="restricted-logon-hours"></span>
+
+- **Objectif** : Restreindre les connexions des utilisateurs standard aux plages horaires autorisées, tout en permettant le bypass pour les administrateurs.
+- **Règles** :
+  - **Utilisateurs standard** :
+    - Connexion autorisée du **lundi au vendredi**, de **7h à 20h**
+    - Le **samedi** de **8h à 13h**
+    - Dimanche : aucune connexion autorisée
+  - **Administrateurs** : **bypass total**
+  - **Groupe d’exception** : un groupe de sécurité dédié permet d’accorder le bypass à certains utilisateurs spécifiques sans leur donner de droits administratifs
+- **Mise en œuvre technique** :
+  - Utilisation de l’onglet **Heures d’ouverture de session** (Logon Hours) dans les propriétés des comptes utilisateurs ou via GPO + Item-Level Targeting
+  - Création d’une GPO liée aux OU **UX** avec ciblage sur les utilisateurs n’appartenant aux groupes :
+    - Administrateurs (Tier 0/1)
+    - Groupe d’exception bypass
+  - Paramétrage dans :  
+    `Configuration ordinateur → Stratégies → Paramètres Windows → Paramètres de sécurité → Stratégies locales → Options de sécurité`  
+    → ou plus classiquement via l’onglet **Heures d’ouverture de session** appliqué par script / GPO de préférence.
+
+Script Powershell pour l'ajout de la restriction d'horaire à chaque utilisateur sauf les membres "Bypass"
+
+``` Powershell
+
+
+```
 ---
 
 ### 6. Stratégies de Configuration (GPO Standard)
 
 <span id="6-strategies-confort"></span>
 
-Au moins 3 GPO standards ont été déployées pour uniformiser l'environnement de travail.
+Exemple de GPO standards qui ont été déployées sur l'environnement de travail.
 
-| Nom de la GPO | Cible | Objectif |
-| --- | --- | --- |
-| **UR-BDX-010-DesktopWallpaper-v1.0** | Utilisateur | Application du fond d'écran institutionnel. |
-| **UP-G-022-DriveMapping-v1.1** | Utilisateur | Mappage automatique des lecteurs réseaux départementaux. |
-| **UR-BDX-013-FolderRedirection-v1.0** | Utilisateur | Redirection des dossiers Bureau et Documents vers le serveur. |
+| Nom de la GPO                         | Cible       | Objectif                                                      |
+| ------------------------------------- | ----------- | ------------------------------------------------------------- |
+| **UP-BDX-010-DesktopWallpaper-v1.0**  | Utilisateur | Application du fond d'écran institutionnel.                   |
+| **UP-BDX-022-DriveMapping-v1.1**      | Utilisateur | Mappage automatique des lecteurs réseaux départementaux.      |
+| **UP-BDX-013-FolderRedirection-v1.0** | Utilisateur | Redirection des dossiers Bureau et Documents vers le serveur. |
 
 ---
 
