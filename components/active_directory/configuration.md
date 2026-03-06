@@ -11,6 +11,7 @@
 ## [Configuration de la Gouvernance (GPO)](#configuration-gpo)
   - [4. Structure des Unités d'Organisation (OU)](#4-structure-des-ou)
   - [5. Stratégies de Sécurité (GPO de Restriction)](#5-strategies-securite)
+    - [5.1. Politique de restriction horaire d’accès)](#51-restricted-logon-hours)
   - [6. Stratégies de Configuration (GPO Standard)](#6-strategies-confort)
   - [7. Validation du Modèle de Tiering](#7-validation-tiering)
 
