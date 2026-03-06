@@ -105,6 +105,24 @@ Pour accorder un accès contrôlé (ex. : RDP) aux administrateurs IT de `billu.
 ## 5. Test final de l'accès distant
 
 - Connexion RDP depuis un poste du domaine **billu.lan** avec un compte membre du groupe global.
+
+## 6. Autorisation d'authentification sélective sur le serveur cible
+
+Étant donné que la relation d'approbation a été sécurisée au niveau de la forêt avec l'**Authentification Sélective**, les comptes du domaine partenaire n'ont par défaut aucun droit de connexion sur notre infrastructure. Il est impératif de leur accorder explicitement le droit de s'authentifier sur la machine cible (ici, le serveur `eco-bdx-ex02`).
+
+**Étapes de configuration :**
+
+1. Dans la console **Utilisateurs et ordinateurs Active Directory**, assurez-vous au préalable que l'affichage des **Fonctionnalités avancées** est activé (via le menu *Affichage* > *Fonctionnalités avancées*).
+2. Naviguez dans l'arborescence jusqu'à trouver l'objet ordinateur du serveur cible (`eco-bdx-ex02`).
+3. Faites un clic droit sur l'objet **eco-bdx-ex02** et sélectionnez **Propriétés**.
+4. Rendez-vous dans l'onglet **Sécurité**.
+5. Cliquez sur **Ajouter...** et renseignez le compte de l'administrateur partenaire (ex: `BILLU\franck.paisant.admin`).
+6. Sélectionnez ce compte dans la liste. Dans la fenêtre des autorisations en bas, cherchez la ligne **Autorisé à s'authentifier** (Allowed to Authenticate) et cochez la case **Autoriser**.
+7. Cliquez sur **Appliquer** puis sur **OK**.
+
+![Permission Allowed to Authenticate sur l'objet ordinateur](images/allowed_to_authenticate.png)
+
+> **Note technique :** Cette action est indispensable pour que la requête d'authentification Kerberos provenant de la forêt partenaire soit acceptée par ce serveur spécifique, permettant ensuite la vérification des droits d'accès locaux (comme le groupe Utilisateurs du Bureau à distance).
 - Vérification de l'accès uniquement sur les ressources autorisées via le groupe domaine local.
 - Contrôle des journaux d'événements (Security) sur les contrôleurs de domaine et serveurs membres pour valider l'authentification croisée.
 
