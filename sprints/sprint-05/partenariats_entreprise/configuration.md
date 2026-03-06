@@ -102,9 +102,3 @@ La relation apparaît désormais dans l'onglet **Approbations** avec :
 7. Cliquez sur **Appliquer** puis sur **OK**.
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fb149735d9f86b4d2d3a1a503abe42f20443cdba/sprints/sprint-05/partenariats_entreprise/ressources/authentification%20s%C3%A9lective/Capture%20d%E2%80%99%C3%A9cran%202026-03-06%20234019.jpg)
-
-> **Note technique :** Cette action est indispensable pour que la requête d'authentification Kerberos provenant de la forêt partenaire soit acceptée par ce serveur spécifique, permettant ensuite la vérification des droits d'accès locaux (comme le groupe Utilisateurs du Bureau à distance).
-- Vérification de l'accès uniquement sur les ressources autorisées via le groupe domaine local.
-- Contrôle des journaux d'événements (Security) sur les contrôleurs de domaine et serveurs membres pour valider l'authentification croisée.
-
-![image]()
