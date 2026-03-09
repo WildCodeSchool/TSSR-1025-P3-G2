@@ -11,8 +11,8 @@
 ## [Configuration de la Gouvernance (GPO)](#configuration-gpo)
   - [4. Structure des Unités d'Organisation (OU)](#4-structure-des-ou)
   - [5. Stratégies de Sécurité (GPO de Restriction)](#5-strategies-securite)
-    - [5.1. Politique de restriction des horaires d’accès)](#51-restricted-logon-hours)
-    - [5.2. Planifier une tâche pour la restriction des horaires](#5-task-scheduler)
+    - [5.1. Politique de restriction des horaires d’accès)](#51restricted-logon-hours)
+    - [5.2. Planifier une tâche pour la restriction des horaires](#task-scheduler)
   - [6. Stratégies de Configuration (GPO Standard)](#6-strategies-confort)
   - [7. Validation du Modèle de Tiering](#7-validation-tiering)
 
@@ -298,7 +298,7 @@ L'arborescence Active Directory a été structurée sur 4 niveaux pour permettre
 
 ### 5. Stratégies de Sécurité (GPO de Restriction)
 
-<span id="strategies-securite"></span>
+<span id="#5-strategies-securite"></span>
 
 Conformément aux objectifs de sécurité, 7 GPO de restriction ont été identifiées, dont la gestion du pare-feu, le blocage du registre et la politique PowerShell.
 
@@ -325,7 +325,7 @@ La GPO `CR-ADM-001-PowerShellSecurity-v1.0` assure que seuls les scripts autoris
 ![Etape 4](ressources/6_GPO_ECO_BDX_EX02_6.png)
 
 #### 5.1 Politique de restriction des horaires d’accès
-<span id="restricted-logon-hours"></span>
+<span id="51restricted-logon-hours"></span>
 
 - **Objectif** : Restreindre les connexions des utilisateurs standard aux plages horaires autorisées, tout en permettant le bypass pour les administrateurs.
 - **Règles** :
