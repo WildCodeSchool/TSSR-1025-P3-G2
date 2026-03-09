@@ -298,7 +298,7 @@ L'arborescence Active Directory a été structurée sur 4 niveaux pour permettre
 
 ### 5. Stratégies de Sécurité (GPO de Restriction)
 
-<span id="5-strategies-securite"></span>
+<span id="strategies-securite"></span>
 
 Conformément aux objectifs de sécurité, 7 GPO de restriction ont été identifiées, dont la gestion du pare-feu, le blocage du registre et la politique PowerShell.
 
