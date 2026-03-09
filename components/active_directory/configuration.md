@@ -425,6 +425,14 @@ Get-ADUser -Filter * -SearchBase $searchBase |
 
 ![Restrictedhours](ressources/6_Restritedhours.png.png)
 
+
+# Test sur un utilisateur
+
+![Restrictedhours](ressources/7_Restritedhours.png.png)
+
+![Restrictedhours](ressources/8_Restritedhours.png.png)
+
+
 ### 6. Stratégies de Configuration (GPO Standard)
 
 <span id="6-strategies-confort"></span>
