@@ -15,7 +15,7 @@ Le serveur permet actuellement :
 
 - **INSTALLATION.md** → Guide complet de l’installation depuis l’ISO jusqu’à la fin du wizard initial  
 - **CONFIGURATION.md** → Guide détaillé de la configuration post-installation (firewall, extensions, softphones)  
-- **images/** → Toutes les captures d’écran utilisées dans les documentations  
+- **ressources** → Toutes les captures d’écran utilisées dans les documentations  
 - **README.md** → Ce fichier (vue d’ensemble et utilisation courante)
 
 ---

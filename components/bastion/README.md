@@ -5,10 +5,12 @@
 
 ## Table des matières
 
-- [1. Rôle du service](#1-rôle-du-service)
-- [2. Position dans l'architecture](#2-position-dans-larchitecture)
-- [3. Prérequis](#3-prérequis)
-- [4. Fonctionnalités](#4-fonctionnalités)
+- [Serveur Bastion — Apache Guacamole](#serveur-bastion--apache-guacamole)
+  - [Table des matières](#table-des-matières)
+  - [1. Rôle du service](#1-rôle-du-service)
+  - [2. Position dans l'architecture](#2-position-dans-larchitecture)
+  - [3. Prérequis](#3-prérequis)
+  - [4. Fonctionnalités](#4-fonctionnalités)
 
 ## 1. Rôle du service
 
@@ -28,8 +30,7 @@ Il fournit :
 - **Passerelle** : VIP CARP pfSense `10.50.20.1` (haute disponibilité).
 - **Accès interne** : VLAN 210 (Postes d'administration GX) via HTTPS.
 - **Accès externe** : Internet (WAN) via NAT pfSense et HAProxy.
-- **Reverse Proxy** : HAProxy sur pfSense pour la terminaison SSL/TLS.
-- **Authentification** : Intégration LDAP avec les contrôleurs de domaine `10.20.20.5` et `10.20.20.6`.
+- **Reverse Proxy** : nginx dans docker pour la terminaison SSL/TLS.
 
 ## 3. Prérequis
 
