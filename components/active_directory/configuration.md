@@ -11,7 +11,8 @@
 ## [Configuration de la Gouvernance (GPO)](#configuration-gpo)
   - [4. Structure des Unités d'Organisation (OU)](#4-structure-des-ou)
   - [5. Stratégies de Sécurité (GPO de Restriction)](#5-strategies-securite)
-    - [5.1. Politique de restriction horaire d’accès)](#51-restricted-logon-hours)
+    - [5.1. Politique de restriction des horaires d’accès)](#51restricted-logon-hours)
+    - [5.2. Planifier une tâche pour la restriction des horaires](#task-scheduler)
   - [6. Stratégies de Configuration (GPO Standard)](#6-strategies-confort)
   - [7. Validation du Modèle de Tiering](#7-validation-tiering)
 
@@ -323,8 +324,8 @@ La GPO `CR-ADM-001-PowerShellSecurity-v1.0` assure que seuls les scripts autoris
 
 ![Etape 4](ressources/6_GPO_ECO_BDX_EX02_6.png)
 
-#### 5.1 Politique de restriction horaire d’accès
-<span id="restricted-logon-hours"></span>
+#### 5.1 Politique de restriction des horaires d’accès
+<span id="51restricted-logon-hours"></span>
 
 - **Objectif** : Restreindre les connexions des utilisateurs standard aux plages horaires autorisées, tout en permettant le bypass pour les administrateurs.
 - **Règles** :
@@ -335,21 +336,102 @@ La GPO `CR-ADM-001-PowerShellSecurity-v1.0` assure que seuls les scripts autoris
   - **Administrateurs** : **bypass total**
   - **Groupe d’exception** : un groupe de sécurité dédié permet d’accorder le bypass à certains utilisateurs spécifiques sans leur donner de droits administratifs
 - **Mise en œuvre technique** :
-  - Utilisation de l’onglet **Heures d’ouverture de session** (Logon Hours) dans les propriétés des comptes utilisateurs ou via GPO + Item-Level Targeting
-  - Création d’une GPO liée aux OU **UX** avec ciblage sur les utilisateurs n’appartenant aux groupes :
-    - Administrateurs (Tier 0/1)
-    - Groupe d’exception bypass
-  - Paramétrage dans :  
-    `Configuration ordinateur → Stratégies → Paramètres Windows → Paramètres de sécurité → Stratégies locales → Options de sécurité`  
-    → ou plus classiquement via l’onglet **Heures d’ouverture de session** appliqué par script / GPO de préférence.
-
+  
 Script Powershell pour l'ajout de la restriction d'horaire à chaque utilisateur sauf les membres "Bypass"
 
 ``` Powershell
 
+Import-module ActiveDirectory
 
+# Horaires d'application Lundi au Vendredi => 7h-20h / Samedi => 8h-13h / Dimanche => bloqué
+
+$logonHours = [byte[]]@(
+    0,  0,  0,      # Dimanche
+    192,255,7,      # Lundi   
+    192,255,7,      # Mardi
+    192,255,7,      # Mercredi
+    192,255,7,      # Jeudi
+    192,255,7,      # Vendredi
+    128, 15, 0      # Samedi
+)
+
+# Exclusion des comptes
+
+$exclus = @(
+    (Get-ADGroupMember "CN=Grp_Admins_BilliU,OU=BILLIU,DC=ecotech,DC=local").distinguishedName
+    (Get-ADGroupMember "CN=Grp_Bypass_Admin,OU=GX,OU=BDX,OU=ECOTECH,DC=ecotech,DC=local").distinguishedName
+) | Sort-Object -Unique
+
+# Application des restrictions (sauf comptes exclus)
+
+$searchBase = "OU=UX,OU=BDX,OU=ECOTECH,DC=ecotech,DC=local"
+Get-ADUser -Filter * -SearchBase $searchBase |
+    Where-Object { $_.DistinguishedName -notin $exclus } |
+    ForEach-Object {
+        Write-Host "Mise à jour : $($_.SamAccountName)" -ForegroundColor Green
+        Set-ADUser -Identity $_.DistinguishedName -Replace @{logonHours = $hoursLogon}
 ```
----
+
+#### 5.2 Planifier une tâche pour la restriction des horaires
+<span id="task-scheduler"></span>
+
+- **Objectif**  
+  Appliquer automatiquement les restrictions d’heures de connexion à tous les utilisateurs standards, tout en excluant les administrateurs et les membres du groupe de bypass.  
+ 
+- **Choix technique**  
+  Utilisation de **Windows Task Scheduler** (Planificateur de tâches) sur un contrôleur de domaine pour exécuter périodiquement le script PowerShell `RestrictedHours.ps1`.
+
+- **Configuration de la tâche planifiée**
+
+  **Nom de la tâche** : `Restricted_Hours`  
+  **Compte d’exécution** : `ECOTECH\Administrator`  
+  **Options de sécurité** :  
+  - Run whether user is logged on or not  
+  - Run with highest privileges  
+  - Do not store password
+
+![Restrictedhours](ressources/1_Restritedhours.png)
+
+![Restrictedhours](ressources/2_Restritedhours.png.png)
+
+  **Déclencheur (Trigger)**  
+  - Type : Weekly  
+  - Jour : Lundi  
+  - Heure de début : 06:50  
+  - Récurrence : Toutes les 1 semaine  
+  - Date de début : 02/03/2026  
+  - Synchronisé sur les fuseaux horaires
+
+![Restrictedhours](ressources/3_Restritedhours.png.png)
+
+  **Action**  
+  - Action : Start a program  
+  - Programme/script : `powershell.exe`  
+  - Arguments (recommandé) : `-ExecutionPolicy Bypass -File "C:\Scripts\RestrictedHours.ps1"`  
+  - OU (plus propre) :  
+    - Programme/script : `C:\Scripts\RestrictedHours.ps1`  
+    - (PowerShell est associé par défaut aux .ps1 avec le bon handler)
+
+![Restrictedhours](ressources/4_Restritedhours.png.png)
+
+  **Conditions & Paramètres**  
+  - Allow task to be run on demand : **Oui**  
+  - If the task fails, restart every: 5 minutes → 3 fois  
+  - Stop the task if it runs longer than: 1 hour  
+  - If the running task does not end when requested, force it to stop  
+  - If the task is already running: Do not start a new instance
+
+![Restrictedhours](ressources/5_Restritedhours.png.png)
+
+![Restrictedhours](ressources/6_Restritedhours.png.png)
+
+
+# Test sur un utilisateur
+
+![Restrictedhours](ressources/7_Restritedhours.png.png)
+
+![Restrictedhours](ressources/8_Restritedhours.png.png)
+
 
 ### 6. Stratégies de Configuration (GPO Standard)
 
