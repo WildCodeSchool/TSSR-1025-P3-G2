@@ -30,10 +30,6 @@ hostname
 # Vérifier l'IP fixe
 ipconfig
 # Attendu : 10.20.20.15
-
-# Vérifier la langue du clavier
-Get-WinUserLanguageList
-# Attendu : fr-FR / InputMethodTips : 040C:0000040C (AZERTY)
 ```
 
 - La machine doit obligatoirement être membre du domaine **avant** l'installation.
@@ -46,44 +42,44 @@ Get-WinUserLanguageList
 ### 2.1 Lancer l'assistant
 
 ```
-Démarrer → Server Manager
-    → Manage
-        → Add Roles and Features
+Démarrer - Server Manager
+    - Manage
+        - Add Roles and Features
 ```
 
 ### 2.2 Suivre l'assistant
 
 ```
 Before You Begin
-    → Next
+    - Next
 
 Installation Type
-    → Role-based or feature-based installation
-    → Next
+    - Role-based or feature-based installation
+    - Next
 
 Server Selection
-    → Select a server from the server pool
-        → Sélectionner ECO-BDX-EX12
-    → Next
+    - Select a server from the server pool
+        - Sélectionner ECO-BDX-EX12
+    - Next
 
 Server Roles
-    → Cocher : Active Directory Certificate Services
-        → Pop-up : Add Features ✅
-    → Next
+    - Cocher : Active Directory Certificate Services
+        - Pop-up : Add Features
+    - Next
 
 Features
-    → Ne rien modifier
-    → Next
+    - Ne rien modifier
+    - Next
 
 AD CS
-    → Next
+    - Next
 
 Role Services
-    → Cocher uniquement : Certification Authority ✅
-    → Next
+    - Cocher uniquement : Certification Authority
+    - Next
 
 Confirmation
-    → Install
+    - Install
 ```
 
 - Ne pas fermer la fenêtre à la fin de l'installation.
@@ -97,16 +93,16 @@ Confirmation
 
 ```
 Credentials
-    → Vérifier : ECOTECH\Administrator ✅
-    → Next
+    - Vérifier : ECOTECH\Administrator
+    - Next
 
 Role Services
-    → Cocher : Certification Authority ✅
-    → Next
+    - Cocher : Certification Authority
+    - Next
 
 Setup Type
-    → Enterprise CA ✅
-    → Next
+    - Enterprise CA
+    - Next
 ```
 
 - Enterprise CA requiert que la machine soit membre du domaine.
@@ -114,41 +110,41 @@ Setup Type
 
 ```
 CA Type
-    → Root CA ✅
-    → Next
+    - Root CA
+    - Next
 
 Private Key
-    → Create a new private key ✅
-    → Next
+    - Create a new private key
+    - Next
 
 Cryptography
-    → Cryptographic provider : RSA#Microsoft Software Key Storage Provider
-    → Key length : 4096
-    → Hash algorithm : SHA256
-    → Next
+    - Cryptographic provider : RSA#Microsoft Software Key Storage Provider
+    - Key length : 4096
+    - Hash algorithm : SHA256
+    - Next
 
 CA Name
-    → Common name : ecotech-ECO-BDX-EX12-CA
-    → Distinguished name suffix : DC=ecotech,DC=local (automatique)
-    → Next
+    - Common name : ecotech-ECO-BDX-EX12-CA
+    - Distinguished name suffix : DC=ecotech,DC=local (automatique)
+    - Next
 
 Validity Period
-    → 10 Years
-    → Next
+    - 10 Years
+    - Next
 
 Certificate Database
-    → Laisser les chemins par défaut
+    - Laisser les chemins par défaut
         C:\Windows\system32\CertLog
-    → Next
+    - Next
 
 Confirmation
-    → Vérifier le récapitulatif :
+    - Vérifier le récapitulatif :
         CA Type    : Enterprise Root
         Algorithme : SHA256
         Clé        : 4096 bits
         Validité   : 10 ans
         DN         : CN=ecotech-ECO-BDX-EX12-CA,DC=ecotech,DC=local
-    → Configure
+    - Configure
 ```
 
 ---
@@ -165,8 +161,8 @@ Get-Service CertSvc
 ### 4.2 Ouvrir la console de gestion
 
 ```
-Démarrer → Certification Authority (certsrv.msc)
-    → ecotech-ECO-BDX-EX12-CA doit apparaître ✅
+Démarrer - Certification Authority (certsrv.msc)
+    - ecotech-ECO-BDX-EX12-CA doit apparaître
 ```
 
 ### 4.3 Vérifier le déploiement automatique sur le domaine
@@ -178,7 +174,7 @@ gpupdate /force
 
 # Vérifier que le CA est bien présent dans le magasin de confiance
 certutil -store "Root" | findstr "ecotech-ECO-BDX-EX12-CA"
-# Doit retourner le nom du CA ✅
+# Doit retourner le nom du CA
 ```
 
 ---
@@ -192,14 +188,14 @@ certutil -store "Root" | findstr "ecotech-ECO-BDX-EX12-CA"
 
 ```
 Server Manager
-    → Manage → Add Roles and Features
-        → Next → Next → Next
-            → Server Roles
-                → Active Directory Certificate Services
-                    → Déplier le rôle ▶
-                        → Cocher : Certification Authority Web Enrollment ✅
-                            → Add Features (popup)
-                                → Next → Install
+    - Manage - Add Roles and Features
+        - Next - Next - Next
+            - Server Roles
+                - Active Directory Certificate Services
+                    - Déplier le rôle
+                        - Cocher : Certification Authority Web Enrollment
+                            - Add Features (popup)
+                                - Next - Install
 ```
 
 ### 5.2 Activer ASP
@@ -217,11 +213,11 @@ iisreset
 
 ```
 IIS Manager
-    → Sites → Default Web Site → CertSrv
-        → Authentication
-            → Clic droit sur "Anonymous Authentication"
-                → Disable ✅
-            → Windows Authentication doit rester Enabled ✅
+    - Sites - Default Web Site - CertSrv
+        - Authentication
+            - Clic droit sur "Anonymous Authentication"
+                - Disable
+            - Windows Authentication doit rester Enabled
 ```
 
 ```powershell
@@ -234,10 +230,10 @@ iisreset
 
 ```
 http://10.20.20.15/certsrv
-    → Page "Microsoft Active Directory Certificate Services
-       — ecotech-ECO-BDX-EX12-CA" ✅
+    - Page "Microsoft Active Directory Certificate Services
+      — ecotech-ECO-BDX-EX12-CA"
 ```
 
 <p align="right">
-  <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
+  <a href="#haut-de-page">Retour au début de la page</a>
 </p>
