@@ -6,6 +6,14 @@
 
 ## Table des matières
 
+- [1. Certification de ECO-BDX-EX07](#1-certification-de-eco-bdx-ex07-intranet)
+- [2. Certification de ECO-BDX-EX12](#2-certification-de-eco-bdx-dx01-pfsense--pare-feu)
+- [3. Certification de ECO-BDX-EX15](#3-certification-de-eco-bdx-ex15-bastion--guacamole)
+- [4. Certification de ECO-BDX-EX12](#4-certification-de-eco-bdx-ex12--iis)
+- [5. Certification de ECO-BDX-EX09](#5-certification-de-eco-bdx-ex09-proxy-web-externe--wwwecotech-solutionscom)
+- [6. Certification de ECO-BDX-EX16](#6-certification-de-eco-bdx-ex16-wsus--wsusecotechlocal)
+- [7. Certification de ECO-BDX-EX13](#7-certification-de-eco-bdx-ex13-iredmail--mailecotech-solutionscom)
+
 ---
 
 ## 1. Certification de ECO-BDX-EX07 (Intranet)
@@ -199,7 +207,7 @@ https://portail.ecotech.local
 # La connexion est sécurisée 
 ```
 
-## 2. Certificat de ECO-BDX-EX12 (pfSense / pare-feu)
+## 2. Certification de ECO-BDX-DX01 (pfSense / pare-feu)
 
 ### 2.1 Importer le CA AD CS dans pfSense
 
@@ -485,7 +493,7 @@ https://bastion.ecotech.local/guacamole
     - La connexion est sécurisée
 ```
 
-## 4. Sécurisation de certsrv (ECO-BDX-EX12 / IIS)
+## 4. Certification de ECO-BDX-EX12 (IIS)
 
 ### 4.1 Contexte
 
