@@ -755,6 +755,262 @@ https://www.ecotech-solutions.com
     - La connexion est sécurisée
 ```
 
+## 6. Certification de ECO-BDX-EX16 (WSUS / wsus.ecotech.local)
+
+### 6.1 Contexte
+
+Le serveur WSUS tourne sur **ECO-BDX-EX16** (`10.20.20.17`) sous Windows Server avec IIS. Par défaut, la console web WSUS est accessible en HTTP sur le port 8530. Cette section documente la mise en place d'un certificat AD CS sur IIS afin d'exposer WSUS en HTTPS via `https://wsus.ecotech.local`.
+
+La procédure utilise `certreq` avec le flag `-machine`, obligatoire pour que la clé privée soit stockée dans le magasin machine utilisé par IIS.
+
+### 6.2 Créer le dossier de travail
+
+- Sur **ECO-BDX-EX16** en PowerShell :
+
+```powershell
+mkdir C:\Certificats
+```
+
+### 6.3 Créer le fichier de configuration CSR
+
+```powershell
+notepad C:\Certificats\EX16.inf
+```
+
+```ini
+[Version]
+Signature="$Windows NT$"
+
+[NewRequest]
+Subject="CN=wsus.ecotech.local,O=EcoTech,C=FR"
+KeyLength=2048
+KeyAlgorithm=RSA
+HashAlgorithm=SHA256
+KeyUsage=0xa0
+
+[Extensions]
+2.5.29.17 = "{text}"
+_continue_ = "dns=wsus.ecotech.local&"
+```
+
+- Le SAN est défini dans la section `[Extensions]` — syntaxe propre à `certreq` sous Windows, différente du format `san.cnf` utilisé sur Linux.
+- Le flag `-machine` est obligatoire pour que la clé privée soit accessible à IIS.
+
+### 6.4 Générer la CSR
+
+```powershell
+certreq -new -machine C:\Certificats\EX16.inf C:\Certificats\EX16.csr
+```
+
+### 6.5 Soumettre la CSR dans certsrv
+
+- Ouvrir `C:\Certificats\EX16.csr` avec le bloc-notes, sélectionner tout et copier.
+
+```
+https://certificat.ecotech.local/certsrv
+    - Request a certificate
+        - Advanced certificate request
+            - Coller le contenu de EX16.csr
+            - Certificate Template : Web Server
+            - Additional Attributes : laisser vide
+            - Submit
+                - Base 64 encoded
+                - Download certificate
+                - Sauvegarder : C:\Certificats\certnew.cer
+```
+
+### 6.6 Installer le certificat dans le magasin machine
+
+```powershell
+certreq -accept -machine C:\Certificats\certnew.cer
+```
+
+- Sans le flag `-machine`, le certificat est installé dans le magasin utilisateur et IIS ne peut pas accéder à la clé privée (erreur 0x80070520).
+
+- Vérifier que le certificat est bien installé :
+
+```powershell
+certutil -store -machine "My" | findstr "wsus.ecotech.local"
+```
+
+### 6.7 Appliquer le certificat dans IIS
+
+```
+IIS Manager
+    - Sites - Default Web Site
+        - Bindings
+            - Add
+                - Type : https
+                - IP address : 10.20.20.17
+                - Port : 443
+                - Host name : wsus.ecotech.local
+                - SSL certificate : wsus.ecotech.local
+                - OK
+```
+
+### 6.8 Créer l'enregistrement DNS
+
+- Sur **ECO-BDX-EX01**, ouvrir le Gestionnaire DNS :
+
+```
+Gestionnaire DNS
+    - Zones de recherche directes
+        - ecotech.local
+            - Nouvel enregistrement A
+                - Nom : wsus
+                - Adresse IP : 10.20.20.17
+                - OK
+```
+
+### 6.9 Vérification
+
+- Depuis un navigateur sur **un poste admin** :
+
+```
+https://wsus.ecotech.local
+    - La connexion est sécurisée
+```
+
+---
+
+## 7. Certification de ECO-BDX-EX13 (iRedMail / mail.ecotech-solutions.com)
+
+### 7.1 Contexte
+
+iRedMail génère par défaut un certificat auto-signé lors de l'installation. Ce certificat est utilisé par Nginx pour HTTPS ainsi que par Postfix et Dovecot pour le chiffrement SMTP et IMAP. Les fichiers sont stockés aux emplacements suivants, définis dans `/etc/nginx/templates/ssl.tmpl` :
+
+- `/etc/ssl/certs/iRedMail.crt`
+- `/etc/ssl/private/iRedMail.key`
+
+Il suffit de remplacer ces deux fichiers par le certificat signé par AD CS — aucune modification de la configuration Nginx n'est nécessaire.
+
+### 7.2 Se placer dans le dossier SSL
+
+```bash
+cd /etc/ssl
+```
+
+### 7.3 Création de la clé privée
+
+```bash
+openssl genrsa -out private/iRedMail.key 2048
+```
+
+- La clé est générée directement à l'emplacement attendu par Nginx.
+
+### 7.4 Configuration du fichier SAN
+
+```bash
+nano san.cnf
+```
+
+```ini
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+
+[req_distinguished_name]
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = mail.ecotech-solutions.com
+```
+
+### 7.5 Création de la CSR
+
+```bash
+openssl req -new -key private/iRedMail.key -out iRedMail.csr -subj "/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=mail.ecotech-solutions.com" -config san.cnf
+```
+
+- Commande à saisir sur une seule ligne.
+
+### 7.6 Soumettre la CSR dans certsrv
+
+- Pour afficher le contenu de la CSR à copier :
+
+```bash
+cat /etc/ssl/iRedMail.csr
+```
+
+- Copier tout le contenu entre `-----BEGIN CERTIFICATE REQUEST-----` et `-----END CERTIFICATE REQUEST-----` inclus.
+
+- Depuis **un poste admin**, ouvrir le navigateur :
+
+```
+http://10.20.20.15/certsrv
+    - Request a certificate
+        - Advanced certificate request
+            - Submit a certificate request by using a base64...
+                - Coller le contenu de iRedMail.csr
+                - Certificate Template : Web Server
+                - Additional Attributes : laisser vide
+                - Submit
+```
+
+### 7.7 Télécharger le certificat signé
+
+```
+Page "Certificate Issued"
+    - Sélectionner : Base 64 encoded ← obligatoire
+    - Download certificate
+    - Sauvegarder sous : iRedMail.crt
+```
+
+- Choisir **Base 64 encoded** et non DER.
+- Nginx ne peut pas lire le format DER directement.
+
+### 7.8 Déposer le certificat sur EX13
+
+- Depuis **un poste admin** en PowerShell :
+
+```powershell
+scp C:\Users\gx-rogenoud\Downloads\iRedMail.crt root@10.50.0.7:/etc/ssl/certs/iRedMail.crt
+```
+
+- Vérifier que la clé et le certificat correspondent :
+
+```bash
+openssl x509 -noout -modulus -in /etc/ssl/certs/iRedMail.crt | md5sum
+openssl rsa -noout -modulus -in /etc/ssl/private/iRedMail.key | md5sum
+```
+
+- Les deux hash doivent être identiques.
+
+### 7.9 Installer le CA AD CS sur EX13
+
+- Sur un **poste admin** :
+
+```powershell
+scp C:\Users\gx-rogenoud\Downloads\ecotech-ca.crt root@10.50.0.7:/tmp/
+```
+
+- Sur le **serveur EX13** :
+
+```bash
+cp /tmp/ecotech-ca.crt /usr/local/share/ca-certificates/
+update-ca-certificates
+# Doit afficher : 1 added
+```
+
+### 7.10 Redémarrer Nginx
+
+```bash
+systemctl restart nginx
+```
+
+- Aucune modification de la configuration Nginx n'est nécessaire — les chemins des fichiers sont inchangés.
+
+### 7.11 Vérification
+
+- Depuis un navigateur sur **un poste admin** :
+
+```
+https://mail.ecotech-solutions.com
+    - La connexion est sécurisée
+```
+
 <p align="right">
   <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
 </p>
