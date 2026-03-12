@@ -218,6 +218,7 @@ Le nom de chaque GPO doit permettre d'identifier immédiatement sa cible, sa por
 - **Portée (Code Site ou Global)** :
 	- **G** : Global (S'applique à tout le domaine)
 	- **BDX** : Bordeaux (S'applique uniquement au site de Bordeaux)
+	- **DC**  : S'applique uniquement à l'OU Domain Controllers
 	- **ADM** : S'applique uniquement à l'OU ADMIN (Tier 0/Tier 1)
 - **Identifiant (ID)** : Numéro séquentiel sur 3 chiffres (ex : 001, 002) correspondant à l'entrée dans le registre des GPO.
 - **Description (But)** : Nom court en anglais ou français sans espace (ex : FirewallRules, MapDrives, DisableUSB).
