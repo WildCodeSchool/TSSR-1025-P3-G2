@@ -29,7 +29,7 @@ Il fournit :
 - **VLAN** : VLAN 520 (Bastion) — segment réseau isolé dédié.
 - **Passerelle** : VIP CARP pfSense `10.50.20.1` (haute disponibilité).
 - **Accès interne** : VLAN 210 (Postes d'administration GX) via HTTPS.
-- **Accès externe** : Internet (WAN) via NAT pfSense et HAProxy.
+- **Accès externe** : Internet (WAN) via NAT pfSense.
 - **Reverse Proxy** : nginx dans docker pour la terminaison SSL/TLS.
 
 ## 3. Prérequis
@@ -39,7 +39,7 @@ Il fournit :
   - Règles pfSense autorisant le Bastion → Serveurs (TCP/22, 3389)
   - NAT pfSense pour l'accès externe WAN → Bastion (TCP/443)
 - **DNS** : Entrée `bastion.ecotech.local` pointant vers `10.50.20.5` dans le DNS interne.
-- **Certificat SSL** : Certificat auto-signé généré par la CA EcoTech pour HAProxy.
+- **Certificat SSL** : Certificat délivré par `ECO-BDX-EX12`.
 
 ## 4. Fonctionnalités
 
@@ -57,9 +57,9 @@ Il fournit :
   - Mappage des groupes AD aux permissions Guacamole.
   - Authentification unique (SSO partiel via identifiants AD).
 
-- **Terminaison SSL via HAProxy** :
+- **Terminaison SSL via Proxy Nginx** :
   - pfSense intercepte les connexions HTTPS (port 443).
-  - HAProxy déchiffre le trafic et le transmet en HTTP vers Guacamole.
+  - Nginx déchiffre le trafic et le transmet en HTTP vers Guacamole.
   - Isolation du bastion : aucun accès HTTP direct depuis l'extérieur.
 
 - **Traçabilité et audit** :

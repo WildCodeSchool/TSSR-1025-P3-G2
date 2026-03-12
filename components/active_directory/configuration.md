@@ -23,7 +23,7 @@
   - [11. Sécurisation et Isolation](#11-securisation)
 
 ## [Partage des rôles FSMO](#partage-des-rôles-fsmo)
- - [12. Partage FSMO](#12-partage-fsmo)
+ - [12. Partage FSMO](#12-partage-des-rôles-fsmo)
 
 ---
 
