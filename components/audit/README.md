@@ -47,20 +47,20 @@ Le score global correspond au **maximum** des 4 indicateurs ci-dessous — un se
 | Catégorie | Vulnérabilité | Score | Statut |
 | --- | --- | --- | --- |
 | Anomalies | Dernière sauvegarde AD obsolète (49 jours) | +15 | À corriger |
-| Anomalies | LAPS non installé | +15 | À corriger |
-| Anomalies | Politique de mot de passe inférieure à 8 caractères | +10 | À corriger |
-| Anomalies | Service Spooler accessible depuis un DC (PrintNightmare) | +10 | À corriger |
+| Anomalies | LAPS non installé | +15 | *Corrigé* |
+| Anomalies | Politique de mot de passe inférieure à 8 caractères | +10 | *Corrigé* |
+| Anomalies | Service Spooler accessible depuis un DC (PrintNightmare) | +10 | *Corrigé* |
 | Anomalies | Audit policy des DCs insuffisante | +10 | À corriger |
 | Anomalies | LDAP sans enforcement de signature | +5 | À corriger |
 | Anomalies | Interface d'enrollment de certificats en HTTP | +5 | À corriger |
 | Anomalies | Zone DNS avec transferts de zone activés | +5 | À corriger |
 | Privileged Accounts | Compte Administrateur natif utilisé récemment | +20 | À corriger |
-| Privileged Accounts | Comptes Admin sans flag "sensible et non délégable" (5) | +20 | À corriger |
-| Privileged Accounts | Groupe Schema Admins non vide | +10 | À corriger |
-| Privileged Accounts | Admins absents du groupe Protected Users (5) | +10 | À corriger |
+| Privileged Accounts | Comptes Admin sans flag "sensible et non délégable" (5) | +20 | *Corrigé* |
+| Privileged Accounts | Groupe Schema Admins non vide | +10 | *Corrigé* |
+| Privileged Accounts | Admins absents du groupe Protected Users (5) | +10 | *Corrigé* |
 | Privileged Accounts | OUs sans protection contre la suppression accidentelle | Informatif | À corriger |
-| Stale Objects | Protocoles NTLMv1 et LM autorisés | +15 | À corriger |
-| Stale Objects | Utilisateurs non-admin peuvent joindre 10 machines | +10 | À corriger |
+| Stale Objects | Protocoles NTLMv1 et LM autorisés | +15 | *Corrigé* |
+| Stale Objects | Utilisateurs non-admin peuvent joindre 10 machines | +10 | *Corrigé* |
 | Stale Objects | WSUS configuré en HTTP non chiffré | +5 | À corriger |
 | Stale Objects | Sous-réseaux incomplets (3 IP de DC non déclarées) | +5 | À corriger |
 | Stale Objects | Certificate Pinning WSUS désactivé | +2 | À corriger |
