@@ -390,9 +390,9 @@ Get-ADUser -Filter * -SearchBase $searchBase |
   - Run with highest privileges  
   - Do not store password
 
-![Restrictedhours](ressources/1_Restritedhours.png)
+![Restrictedhours](ressources/9_RESTRICTEDHOURS.png)
 
-![Restrictedhours](ressources/2_Restritedhours.png.png)
+![Restrictedhours](ressources/9_RESTRICTEDHOURS_2.png)
 
   **Déclencheur (Trigger)**  
   - Type : Weekly  
@@ -402,7 +402,7 @@ Get-ADUser -Filter * -SearchBase $searchBase |
   - Date de début : 02/03/2026  
   - Synchronisé sur les fuseaux horaires
 
-![Restrictedhours](ressources/3_Restritedhours.png.png)
+![Restrictedhours](ressources/9_RESTRICTEDHOURS_3.png)
 
   **Action**  
   - Action : Start a program  
@@ -412,7 +412,7 @@ Get-ADUser -Filter * -SearchBase $searchBase |
     - Programme/script : `C:\Scripts\RestrictedHours.ps1`  
     - (PowerShell est associé par défaut aux .ps1 avec le bon handler)
 
-![Restrictedhours](ressources/4_Restritedhours.png.png)
+![Restrictedhours](ressources/9_RESTRICTEDHOURS_4.png)
 
   **Conditions & Paramètres**  
   - Allow task to be run on demand : **Oui**  
@@ -421,16 +421,16 @@ Get-ADUser -Filter * -SearchBase $searchBase |
   - If the running task does not end when requested, force it to stop  
   - If the task is already running: Do not start a new instance
 
-![Restrictedhours](ressources/5_Restritedhours.png.png)
+![Restrictedhours](ressources/9_RESTRICTEDHOURS_5.png)
 
-![Restrictedhours](ressources/6_Restritedhours.png.png)
+![Restrictedhours](ressources/9_RESTRICTEDHOURS_6.png)
 
 
 # Test sur un utilisateur
 
-![Restrictedhours](ressources/7_Restritedhours.png.png)
+![Restrictedhours](ressources/9_RESTRICTEDHOURS_7.png)
 
-![Restrictedhours](ressources/8_Restritedhours.png.png)
+![Restrictedhours](9_RESTRICTEDHOURS_8.png)
 
 
 ### 6. Stratégies de Configuration (GPO Standard)
