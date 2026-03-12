@@ -2,12 +2,8 @@
 
 Ce guide couvre les **bugs et erreurs** les plus courants **pendant l'installation** et **après** sur Debian.
 
-## 1. Avant tout : les 3 règles d’or pour éviter 90 % des problèmes
-- Installez toujours sur un **serveur frais / clean** (pas de Postfix/Exim/Dovecot/MySQL pré-installés).
-- Exécutez en tant que **root**.
-- Lisez **toute** la sortie du script – les erreurs sont souvent affichées en rouge clair.
 
-## 2. Commandes de diagnostic de base (exécutez toujours en premier)
+## 1. Commandes de diagnostic de base (exécutez toujours en premier)
 
 ```bash
 # Services critiques
