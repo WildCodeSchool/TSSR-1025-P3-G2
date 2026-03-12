@@ -398,19 +398,16 @@ Get-ADUser -Filter * -SearchBase $searchBase |
   - Type : Weekly  
   - Jour : Lundi  
   - Heure de début : 06:50  
-  - Récurrence : Toutes les 1 semaine  
+  - Récurrence : Toutes les semaines  
   - Date de début : 02/03/2026  
   - Synchronisé sur les fuseaux horaires
 
 ![Restrictedhours](ressources/9_RESTRICTEDHOURS_3.png)
 
   **Action**  
-  - Action : Start a program  
-  - Programme/script : `powershell.exe`  
-  - Arguments (recommandé) : `-ExecutionPolicy Bypass -File "C:\Scripts\RestrictedHours.ps1"`  
-  - OU (plus propre) :  
-    - Programme/script : `C:\Scripts\RestrictedHours.ps1`  
-    - (PowerShell est associé par défaut aux .ps1 avec le bon handler)
+  - Action : Start a program   
+  - Programme/script : `C:\Scripts\RestrictedHours.ps1`  
+   
 
 ![Restrictedhours](ressources/9_RESTRICTEDHOURS_4.png)
 
