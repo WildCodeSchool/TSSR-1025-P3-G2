@@ -9,12 +9,9 @@ L'objectif est de scanner le domaine depuis le DC ECO-BDX-EX02, identifier les v
 
 ## Table des matières
 
-- [Audit de sécurité sur le domaine ecotech.local](#audit-de-sécurité-sur-le-domaine-ecotechlocal)
-  - [Table des matières](#table-des-matières)
-  - [1. Audit avec PingCastle](#1-audit-avec-pingcastle)
-  - [2. Vulnérabilités Détectées](#2-vulnérabilités-détectées)
-    - [Détail des vulnérabilités](#détail-des-vulnérabilités)
-  - [3. Outils utilisés](#3-outils-utilisés)
+- [1. Audit avec PingCastle](#1-audit-avec-pingcastle)
+- [2. Vulnérabilités Détectées](#2-vulnérabilités-détectées)
+- [3. Outils utilisés](#3-outils-utilisés)
 
 ---
 
