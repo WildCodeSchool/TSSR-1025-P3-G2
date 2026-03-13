@@ -1,9 +1,3 @@
-L'utilisateur veut ajouter un sommaire avec des liens cliquables à son document Markdown. Je vais créer le sommaire en Markdown avec des ancres.
-
-Voici le document avec le sommaire ajouté en tête, avec des liens cliquables vers chaque section :
-
----
-
 # Guide de configuration – rsyslog (serveur central) & NXLog (Windows)
 **Serveur central de logs** : ECO-BDX-EX04 – 10.20.20.18 (VLAN 220)    
 **Port utilisé** : 514/TCP
