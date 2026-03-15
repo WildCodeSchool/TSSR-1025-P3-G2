@@ -101,4 +101,13 @@ La relation apparaît désormais dans l'onglet **Approbations** avec :
 6. Sélectionnez ce compte dans la liste. Dans la fenêtre des autorisations en bas, cherchez la ligne **Autorisé à s'authentifier** (Allowed to Authenticate) et cochez la case **Autoriser**.
 7. Cliquez sur **Appliquer** puis sur **OK**.
 
-![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/fb149735d9f86b4d2d3a1a503abe42f20443cdba/sprints/sprint-05/partenariats_entreprise/ressources/authentification%20s%C3%A9lective/Capture%20d%E2%80%99%C3%A9cran%202026-03-06%20234019.jpg)
+
+## 6. Configuration de l'accès Remote Desktop (RDP) sur le serveur cible
+Après avoir accordé le droit explicite Autorisé à s'authentifier sur l'objet ordinateur dans Active Directory (à cause de l'authentification sélective), il reste à configurer l'accès Bureau à distance sur le serveur membre.
+
+Sur le serveur cible (ECO-BDX-EX03), ouvrir les Paramètres Windows.
+Aller dans Système > Bureau à distance (Remote Desktop).
+Activer l'option Activer le Bureau à distance.
+Dans la fenêtre Utilisateurs du Bureau à distance, ajouter le groupe de sécurité du domaine partenaire : BILLU\GRP_SEC_ADMIN.
+
+![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/cd2f178d07c8134539735c704b2045f338b2a494/sprints/sprint-05/partenariats_entreprise/ressources/authentification%20s%C3%A9lective/Capture%20d%E2%80%99%C3%A9cran%202026-03-11%20180537.jpg)
