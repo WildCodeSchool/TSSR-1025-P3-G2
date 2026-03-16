@@ -172,22 +172,22 @@ Pour maintenir une cohérence d'administration, les serveurs utilisent systémat
 | **ECO-BDX-GX02** | **PC d'administration** | **210**  | 10.20.10.3     | 10.20.10.1          | Poste de pilotage (Management Tier 1) |
 | **ECO-BDX-EX01** | **Windows AD-01**       | **220**  | 10.20.20.5     | 10.20.20.1          | DC Principal (Core) / DNS / DHCP      |
 | **ECO-BDX-EX02** | **Windows AD-02**       | **220**  | 10.20.20.6     | 10.20.20.1          | DC Secondaire (GUI) / DNS / DHCP      |
-| **ECO-BDX-EX03** | **GLPI/Logs**           | **220**  | 10.20.20.8     | 10.20.20.1          | Serveur de données Métiers            |
-| **ECO-BDX-EX04** | **FreePBX (VoIP)**      | **670**  | 10.60.70.5     | 10.60.70.1          | IP-PBX Téléphonie                     |
-| **ECO-BDX-EX05** | **Serveur de Fichiers** | **230**  | 10.20.30.5     | 10.20.30.1          | Serveur de données Métiers            |
+| **ECO-BDX-EX03** | **Serveur de Fichiers** | **230**  | 10.20.30.5     | 10.20.30.1          | Serveur de données Métiers            |
+| **ECO-BDX-EX04** | **GLPI/Logs**           | **220**  | 10.20.20.8     | 10.20.20.1          | Serveur de données Métiers            |
+| **ECO-BDX-FX01** | **Bareos (Backup)**     | **240**  | 10.20.40.5     | 10.20.40.1          | Orchestrateur de sauvegarde           |
 | **ECO-BDX-EX06** | **Stockage Isolé**      | **250**  | 10.20.50.5     | _Aucune_            | Interface de stockage (L2)            |
 | **ECO-BDX-EX07** | **Web (LAN)**           | **220**  | 10.20.20.7     | 10.20.20.1          | Serveur Web Interne                   |
 | **ECO-BDX-EX08** | **Web (DMZ)**           | **500**  | 10.50.0.6      | 10.50.0.1           | Site EcoTech                          |
 | **ECO-BDX-EX09** | **Proxy (DMZ)**         | **500**  | 10.50.0.5      | 10.50.0.1           | Sortie Web                            |
 | **ECO-BDX-EX10** | **Zabbix**              | **220**  | 10.20.20.12    | 10.20.20.1          | Supervision                           |
 | **ECO-BDX-EX11** | **Antenne Zabbix**      | **220**  | 10.20.20.13    | 10.20.20.1          | Supervision                           |
-| **ECO-BDX-EX12** |                         |          |                |                     |                                       |
-| **ECO-BDX-EX13** | **IredMail**            | **500**  | 10.50.0.7      | 10.50.0.7           | Messagerie                            |
-| **ECO-BDX-EX14** | **FreePBX**             | **670**  | 10.60.70.5     | 10.50.70.1          | VoIP                                  |
+| **ECO-BDX-EX12** | **AD Cert Server**      | **220**  | 10.20.20.15    | 10.20.20.1          | Serveur de certificats                |
+| **ECO-BDX-EX13** | **iRedMail**            | **220**  | 10.20.20.14    | 10.20.20.1          | Messagerie                            |
+| **ECO-BDX-EX14** | **FreePBX**             | **670**  | 10.60.70.5     | 10.60.70.1          | VoIP                                  |
 | **ECO-BDX-EX15** | **Bastion**             | **520**  | 10.50.20.5     | 10.50.20.1          | Administration                        |
-| **ECO-BDX-EX16** |                         |          |                |                     |                                       |
-| **ECO-BDX-EX17** |                         |          |                |                     |                                       |
-| **ECO-BDX-FX01** | **Bareos (Backup)**     | **240**  | 10.20.40.5     | 10.20.40.1          | Orchestrateur de sauvegarde           |
+| **ECO-BDX-EX16** | **WSUS**                | **220**  | 10.20.20.17    | 10.20.20.1          | Serveur de mises à jour centralisé    |
+| **ECO-BDX-EX17** | **Windows AD-03**       | **220**  | 10.20.20.16    | 10.20.20.1          | DC Secondaire (CLI)                   |
+
 
 ## 2.3. Récapitulatif de la hiérarchie des hôtes (Convention .x)
 
