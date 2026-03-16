@@ -1,10 +1,4 @@
 Configuration GLPI
-----
-
-# Configuration LDAP et Sécurisation Initiale de GLPI
-
-Ce document explique comment GLPI a été connecté à un annuaire Active Directory pour importer les utilisateurs et groupes, et quelles actions de base ont été réalisées pour sécuriser l’instance.  
-Il est conçu pour être présenté à un professeur ou partagé sur GitHub dans le cadre d’un laboratoire d’administration système / ITSM.
 
 ## 1. Vérification de l’utilisateur administrateur AD (côté Windows)
 
