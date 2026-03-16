@@ -10,7 +10,7 @@ Ce fichier vous guide étape par étape dans la **phase d’installation** de vo
 
 ### Étape 1 : Premier démarrage et login console
 
-Après l’installation de l’ISO FreePBX / Sangoma Linux et le premier redémarrage, connectez-vous en console avec l’utilisateur root et le mot de passe défini pendant l’installation.
+Après l’installation de l’ISO FreePBX / Sangoma Linux et le premier redémarrage, connectez-vous en console avec l’utilisateur root et le mot de passe défini pendant l’installation. (Qwerty1*)
 
 
 ![image](https://github.com/WildCodeSchool/TSSR-1025-P3-G2/blob/c71d59eb656d1948459ba31e5a621c5e4d35b1c1/components/freepbx/ressources/install/01_installation_freepbx.jpg)
