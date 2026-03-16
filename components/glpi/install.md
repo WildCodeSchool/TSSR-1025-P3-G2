@@ -1,10 +1,4 @@
-Installation GLPI
-
----
-
-# Installation de GLPI pour le Laboratoire
-
-Ce document recense les principales étapes réalisées lors de l'installation de GLPI, accompagnées des captures d'écran correspondantes. Il est destiné à être présenté à un professeur.
+# Installation GLPI
 
 ## Prérequis vérifiés
 
