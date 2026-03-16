@@ -68,10 +68,6 @@ Le trafic destiné aux serveurs ou aux PC utilisateurs est renvoyé vers l'inté
 
 # 2. Routeur Cœur de Réseau (AX01)
 
-Identifiant par défaut : **vyos**  
-Mot de passe par défaut : **vyos**  
-A modifier hors d'un lab pour un mot de passe respectant la politique de l'entreprise.  
-
 ## 2.1 Rôle et Place dans l'architecture - AX01
 Ce routeur assure la fonction de **Cœur de Réseau L3** (Layer 3). Il sert de "pont" entre la zone de transit (vers le Backbone DX03) et l'ensemble des réseaux internes de l'entreprise (Zones Infra et Utilisateurs).
 Contrairement au routeur de transit, il porte **tous les VLANs utilisateurs** et assure le routage Inter-VLAN. Son rôle est de centraliser les passerelles par défaut des différents services. Il permet de segmenter le trafic interne et d'appliquer les premières politiques de sécurité entre les zones. Grâce à lui, il est possible de garantir que les flux entre les serveurs et les utilisateurs transitent par un point de contrôle unique.
