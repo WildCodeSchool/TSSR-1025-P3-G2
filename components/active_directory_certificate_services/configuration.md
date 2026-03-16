@@ -7,7 +7,7 @@
 ## Table des matières
 
 - [1. Certification de ECO-BDX-EX07](#1-certification-de-eco-bdx-ex07-intranet)
-- [2. Certification de ECO-BDX-EX12](#2-certification-de-eco-bdx-dx01-pfsense--pare-feu)
+- [2. Certification de ECO-BDX-DX01](#2-certification-de-eco-bdx-dx01-pfsense--pare-feu)
 - [3. Certification de ECO-BDX-EX15](#3-certification-de-eco-bdx-ex15-bastion--guacamole)
 - [4. Certification de ECO-BDX-EX12](#4-certification-de-eco-bdx-ex12--iis)
 - [5. Certification de ECO-BDX-EX09](#5-certification-de-eco-bdx-ex09-proxy-web-externe--wwwecotech-solutionscom)
