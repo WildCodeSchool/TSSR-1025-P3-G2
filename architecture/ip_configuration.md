@@ -173,7 +173,7 @@ Pour maintenir une cohérence d'administration, les serveurs utilisent systémat
 | **ECO-BDX-EX01** | **Windows AD-01**       | **220**  | 10.20.20.5     | 10.20.20.1          | DC Principal (Core) / DNS / DHCP      |
 | **ECO-BDX-EX02** | **Windows AD-02**       | **220**  | 10.20.20.6     | 10.20.20.1          | DC Secondaire (GUI) / DNS / DHCP      |
 | **ECO-BDX-EX03** | **Serveur de Fichiers** | **230**  | 10.20.30.5     | 10.20.30.1          | Serveur de données Métiers            |
-| **ECO-BDX-EX04** | **GLPI/Logs**           | **220**  | 10.20.20.8     | 10.20.20.1          | Serveur de données Métiers            |
+| **ECO-BDX-EX04** | **GLPI/Logs**           | **220**  | 10.20.20.18    | 10.20.20.1          | Serveur de données Métiers            |
 | **ECO-BDX-FX01** | **Bareos (Backup)**     | **240**  | 10.20.40.5     | 10.20.40.1          | Orchestrateur de sauvegarde           |
 | **ECO-BDX-EX06** | **Stockage Isolé**      | **250**  | 10.20.50.5     | _Aucune_            | Interface de stockage (L2)            |
 | **ECO-BDX-EX07** | **Web (LAN)**           | **220**  | 10.20.20.7     | 10.20.20.1          | Serveur Web Interne                   |
