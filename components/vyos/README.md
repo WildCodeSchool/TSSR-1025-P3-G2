@@ -66,9 +66,13 @@ Le trafic destiné aux serveurs ou aux PC utilisateurs est renvoyé vers l'inté
 - **SSH :** Port 22
 - **Accès :** Restreint aux IPs d'administration (VLAN 210 via le routage).
 
-# 2. Routeur Cœur de Réseau (DX04)
+# 2. Routeur Cœur de Réseau (AX01)
 
-## 2.1 Rôle et Place dans l'architecture - DX04
+Identifiant par défaut : **vyos**  
+Mot de passe par défaut : **vyos**  
+A modifier hors d'un lab pour un mot de passe respectant la politique de l'entreprise.  
+
+## 2.1 Rôle et Place dans l'architecture - AX01
 Ce routeur assure la fonction de **Cœur de Réseau L3** (Layer 3). Il sert de "pont" entre la zone de transit (vers le Backbone DX03) et l'ensemble des réseaux internes de l'entreprise (Zones Infra et Utilisateurs).
 Contrairement au routeur de transit, il porte **tous les VLANs utilisateurs** et assure le routage Inter-VLAN. Son rôle est de centraliser les passerelles par défaut des différents services. Il permet de segmenter le trafic interne et d'appliquer les premières politiques de sécurité entre les zones. Grâce à lui, il est possible de garantir que les flux entre les serveurs et les utilisateurs transitent par un point de contrôle unique.
 
@@ -77,7 +81,7 @@ Contrairement au routeur de transit, il porte **tous les VLANs utilisateurs** et
 Cette section décrit comment les équipements sont connectés, en particulier la gestion des interfaces virtuelles et du lien montant.
 
 ## Lien avec le Routeur Backbone (DX03)
-La sortie vers l'extérieur est assurée par le routeur **Backbone (DX03)** situé dans la zone de **TRANSIT 2** (`10.40.10.0/29`).
+La sortie vers l'extérieur est assurée par le routeur **Backbone (DX03)** situé dans la zone de **TRANSIT 2** (**10.40.10.0/29**).
 
 **Pourquoi ce lien ?**
 C'est l'unique porte de sortie pour tout le trafic interne qui doit aller sur Internet. Le Cœur de Réseau (DX04) ne connecte pas directement les pare-feu ; il délègue cette tâche au Backbone pour maintenir une architecture hiérarchique propre.
@@ -106,7 +110,7 @@ Le trafic destiné aux serveurs ou aux PC utilisateurs est traité localement vi
 **Interface de sortie :** eth1.x (VIFs)
 **Type :** Connecté (C) *Le routeur connaît ces réseaux car il y est directement connecté*.
 
-## 2.6 Table de Routage - DX04
+## 2.6 Table de Routage - AX01
 
 *Pour le moment le routeur possède ces routes spécifiques, Il peut en avoir de nouvelles ou quelques changements selon l'avancée du projet*
 
