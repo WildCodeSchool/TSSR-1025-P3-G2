@@ -37,7 +37,7 @@ Le trafic destiné aux serveurs ou aux PC utilisateurs est renvoyé vers l'inté
 
 **Destination :** Les réseaux internes de l'entreprise.
 **Interface de sortie :** eth1 (TRANSIT 2)
-**Passerelle (Next Hop) :** 10.40.10.2 *L'adresse du routeur Cœur L3 DX04*.
+**Passerelle (Next Hop) :** 10.40.10.2 *L'adresse du routeur Cœur L3 AX01*.
 
 ### 1.6 Table de Routage - DX03
 
@@ -80,7 +80,7 @@ Cette section décrit comment les équipements sont connectés, en particulier l
 La sortie vers l'extérieur est assurée par le routeur **Backbone (DX03)** situé dans la zone de **TRANSIT 2** (**10.40.10.0/29**).
 
 **Pourquoi ce lien ?**
-C'est l'unique porte de sortie pour tout le trafic interne qui doit aller sur Internet. Le Cœur de Réseau (DX04) ne connecte pas directement les pare-feu ; il délègue cette tâche au Backbone pour maintenir une architecture hiérarchique propre.
+C'est l'unique porte de sortie pour tout le trafic interne qui doit aller sur Internet. Le Cœur de Réseau (AX01) ne connecte pas directement les pare-feu ; il délègue cette tâche au Backbone pour maintenir une architecture hiérarchique propre.
 
 ## Gestion des VLANs (Interface Trunk)
 L'interface descendante (eth1) est configurée en mode **Trunk (802.1Q)**.
@@ -90,7 +90,7 @@ Chaque VIF correspond à un VLAN (DSI, RH, Serveurs...) et agit comme la passere
 
 ## 2.3 Configuration du Routage (Static Routing)
 
-Le routage sur l'équipement **DX04** est configuré de manière statique pour gérer la sortie vers Internet et la distribution locale.
+Le routage sur l'équipement **AX01** est configuré de manière statique pour gérer la sortie vers Internet et la distribution locale.
 
 ## 2.4 Route par défaut (Vers Internet)
 Tout le trafic qui n'est pas destiné au réseau local est envoyé vers le Backbone.
