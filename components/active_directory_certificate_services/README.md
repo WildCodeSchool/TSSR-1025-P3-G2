@@ -5,12 +5,10 @@
 
 ## Table des matières
 
-- [Autorité de Certification — AD CS EcoTech](#autorité-de-certification--ad-cs-ecotech)
-  - [Table des matières](#table-des-matières)
-  - [1. Rôle du service](#1-rôle-du-service)
-  - [2. Position dans l'architecture](#2-position-dans-larchitecture)
-  - [3. Prérequis](#3-prérequis)
-  - [4. Services certifiés](#4-services-certifiés)
+- [1. Rôle du service](#1-rôle-du-service)
+- [2. Position dans l'architecture](#2-position-dans-larchitecture)
+- [3. Prérequis](#3-prérequis)
+- [4. Services certifiés](#4-services-certifiés)
 
 ---
 
