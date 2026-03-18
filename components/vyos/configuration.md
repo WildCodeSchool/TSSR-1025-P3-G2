@@ -123,9 +123,35 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 | **Étape** | **Commande généralisée**                                                  | **Fonctionnalité / Explication**                                     | **Remarques / prérequis**                                                  |
 | --------: | ------------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 |         1 | set firewall ipv4 name <FW_NAME> rule <N> action accept                 | Permet le passage des paquets correspondant aux critères définis.    | À placer avant les règles de blocage si nécessaire.                        |
-|         2 | set firewall ipv4 name <FW_NAME> rule <N> action drop                  | Bloque silencieusement le trafic ciblé.                              | Utile pour bloquer explicitement certains flux malgré le default-action. |
-|         3 | set firewall ipv4 name <FW_NAME> rule <N> description "<texte>"        | Documente la règle avec une description lisible.                     | Important pour maintenance et relecture.                                   |
-|         4 | set firewall ipv4 name <FW_NAME> rule <N> destination address <IP/CIDR>| Restreint l’application de la règle à certaines adresses ou réseaux. | Permet un filtrage fin par destination.                                    |
+|         2 | set firewall ipv4 name <FW_NAME> rule <N> action drop                  | Bloque le trafic.                              | Utile pour bloquer explicitement certains flux malgré le default-action. |
+|         3 | set firewall ipv4 name <FW_NAME> rule <N> protocol <nom protocol>      | Déclaré le protocol définit dans "<nom protocol>"
+|         4 | set firewall ipv4 name <FW_NAME> rule <N> description "<texte>"        | Documente la règle avec une description lisible.                     | Important pour maintenance et relecture.                                   |
+|         5 | set firewall ipv4 name <FW_NAME> rule <N> destination address <IP/CIDR>| Restreint l’application de la règle à certaines adresses ou réseaux. | Permet un filtrage fin par destination.                                    |
+
+**Exemple :**
+
+    set firewall name METIERS_TO_AD rule 20 action accept
+    set firewall name METIERS_TO_AD rule 20 description 'Autoriser ICMP (ping) vers AD'
+    set firewall name METIERS_TO_AD rule 20 protocol icmp
+
+    set firewall name METIERS_TO_AD rule 20 action accept
+    set firewall name METIERS_TO_AD rule 20 description 'Autoriser ping vers AD'
+    set firewall name METIERS_TO_AD rule 20 protocol icmp
+    set firewall name METIERS_TO_AD rule 20 icmp type-name echo-request
+
+    -------------------------------------------------------------------------
+
+    # Pour AUTORISER :
+    set firewall name METIERS_TO_AD rule 20 action accept
+
+    # Pour BLOQUER :
+    set firewall name METIERS_TO_AD rule 20 action drop
+
+    ------------------------------------------------------------------------
+
+    set firewall name METIERS_TO_AD rule 20 action accept    # ← la décision
+    set firewall name METIERS_TO_AD rule 20 protocol icmp     # ← le critère
+
 
 
 ### 2.4) Appliquer le firewall, valider et sauvegarder
