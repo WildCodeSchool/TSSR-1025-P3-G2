@@ -11,7 +11,7 @@ Les captures d'écran présentes dans le document permettent d'améliorer la com
 ## 1. Installation du DNS sur ECO-BDX-EX01. (Core)
 <span id="installation-DNS-EX01"><span/>
 
-La configuration du DNS se fait avec l'adresse `172.0.0.1` car il a le rôle principale et l'adresse `10.20.20.6` correspond au serveur AD secondaire :
+La configuration du DNS se fait avec l'adresse `127.0.0.1` car il a le rôle principale et l'adresse `10.20.20.6` correspond au serveur AD secondaire :
 
 - Configurer le DNS sur le serveur avec la commande`Set-DnsClientServerAddress -InterfaceIndex 3 -ServerAddresses ("127.0.0.1, 10.20.20.6")`.
 - Vérifier via la commande `ipconfig /all` que la configuration du DNS est bien appliquée.
