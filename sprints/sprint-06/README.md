@@ -12,10 +12,10 @@ Dans ce document se trouve la synthése des objetcifs de ce dernier sprint.
 
 | Rôle | Membre |  |
 |------|--------|----------------------------|
-| **Product Owner (PO)** | Anis BOUTALEB |  |
-| **Scrum Master (SM)** | Frédérick FLAVIL |  |
+| **Product Owner (PO)** | Nicolas JOUVEAUX |  |
+| **Scrum Master (SM)** | Anis BOUTALEB |  |
 | **Technicien** | Romain GENOUD |  |
-| **Technicien** | Nicolas JOUVEAUX |  |
+| **Technicien** | Frédérick FLAVIL |  |
 
 
 ## 2. Objectifs
@@ -28,4 +28,6 @@ Dans ce document se trouve la synthése des objetcifs de ce dernier sprint.
 
 ## 3. Imprévu 
 
-- Au cours de ce sprint un événement imprévu c'est produit. Suite à un problème électrique certains éléments de l'infrastructure ne fonctionnent plus.
+Au cours de ce sprint, un événement imprévu s'est produit. Suite à un problème électrique, certains éléments de l'infrastructure ne fonctionnent plus.
+Nous avons résolu les problèmes méthodiquement en nous basant sur notre documentation. Nous sommes partis de l'entrée de notre réseau, le Pare-Feu (pfSense), puis sur les réseaux directement connectés et ainsi de suite pour balayer l'intégralité du réseau.
+
