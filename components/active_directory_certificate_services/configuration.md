@@ -974,7 +974,7 @@ Page "Certificate Issued"
 - Depuis **un poste admin** en PowerShell :
 
 ```powershell
-scp C:\Users\gx-rogenoud\Downloads\iRedMail.crt root@10.50.0.7:/etc/ssl/certs/iRedMail.crt
+scp C:\Users\gx-rogenoud\Downloads\iRedMail.crt root@10.20.20.14:/etc/ssl/certs/iRedMail.crt
 ```
 
 - Vérifier que la clé et le certificat correspondent :
@@ -991,7 +991,7 @@ openssl rsa -noout -modulus -in /etc/ssl/private/iRedMail.key | md5sum
 - Sur un **poste admin** :
 
 ```powershell
-scp C:\Users\gx-rogenoud\Downloads\ecotech-ca.crt root@10.50.0.7:/tmp/
+scp C:\Users\gx-rogenoud\Downloads\ecotech-ca.crt root@10.20.20.14:/tmp/
 ```
 
 - Sur le **serveur EX13** :
