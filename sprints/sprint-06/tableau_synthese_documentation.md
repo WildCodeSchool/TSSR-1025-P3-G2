@@ -18,7 +18,7 @@
 | 134 | G2-ECO-BDX-EX07 | ECO-BDX-EX07 | CT Web-Interne | [Install Intranet](../../components/web_interne/Installation.md) | [Configuration Intranet](../../components/web_interne/Configuration.md) |
 | 135 | G2-ECO-BDX-EX10 | ECO-BDX-EX10 | CT Supervision | [Install Zabbix](../../components/zabbix/install.md) | [Configuration Zabbix](../../components/zabbix/configuration.md) |
 | 136 | G2-ECO-BDX-EX11 | ECO-BDX-EX11 | CT Proxy Supervision | Inéxistante | [Configuration Proxy](../../components/zabbix/configuration.md) |
-| 137 | G2-ECO-BDX-EX05 | ECO-BDX-EX05 | CT Sauvegarde | Inéxistante | Inéxistante |
+| 137 | G2-ECO-BDX-FX01 | ECO-BDX-FX01 | CT Sauvegarde | Inéxistante | Inéxistante |
 | 138 | G2-ECO-BDX-EX13 | ECO-BDX-EX13 | CT Messagerie | [Install Messagerie](../../components/serveur_de_messagerie/installation.md) | [Configuration Messagerie](../../components/serveur_de_messagerie/configuration.md) |
 | 139 | G2-ECO-BDX-EX15 | ECO-BDX-EX15 | CT Bastion | [Install Guacamole](../../components/bastion/installation.md) | [Configuration Guacamole](../../components/bastion/configuration.md) |
 | 171 | G2-ECO-BDX-DX01 | ECO-BDX-DX01 | VM Pare-Feu | Inéxistante | [Configuration pfSense](../../components/pfsense/configuration.md) |
@@ -30,6 +30,7 @@
 | 178 | G2-ECO-BDX-GX02 | ECO-BDX-GX02 | VM Admin | [Install PC-Admin](../../components/gx-administration/installation.md) | [Configuration PC-Admin](../../components/gx-administration/configuration.md) |
 | 179 | G2-ECO-BDX-EX03 | ECO-BDX-EX03 | VM Stockage | Inéxistante | Inéxistante |
 | 180 | G2-ECO-BDX-EX17 | ECO-BDX-EX17 | VM DC-03 | Inéxistante | Inéxistante |
+| 181 | G2-ECO-BDX-FX02 | ECO-BDX-FX02 | VM Stockage isolé (Bareos) | À remplir | À remplir |
 | 182 | G2-ECO-BDX-EX14 | ECO-BDX-EX14 | VM Téléphonie | Inéxistante | Inéxistante |
 | 183 | G2-ECO-BDX-EX16 | ECO-BDX-EX16 | VM MàJ | [Install WSUS](../../components/wsus/install.md) | [Configuration WSUS](../../components/wsus/configuration.md) |
 | 184 | G2-ECO-BDX-EX12 | ECO-BDX-EX12 | VM Certificats | [Install AD CS](../../components/active_directory_certificate_services/installation.md) | [Configuration WSUS](../../components/active_directory_certificate_services/configuration.md) |
