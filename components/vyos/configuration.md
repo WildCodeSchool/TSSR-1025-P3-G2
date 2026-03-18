@@ -130,14 +130,10 @@ Respecter l’ordre : définir politique → règles stateful → règles accept
 
 **Exemple :**
 
+    La régle en entier
     set firewall name METIERS_TO_AD rule 20 action accept
     set firewall name METIERS_TO_AD rule 20 description 'Autoriser ICMP (ping) vers AD'
     set firewall name METIERS_TO_AD rule 20 protocol icmp
-
-    set firewall name METIERS_TO_AD rule 20 action accept
-    set firewall name METIERS_TO_AD rule 20 description 'Autoriser ping vers AD'
-    set firewall name METIERS_TO_AD rule 20 protocol icmp
-    set firewall name METIERS_TO_AD rule 20 icmp type-name echo-request
 
     -------------------------------------------------------------------------
 
