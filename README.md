@@ -1,3 +1,6 @@
+|![Logo EcoTech](/architecture/ressources/Logo_EcoTech.png)|
+| --- |
+
 ## Présentation du projet (Introduction / contexte)
 
 Ce projet s’inscrit dans le cadre de la formation **TSSR (Technicien Supérieur Systèmes et Réseaux)**.  
