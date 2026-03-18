@@ -1019,6 +1019,203 @@ https://mail.ecotech-solutions.com
     - La connexion est sécurisée
 ```
 
+## 8. Certification de ECO-BDX-EX04 (GLPI / glpi.ecotech.local)
+
+### 8.1 Création du dossier SSL
+
+```bash
+cd /etc/apache2/
+mkdir ssl
+cd ssl
+```
+
+- C'est dans ce dossier que la clé privée, le fichier SAN et la CSR seront générés.
+
+### 8.2 Création de la clé privée
+
+```bash
+openssl genrsa -out glpi.key 2048
+```
+
+- Cette commande crée la clé privée du serveur. Elle déchiffrera les communications HTTPS (443).
+- 2048 bits est le standard actuel recommandé pour les certificats de services.
+
+### 8.3 Configuration du fichier SAN
+
+```bash
+nano san.cnf
+```
+
+```ini
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+
+[req_distinguished_name]
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = glpi.ecotech.local
+```
+
+- Le SAN (Subject Alternative Name) est obligatoire car les navigateurs modernes comme Edge et Chrome ignorent le CN et vérifient uniquement ce champ. Sans lui le navigateur affiche "Non sécurisé" même avec un certificat valide.
+
+### 8.4 Création de la CSR
+
+```bash
+openssl req -new -key glpi.key -out glpi.csr -subj "/C=FR/ST=Gironde/L=Bordeaux/O=EcoTech/CN=glpi.ecotech.local" -config san.cnf
+```
+
+- Commande à saisir sur une seule ligne.
+- La CSR (Certificate Signing Request) contient l'identité du serveur et le SAN, mais pas la clé privée. C'est ce fichier qu'on va envoyer à `ECO-BDX-EX12` pour obtenir un certificat signé.
+
+### 8.5 Soumettre la CSR dans certsrv
+
+- Pour afficher le contenu de la CSR à copier :
+
+```bash
+cat /etc/apache2/ssl/glpi.csr
+```
+
+- Copier tout le contenu entre `-----BEGIN CERTIFICATE REQUEST-----` et `-----END CERTIFICATE REQUEST-----` inclus.
+
+- Depuis **un poste admin**, ouvrir le navigateur :
+
+```
+https://certificat.ecotech.local/certsrv
+    - Request a certificate
+        - Advanced certificate request
+            - Submit a certificate request by using a base64...
+                - Coller le contenu de glpi.csr
+                - Certificate Template : Web Server
+                - Additional Attributes : laisser vide
+                - Submit
+```
+
+### 8.6 Télécharger le certificat signé
+
+```
+Page "Certificate Issued"
+    - Sélectionner : Base 64 encoded ← obligatoire
+    - Download certificate
+    - Sauvegarder sous : glpi.crt
+```
+
+- Choisir **Base 64 encoded** et non DER.
+- Apache ne peut pas lire le format DER directement.
+
+### 8.7 Déposer le certificat sur EX04
+
+- Depuis **un poste admin** en PowerShell :
+
+```powershell
+scp C:\Users\gx-rogenoud\Downloads\glpi.crt root@10.20.20.18:/tmp/
+scp C:\Users\gx-rogenoud\Downloads\ecotech-ca.crt root@10.20.20.18:/tmp/
+```
+
+- Sur le **serveur EX04** :
+
+```bash
+mv /tmp/glpi.crt /etc/apache2/ssl/
+```
+
+- Vérifier que tous les fichiers sont présents sur le **serveur EX04** :
+
+```bash
+ls /etc/apache2/ssl/
+```
+
+- Ces fichiers devront être présents :
+    - `glpi.key`
+    - `glpi.csr`
+    - `glpi.crt`
+    - `san.cnf`
+
+### 8.8 Installer le CA AD CS sur EX04
+
+- **EX04** est un serveur Linux. Le **CA AD CS** n'y est pas déployé automatiquement contrairement aux machines Windows du domaine. Sans cette étape, les outils Linux ne valident pas le certificat.
+
+```bash
+mv /tmp/ecotech-ca.crt /usr/local/share/ca-certificates/
+update-ca-certificates
+# Doit afficher : 1 added ✅
+```
+
+### 8.9 Configurer Apache
+
+```bash
+nano /etc/apache2/sites-available/glpi.conf
+```
+
+```apache
+<VirtualHost *:443>
+    ServerName glpi.ecotech.local
+    DocumentRoot /var/www/html/glpi/public
+
+    <Directory /var/www/html/glpi/public>
+        Require all granted
+        AllowOverride All
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^(.*)$ index.php [QSA,L]
+    </Directory>
+
+    <FilesMatch \.php$>
+        SetHandler "proxy:unix:/run/php/php8.4-fpm.sock|fcgi://localhost/"
+    </FilesMatch>
+
+    SSLEngine on
+    SSLCertificateFile    /etc/apache2/ssl/glpi.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/glpi.key
+
+    SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+</VirtualHost>
+```
+
+- `DocumentRoot` doit pointer vers `/var/www/html/glpi/public` — pointer vers `/var/www/html` affiche le mauvais dossier.
+- Le bloc `<Directory>` est obligatoire pour que les fichiers CSS et JS soient correctement servis.
+- Le bloc `<FilesMatch>` est obligatoire pour que PHP-FPM exécute le code PHP — sans lui Apache affiche le code source brut.
+- La directive `SSLProtocol` désactive les versions obsolètes et vulnérables de TLS.
+
+Activer les modules et redémarrer Apache :
+
+```bash
+a2enmod ssl
+a2enmod rewrite
+a2enmod proxy_fcgi setenvif
+a2enconf php8.4-fpm
+a2ensite glpi.conf
+apache2ctl configtest
+# Doit afficher : Syntax OK ✅
+systemctl restart apache2
+```
+
+### 8.10 Créer l'enregistrement DNS
+
+- Sur **ECO-BDX-EX01**, ouvrir le Gestionnaire DNS :
+
+```
+Gestionnaire DNS
+    - Zones de recherche directes
+        - ecotech.local
+            - Nouvel enregistrement A
+                - Nom : glpi
+                - Adresse IP : 10.20.20.18
+                - OK
+```
+
+### 8.11 Vérification
+
+- Depuis un navigateur sur **un poste admin** :
+
+```
+https://glpi.ecotech.local
+    - La connexion est sécurisée ✅
+    - Page de connexion GLPI affichée avec les styles CSS ✅
+```
+
 <p align="right">
   <a href="#haut-de-page">⬆️ Retour au début de la page ⬆️</a>
 </p>
