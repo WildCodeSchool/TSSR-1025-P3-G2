@@ -15,7 +15,7 @@
 | --- | --- | --- | --- | --- | --- |
 | 131 | G2-ECO-BDX-EX04 | ECO-BDX-EX04 | CT GLPI | [Install GLPI](../../components/glpi/install.md) | [Configuration GLPI](../../components/glpi/configuration.md) |
 | 131 | G2-ECO-BDX-EX04 | ECO-BDX-EX04 | CT Syslog |[Install Syslog](../../components/syslog/installation.md) | [Configuration Syslog](../../components/syslog/configuration.md) |
-| 132 | G2-ECO-BDX-EX08 | ECO-BDX-EX08 | CT Web-Externe | [Install webexterne](../../components/web_externe/serveur_web_externe/installation.md) | [Configuration Syslog](../../components/web_externe/serveur_web_externe/configuration.md) |
+| 132 | G2-ECO-BDX-EX08 | ECO-BDX-EX08 | CT Web-Externe | [Install webexterne](../../components/web_externe/serveur_web_externe/installation.md) | [Configuration webtexterne](../../components/web_externe/serveur_web_externe/configuration.md) |
 | 134 | G2-ECO-BDX-EX07 | ECO-BDX-EX07 | CT Web-Interne | [Install Intranet](../../components/web_interne/Installation.md) | [Configuration Intranet](../../components/web_interne/Configuration.md) |
 | 135 | G2-ECO-BDX-EX10 | ECO-BDX-EX10 | CT Supervision | [Install Zabbix](../../components/zabbix/install.md) | [Configuration Zabbix](../../components/zabbix/configuration.md) |
 | 136 | G2-ECO-BDX-EX11 | ECO-BDX-EX11 | CT Proxy Supervision | Inéxistante | [Configuration Proxy](../../components/zabbix/configuration.md) |
