@@ -183,7 +183,7 @@ Pour maintenir une cohérence d'administration, les serveurs utilisent systémat
 | **ECO-BDX-EX11** | **Antenne Zabbix**      | **220**  | 10.20.20.13    | 10.20.20.1          | Supervision                           |
 | **ECO-BDX-EX12** | **AD Cert Server**      | **220**  | 10.20.20.15    | 10.20.20.1          | Serveur de certificats                |
 | **ECO-BDX-EX13** | **iRedMail**            | **220**  | 10.20.20.14    | 10.20.20.1          | Messagerie                            |
-| **ECO-BDX-EX14** | **FreePBX**             | **670**  | 10.60.70.5     | 10.60.70.1          | VoIP                                  |
+| **ECO-BDX-EX14** | **FreePBX**             | **220**  | 10.20.20.20    | 10.20.20.1          | VoIP                                  |
 | **ECO-BDX-EX15** | **Bastion**             | **520**  | 10.50.20.5     | 10.50.20.1          | Administration                        |
 | **ECO-BDX-EX16** | **WSUS**                | **220**  | 10.20.20.17    | 10.20.20.1          | Serveur de mises à jour centralisé    |
 | **ECO-BDX-EX17** | **Windows AD-03**       | **220**  | 10.20.20.16    | 10.20.20.1          | DC Secondaire (CLI)                   |
