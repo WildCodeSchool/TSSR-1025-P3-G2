@@ -4,8 +4,6 @@
 
 ## Table des matières
 
-- [Plan de Reprise d'Activité — Résolution des pannes post-incident électrique](#plan-de-reprise-dactivité--résolution-des-pannes-post-incident-électrique)
-  - [Table des matières](#table-des-matières)
   - [1. ECO-BDX-DX01 \& ECO-BDX-DX02 — Cluster de pare-feu](#1-eco-bdx-dx01--eco-bdx-dx02--cluster-de-pare-feu)
   - [2. ECO-BDX-AX01 — Switch L3](#2-eco-bdx-ax01--switch-l3)
   - [3. ECO-BDX-EX17 — Contrôleur de domaine (Rôle FSMO Infrastructure Master)](#3-eco-bdx-ex17--contrôleur-de-domaine-rôle-fsmo-infrastructure-master)
