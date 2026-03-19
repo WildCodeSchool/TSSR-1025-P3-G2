@@ -10,12 +10,12 @@
 
 ## 1. Equipe
 
-| Rôle | Membre |  |
-|------|--------|----------------------------|
-| **Product Owner (PO)** | Nicolas JOUVEAUX |  |
-| **Scrum Master (SM)** | Anis BOUTALEB |  |
-| **Technicien** | Romain GENOUD |  |
-| **Technicien** | Frédérick FLAVIL |  |
+| Rôle | Membre |
+|------|--------|
+| **Product Owner (PO)** | Nicolas JOUVEAUX |
+| **Scrum Master (SM)** | Anis BOUTALEB |
+| **Technicien** | Romain GENOUD |
+| **Technicien** | Frédérick FLAVIL |
 
 
 ## 2. Objectifs
@@ -38,4 +38,4 @@
 - Deux fichiers sont diponibles pour expliquer plus en détail notre plan d'éxécution pour la résolution des problèmes.
 
   - [Plan de reprise d'activité](../sprint-06/ressources/Plan_de_reprise_d'activité.pdf)
-  - [Détails de la résolution des problèmes]()
+  - [Détails de la résolution des problèmes](../sprint-06/ressources/Detail_resolution.md)
