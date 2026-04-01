@@ -29,12 +29,8 @@ Le projet s'étale sur 10 semaines, du 12 janvier au 20 mars 2026, selon le cale
 |**S04**|2 semaines|Déploiement et services|
 |**S05**|2 semaines|Audit de sécurité|
 |**S06**|1 semaine|Rendu de projet|
-## L'Équipe Projet
 
-- **Anis BOUTALEB**
-- **Frederick FLAVIL**
-- **Romain GENOUD**
-- **Nicolas JOUVEAUX**
+## L'Équipe Projet
 
 Les rôles de **Product Owner** et **Scrum Master** sont tournants et définis par le formateur à chaque début de sprint.
 ## Vue d'ensemble des composants
