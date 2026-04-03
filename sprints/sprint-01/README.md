@@ -24,7 +24,7 @@
 | Rôle | Membre | Responsabilités principales |
 |------|--------|----------------------------|
 | **Product Owner (PO)** | Anis BOUTALEB | Priorisation des tâches, interface avec le formateur, validation des livrables, rédaction context.md, scope.md |
-| **Scrum Master (SM)** | Frédérick FLAVIL | Animation des réunions, suivi du backlog, coordination d'équipe, rédaction sprints/sprint-01/README.md, architecture/overview.md, security.md et services.md  |
+| **Scrum Master (SM)** |  | Animation des réunions, suivi du backlog, coordination d'équipe, rédaction sprints/sprint-01/README.md, architecture/overview.md, security.md et services.md  |
 | **Technicien** | Romain GENOUD | Rédaction network.md, ip_configuration.md et naming.md |
 | **Technicien** | Nicolas JOUVEAUX | Rédaction hardware.md, software.md et des premiers services (active-directory/) |
 
