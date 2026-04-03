@@ -15,7 +15,7 @@
 | **Product Owner (PO)** | Nicolas JOUVEAUX |
 | **Scrum Master (SM)** | Anis BOUTALEB |
 | **Technicien** | Romain GENOUD |
-| **Technicien** | Frédérick FLAVIL |
+| **Technicien** | |
 
 
 ## 2. Objectifs
